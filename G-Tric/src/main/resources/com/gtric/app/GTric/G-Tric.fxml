@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gtric.app.GTric.controllers.MenuPrincipalController">
+   <children>
+      <VBox layoutX="155.0" layoutY="40.0" prefHeight="479.0" prefWidth="660.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TabPane prefHeight="802.0" prefWidth="1300.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Dataset Properties">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="696.0" prefWidth="1300.0">
+                           <children>
+                              <GridPane layoutX="42.0" layoutY="44.0" prefHeight="405.0" prefWidth="1229.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="325.0" minWidth="10.0" prefWidth="202.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="544.0" minWidth="10.0" prefWidth="186.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="544.0" minWidth="10.0" prefWidth="84.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="544.0" minWidth="10.0" prefWidth="163.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="736.0" minWidth="0.0" prefWidth="159.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="583.0" minWidth="10.0" prefWidth="133.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="602.0" minWidth="10.0" prefWidth="109.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="583.0" minWidth="10.0" prefWidth="154.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="583.0" minWidth="10.0" prefWidth="45.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="69.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="92.0" minHeight="7.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="196.0" minHeight="10.0" prefHeight="69.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <TextField fx:id="numRowsTF" prefHeight="27.0" prefWidth="345.0" promptText="10" GridPane.columnIndex="1" />
+                                    <Label text="Number of Rows:" />
+                                    <Label text="Number of Columns:" GridPane.rowIndex="1" />
+                                    <Label text="Number of Contexts:" GridPane.rowIndex="2" />
+                                    <TextField fx:id="numColumnsTF" prefHeight="27.0" prefWidth="345.0" promptText="10" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="numContextsTF" prefHeight="27.0" prefWidth="345.0" promptText="10" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label fx:id="dataTypeLB" text="Data type: " GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                    <Label fx:id="minValueLB" text="Min value:" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                                       <padding>
+                                          <Insets left="30.0" />
+                                       </padding></Label>
+                                    <Label fx:id="maxValueLB" text="Max value:" GridPane.columnIndex="6" GridPane.rowIndex="4">
+                                       <padding>
+                                          <Insets left="30.0" />
+                                       </padding></Label>
+                                    <Label text="Background type: " GridPane.rowIndex="5" />
+                                    <TextField fx:id="minValueTF" prefHeight="27.0" prefWidth="345.0" promptText="-10" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                                    <TextField fx:id="maxValueTF" prefHeight="27.0" prefWidth="345.0" promptText="10" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+                                    <ComboBox fx:id="dataTypeCB" editable="true" onAction="#dataTypeSelecionado" prefHeight="27.0" prefWidth="171.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                    <ComboBox fx:id="backgroundTypeCB" editable="true" onAction="#backgroundTypeSelecionado" prefHeight="27.0" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label text="Dataset Type:" GridPane.rowIndex="3" />
+                                    <RadioButton fx:id="symbolicTypeRB" mnemonicParsing="false" onAction="#symbolicTypeSelected" text="Symbolic" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="datasetTypeGroup" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="numericTypeRB" mnemonicParsing="false" onAction="#numericTypeSelected" text="Numeric" toggleGroup="$datasetTypeGroup" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label fx:id="symbolTypeLB" text="Symbol Type:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <ComboBox fx:id="symbolTypeCB" editable="true" minHeight="-Infinity" minWidth="-Infinity" onAction="#symbolTypeSelected" prefHeight="27.0" prefWidth="163.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <Label fx:id="symbolTypeParamLB" text="Number of symbols:" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                                       <padding>
+                                          <Insets left="30.0" />
+                                       </padding>
+                                    </Label>
+                                    <TextField fx:id="symbolTypeParamTF" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                                    <Pane fx:id="discreteProbsPane" prefHeight="272.0" prefWidth="283.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                       <children>
+                                          <TableView fx:id="discreteProbsTV" layoutY="42.0" prefHeight="230.0" prefWidth="283.0">
+                                            <columns>
+                                              <TableColumn fx:id="symbolTC" prefWidth="142.0" text="Symbol" />
+                                              <TableColumn fx:id="probTC" prefWidth="140.0" text="Probability" />
+                                            </columns>
+                                          </TableView>
+                                          <Text layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert the probabily associated to each symbol:" />
+                                       </children>
+                                       <padding>
+                                          <Insets top="10.0" />
+                                       </padding>
+                                       <GridPane.margin>
+                                          <Insets top="20.0" />
+                                       </GridPane.margin>
+                                    </Pane>
+                                 </children>
+                              </GridPane>
+                              <Pane fx:id="backgroundParamsPane" layoutX="42.0" layoutY="449.0" prefHeight="186.0" prefWidth="454.0">
+                                 <children>
+                                    <Label fx:id="distMeanLabel" layoutY="33.0" text="Distribution's Mean: " />
+                                    <TextField fx:id="distMeanTF" layoutX="202.0" layoutY="28.0" prefHeight="27.0" prefWidth="184.0" promptText="5" />
+                                    <Label fx:id="distStdLabel" layoutY="105.0" text="Distribution's Standard Deviation: " />
+                                    <TextField fx:id="distStdTF" layoutX="202.0" layoutY="100.0" prefHeight="27.0" prefWidth="184.0" promptText="2" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Triclusters Properties">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="750.0" prefWidth="1300.0">
+                           <children>
+                              <VBox layoutX="230.0" layoutY="109.0" prefHeight="767.0" prefWidth="1300.0" AnchorPane.bottomAnchor="-133.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <GridPane prefHeight="219.0" prefWidth="1300.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="294.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="539.0" minWidth="10.0" prefWidth="489.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rows Structure:" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="15.0" top="10.0" />
+                                             </GridPane.margin>
+                                          </Text>
+                                          <Label text="Distribution:" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="rowDistParam1Label" text="Dist. Param 1:" GridPane.rowIndex="4">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="rowDistParam2Label" text="Dist. Param 2:" GridPane.rowIndex="5">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <TextField fx:id="rowDistParam1TF" maxWidth="-Infinity" prefHeight="27.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <TextField fx:id="rowDistParam2TF" maxWidth="-Infinity" prefHeight="9.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <ComboBox fx:id="rowStructureDistCB" editable="true" onAction="#rowStructureDistSelecionada" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Label text="Number of Triclusters:" GridPane.rowIndex="1">
+                                             <padding>
+                                                <Insets left="15.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="numTricsTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane prefHeight="148.0" prefWidth="660.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="147.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="485.0" minWidth="10.0" prefWidth="480.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Columns Structure:">
+                                             <GridPane.margin>
+                                                <Insets left="15.0" top="10.0" />
+                                             </GridPane.margin>
+                                          </Text>
+                                          <Label text="Distribution:" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="columnDistParam1Label" text="Dist. Param 1:" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="columnDistParam2Label" text="Dist. Param 2:" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <TextField fx:id="columnDistParam1TF" maxWidth="-Infinity" prefHeight="27.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextField fx:id="columnDistParam2TF" maxWidth="-Infinity" prefHeight="9.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <ComboBox fx:id="columnStructureDistCB" editable="true" onAction="#columnStructureDistSelecionada" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane prefHeight="148.0" prefWidth="660.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="160.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="489.0" minWidth="10.0" prefWidth="467.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contexts Structure:">
+                                             <GridPane.margin>
+                                                <Insets left="15.0" top="10.0" />
+                                             </GridPane.margin>
+                                          </Text>
+                                          <Label text="Distribution:" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="contextDistParam1Label" text="Dist. Param 1:" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="contextDistParam2Label" text="Dist. Param 2:" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <TextField fx:id="contextDistParam1TF" maxWidth="-Infinity" prefHeight="27.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextField fx:id="contextDistParam2TF" maxWidth="-Infinity" prefHeight="9.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <ComboBox fx:id="contextStructureDistCB" editable="true" onAction="#contextStructureDistSelecionada" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane prefHeight="49.0" prefWidth="832.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.0" minWidth="10.0" prefWidth="174.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="160.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="489.0" minWidth="10.0" prefWidth="467.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="Contiguity:" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="15.0" top="10.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <ComboBox fx:id="contiguityCB" editable="true" onAction="#contiguitySelecionada" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets top="10.0" />
+                                             </GridPane.margin>
+                                          </ComboBox>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="Triclusters Patterns">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="patternsTV" layoutX="24.0" layoutY="24.0" prefHeight="516.0" prefWidth="840.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                    <TableColumn fx:id="numTC" prefWidth="39.0" style="-fx-alignment: CENTER;" text="#" />
+                                  <TableColumn fx:id="rowTC" prefWidth="254.0" style="-fx-alignment: CENTER;" text="Row Pattern" />
+                                  <TableColumn fx:id="columnTC" minWidth="0.0" prefWidth="339.0" style="-fx-alignment: CENTER;" text="Columns Pattern" />
+                                    <TableColumn fx:id="contextTC" minWidth="0.0" prefWidth="279.0" style="-fx-alignment: CENTER;" text="Context Pattern" />
+                                    <TableColumn fx:id="exampleTC" minWidth="0.0" prefWidth="204.0" style="-fx-alignment: CENTER;" text="Example" />
+                                    <TableColumn fx:id="selectTC" prefWidth="184.0" style="-fx-alignment: CENTER;" text="Select" />
+                                </columns>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </TableView>
+                           </children></AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Overlapping">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="181.0" layoutY="88.0" prefHeight="516.0" prefWidth="840.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <GridPane prefHeight="495.0" prefWidth="840.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="296.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="276.0" minWidth="10.0" prefWidth="194.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="404.0" minWidth="10.0" prefWidth="350.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Overlapping Settings">
+                                             <GridPane.margin>
+                                                <Insets left="15.0" />
+                                             </GridPane.margin>
+                                          </Text>
+                                          <Label text="Plaid Cohrency:" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="percOverlappingTricsLB" text="\% of overlapping triclusters:" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="maxOverlappingTricsLB" text="Maximum number of tricluster interactions:" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="percOverlappingRowsLB" text="\% of overlapping rows:" GridPane.rowIndex="5">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="percOverlappingColumnsLB" text="\% of overlapping columns:" GridPane.rowIndex="6">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="percOverlappingContextsLB" text="\% of overlapping contexts:" GridPane.rowIndex="7">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <ComboBox fx:id="plaidCoherencyCB" editable="true" onAction="#plaidCoherencySelecionada" prefHeight="27.0" prefWidth="195.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="percOverlappingTricsTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextField fx:id="maxOverlappingTricsTF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <TextField fx:id="percOverlappingRowsTF" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <TextField fx:id="percOverlappingColumnsTF" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <TextField fx:id="percOverlappingContextsTF" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label fx:id="percOverlappingElementsLB" text="\% of overlapping elements between triclusters" GridPane.rowIndex="4">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <TextField fx:id="percOverlappingElementsTF" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Quality">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="220.0" layoutY="150.0" prefHeight="516.0" prefWidth="840.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <GridPane prefHeight="135.0" prefWidth="840.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="330.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="148.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="362.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Missing Elements:">
+                                             <GridPane.margin>
+                                                <Insets left="15.0" />
+                                             </GridPane.margin>
+                                          </Text>
+                                          <Label text="\% of missing values on background:" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="\% of missing values on planted triclusters:" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <TextField fx:id="percMissingBackgroundTF" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="percMissingTricsTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                       </children>
+                                    </GridPane>
+                                    <GridPane prefHeight="184.0" prefWidth="840.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="330.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="148.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="362.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Noisy Elements:">
+                                             <GridPane.margin>
+                                                <Insets left="15.0" />
+                                             </GridPane.margin>
+                                          </Text>
+                                          <Label text="\% of noise on background:" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="\% of noise on planted triclusters:" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <TextField fx:id="percNoiseBackgroundTF" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="percNoiseTricsTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="Noise deviation:" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <TextField fx:id="noiseDeviationTF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                       </children>
+                                    </GridPane>
+                                    <GridPane prefHeight="131.0" prefWidth="840.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="330.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="10.0" prefWidth="148.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="362.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Errors:">
+                                             <GridPane.margin>
+                                                <Insets left="15.0" />
+                                             </GridPane.margin>
+                                          </Text>
+                                          <Label text="\% of errors on background:" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="\% of errors on planted triclusters:" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <TextField fx:id="percErrorsBackgroundTF" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="percErrorsTricsTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="\%" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="5.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Output">
+                     <content>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="786.0" prefWidth="1300.0">
+                           <children>
+                              <VBox layoutX="274.0" layoutY="121.0" prefHeight="413.0" prefWidth="840.0" AnchorPane.bottomAnchor="103.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <GridPane prefHeight="319.0" prefWidth="1237.0">
+                                      <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="346.0" minWidth="10.0" prefWidth="345.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="381.0" minWidth="10.0" prefWidth="187.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0" minWidth="10.0" prefWidth="290.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="573.0" minWidth="10.0" prefWidth="478.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Output settings:">
+                                             <GridPane.margin>
+                                                <Insets left="30.0" />
+                                             </GridPane.margin>
+                                          </Text>
+                                          <Label text="Save on:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="File name:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <Label text="Save to directory:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                          <TextField fx:id="directoryChooserTF" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                          <Button fx:id="directoryChooserB" mnemonicParsing="false" onAction="#chooseDirectoryAction" prefHeight="27.0" prefWidth="102.0" text="Choose..." GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets left="15.0" />
+                                             </GridPane.margin>
+                                          </Button>
+                                          <TextField fx:id="fileNameTF" alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                          <RadioButton fx:id="singleFileRB" mnemonicParsing="false" selected="true" text="One file only" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="outputFileGroup" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="multipleFileRB" mnemonicParsing="false" text="Several files" toggleGroup="$outputFileGroup" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                              <Pane layoutX="-4.0" layoutY="373.0" prefHeight="396.0" prefWidth="1308.0">
+                                 <children>
+                                    <Button layoutX="437.0" layoutY="43.0" mnemonicParsing="false" onAction="#generateDatasetAction" prefHeight="45.0" prefWidth="435.0" text="Generate Dataset" />
+                                    <ProgressBar fx:id="statusBar" layoutX="436.0" layoutY="118.0" prefHeight="28.0" prefWidth="436.0" progress="0.0" />
+                                    <Text fx:id="statusT" layoutX="436.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" />
+                                    <Label fx:id="statusLB" layoutX="485.0" layoutY="164.0" prefHeight="17.0" prefWidth="383.0" text="Label" />
+                                 </children>
+                              </Pane>
+                           </children></AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="visualizationTab" disable="true" text="Visualization">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextFlow fx:id="tricSummaryTF" layoutX="48.0" layoutY="139.0" prefHeight="590.0" prefWidth="520.0" />
+                              <TableView fx:id="heatMapTV" layoutX="625.0" layoutY="137.0" prefHeight="593.0" prefWidth="635.0">
+                                <columns>
+                                  <TableColumn fx:id="contextIDTC" prefWidth="322.0" style="-fx-alignment: CENTER;" text="Context ID" />
+                                  <TableColumn fx:id="showButtonTC" prefWidth="312.0" style="-fx-alignment: CENTER;" text="Visualization" />
+                                </columns>
+                              </TableView>
+                              <ComboBox fx:id="tricIDCB" editable="true" layoutX="142.0" layoutY="70.0" onAction="#changeTriclusterVisualization" prefWidth="150.0" />
+                              <Text layoutX="46.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tricluster:" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </TabPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

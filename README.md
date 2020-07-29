@@ -1,9 +1,9 @@
 # G-Tric
 Three-dimensional dataset generator with triclustering solutions
 
-How to run:
-1- Download the .jar
-2- Execute command 'java -jar G-Tric-X.X.X.jar'
+**How to run:**
+1. Download the runnable jar file.
+2. Execute command 'java -jar G-Tric-X.X.X.jar'.
 
-Requirements:
+**Requirements:**
 - Java 11 or above

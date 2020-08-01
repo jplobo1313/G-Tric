@@ -90,7 +90,7 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 			boolean hasSpace = true;
 			
 			System.out.println("K = " + k);
-			changeState("Stage:1, Msg:Tricluster " + k + "(" + numTrics + ")");
+			changeState("Stage:1, Msg:Tricluster " + k);
 			
 			if(k >= overlappingThreshold)
 				allowsOverlap = false;

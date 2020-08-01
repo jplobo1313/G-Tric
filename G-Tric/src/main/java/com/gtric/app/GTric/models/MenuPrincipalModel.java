@@ -174,16 +174,26 @@ public class MenuPrincipalModel {
 		this.numericPatternsList = FXCollections.observableArrayList();
 		int i = 1;
 		for(TriclusterPatternWrapper p : gTricService.getNumericPatterns()) {
-			this.numericPatternsList.add(new TriclusterPatternTableView(i, p.getRowPattern(), p.getColumnPattern(), 
-					p.getContextPattern(), p.getImagePath(), new Button("See"), new CheckBox()));				
+			TriclusterPatternTableView t = new TriclusterPatternTableView(i, p.getRowPattern(), p.getColumnPattern(), 
+					p.getContextPattern(), p.getImagePath(), new Button("See"), new CheckBox());
+			
+			if(i == 1)
+				t.getSelect().setSelected(true);
+			
+			this.numericPatternsList.add(t);
 			i++;
 		}
 		
 		this.symbolicPatternsList = FXCollections.observableArrayList();
 		i = 1;
 		for(TriclusterPatternWrapper p : gTricService.getSymbolicPatterns()) {
-			this.symbolicPatternsList.add(new TriclusterPatternTableView(i, p.getRowPattern(), p.getColumnPattern(), 
-					p.getContextPattern(), p.getImagePath(), new Button("See"), new CheckBox()));				
+			TriclusterPatternTableView t = new TriclusterPatternTableView(i, p.getRowPattern(), p.getColumnPattern(), 
+					p.getContextPattern(), p.getImagePath(), new Button("See"), new CheckBox());
+			
+			if(i == 1)
+				t.getSelect().setSelected(true);
+			
+			this.symbolicPatternsList.add(t);				
 			i++;
 		}
 		

@@ -1,5 +1,8 @@
 package com.gtric.app.GTric.controllers;
 
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -985,19 +988,32 @@ public class MenuPrincipalController{
 
 						@Override
 						public void run() {
+							
 							tricSummaryTF.getChildren().clear();
+							
 							Text title = new Text("Tricluster " + tricID + " information: \n\n");
+							title.setFont(Font.font("System", FontPosture.REGULAR, 14));
+							
 							
 							Text dimensions = new Text("Dimensions:\t\t" + tric.getInt("#rows") + "x" + tric.getInt("#columns") +  "x" + 
 									tric.getInt("#contexts") + "\n\n");
+							dimensions.setFont(Font.font("System", FontPosture.REGULAR, 14));
 							
 							Text rows = new Text("Rows:\t\t\t\t" + tric.getJSONArray("X").toString() + "\n\n");
 							Text cols = new Text("Columns:\t\t\t" + tric.getJSONArray("Y").toString() + "\n\n");
 							Text ctxs = new Text("Contexts:\t\t\t" + tric.getJSONArray("Z").toString() + "\n\n");
 							
+							rows.setFont(Font.font("System", FontPosture.REGULAR, 14));
+							cols.setFont(Font.font("System", FontPosture.REGULAR, 14));
+							ctxs.setFont(Font.font("System", FontPosture.REGULAR, 14));
+							
 							Text rowPattern = new Text("Row Pattern:\t\t" + tric.getString("RowPattern").toString() + "\n\n");
 							Text colPattern = new Text("Column Pattern:\t" + tric.getString("ColumnPattern").toString() + "\n\n");
 							Text ctxPattern = new Text("Context Pattern:\t" + tric.getString("ContextPattern").toString() + "\n\n");
+
+							rowPattern.setFont(Font.font("System", FontPosture.REGULAR, 14));
+							colPattern.setFont(Font.font("System", FontPosture.REGULAR, 14));
+							ctxPattern.setFont(Font.font("System", FontPosture.REGULAR, 14));
 							
 							tricSummaryTF.getChildren().addAll(title, dimensions, rows, cols, ctxs, rowPattern, colPattern, ctxPattern);
 							
@@ -1006,6 +1022,11 @@ public class MenuPrincipalController{
 								Text rowFactors = new Text("Row Factors:\t\t" + tric.getString("RowFactors").toString() + "\n\n");
 								Text colFactors = new Text("Column Factors:\t" + tric.getString("ColumnFactors").toString() + "\n\n");
 								Text ctxFactors = new Text("Context Factors:\t" + tric.getString("ContextFactors").toString() + "\n\n");
+								
+								seed.setFont(Font.font("System", FontPosture.REGULAR, 14));
+								rowFactors.setFont(Font.font("System", FontPosture.REGULAR, 14));
+								colFactors.setFont(Font.font("System", FontPosture.REGULAR, 14));
+								ctxFactors.setFont(Font.font("System", FontPosture.REGULAR, 14));
 									
 								tricSummaryTF.getChildren().addAll(seed, rowFactors, colFactors, ctxFactors);
 							}
@@ -1014,6 +1035,11 @@ public class MenuPrincipalController{
 							Text missings = new Text("Missings:\t\t\t" + tric.getString("%Missings").toString() + "%" + "\n\n");
 							Text noise = new Text("Noise:\t\t\t\t" + tric.getString("%Noise").toString() + "%" + "\n\n");
 							Text errors = new Text("Errors:\t\t\t\t" + tric.getString("%Errors").toString() + "%" + "\n\n");
+							
+							plaid.setFont(Font.font("System", FontPosture.REGULAR, 14));
+							missings.setFont(Font.font("System", FontPosture.REGULAR, 14));
+							noise.setFont(Font.font("System", FontPosture.REGULAR, 14));
+							errors.setFont(Font.font("System", FontPosture.REGULAR, 14));
 							
 							tricSummaryTF.getChildren().addAll(plaid, missings, noise, errors);
 						}

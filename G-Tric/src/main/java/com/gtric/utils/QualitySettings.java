@@ -1,6 +1,6 @@
 package com.gtric.utils;
 
-public class NoiseSettings {
+public class QualitySettings {
 
 	private double percMissingsOnBackground;
 	private double percMissingsOnTrics;
@@ -10,7 +10,7 @@ public class NoiseSettings {
 	private double percErrorsOnBackground;
 	private double percErrorsOnTrics;
 	
-	public NoiseSettings() {}
+	public QualitySettings() {}
 	
 	/**
 	 * @param percMissingsOnBackground
@@ -21,7 +21,7 @@ public class NoiseSettings {
 	 * @param percErrorsOnBackground
 	 * @param percErrorsOnTrics
 	 */
-	public NoiseSettings(double percMissingsOnBackground, double percMissingsOnTrics, double percNoiseOnBackground,
+	public QualitySettings(double percMissingsOnBackground, double percMissingsOnTrics, double percNoiseOnBackground,
 			double percNoiseOnTrics, double noiseDeviation, double percErrorsOnBackground, double percErrorsOnTrics) {
 		this.percMissingsOnBackground = percMissingsOnBackground;
 		this.percMissingsOnTrics = percMissingsOnTrics;

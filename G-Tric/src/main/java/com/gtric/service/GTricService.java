@@ -32,7 +32,7 @@ import com.gtric.types.Distribution;
 import com.gtric.types.PatternType;
 import com.gtric.types.PlaidCoherency;
 import com.gtric.utils.IOUtils;
-import com.gtric.utils.NoiseSettings;
+import com.gtric.utils.QualitySettings;
 import com.gtric.utils.OverlappingSettings;
 import com.gtric.utils.TriclusterPattern;
 import com.gtric.utils.TriclusterStructure;
@@ -130,7 +130,7 @@ public class GTricService extends Observable implements Observer {
 	private OverlappingSettings overlappingSettings;
 	
 	//Extras
-	private NoiseSettings noiseSettings;
+	private QualitySettings qualitySettings;
 
 	public GTricService() {
 		
@@ -468,15 +468,15 @@ public class GTricService extends Observable implements Observer {
 	public void setExtras(double percMissingsOnBackground, double percMissingsOnTrics, double percNoiseOnBackground, double percNoiseOnTrics,
 			double noiseDeviation, double percErrorsOnBackground, double percErrorsOnTrics) {
 		
-		this.noiseSettings = new NoiseSettings();
+		this.qualitySettings = new QualitySettings();
 		
-		this.noiseSettings.setPercMissingsOnBackground(percMissingsOnBackground);
-		this.noiseSettings.setPercMissingsOnTrics(percMissingsOnTrics);
-		this.noiseSettings.setPercNoiseOnBackground(percNoiseOnBackground);
-		this.noiseSettings.setPercNoiseOnTrics(percNoiseOnTrics);
-		this.noiseSettings.setNoiseDeviation(noiseDeviation); 
-		this.noiseSettings.setPercErrorsOnBackground(percErrorsOnBackground);
-		this.noiseSettings.setPercErrorsOnTrics(percErrorsOnTrics);
+		this.qualitySettings.setPercMissingsOnBackground(percMissingsOnBackground);
+		this.qualitySettings.setPercMissingsOnTrics(percMissingsOnTrics);
+		this.qualitySettings.setPercNoiseOnBackground(percNoiseOnBackground);
+		this.qualitySettings.setPercNoiseOnTrics(percNoiseOnTrics);
+		this.qualitySettings.setNoiseDeviation(noiseDeviation); 
+		this.qualitySettings.setPercErrorsOnBackground(percErrorsOnBackground);
+		this.qualitySettings.setPercErrorsOnTrics(percErrorsOnTrics);
 	}
 	
 	public Dataset getGeneratedDataset() {
@@ -538,13 +538,13 @@ public class GTricService extends Observable implements Observer {
 		System.out.println("(GeneratePlaidRealTrics) Execution Time: " + ((double) (stopTimeBics - startTimeBics)) / 1000);
 		
 		updateProgressStatusAndMessage(80, "Generating Missings...");
-		generatedDataset.plantMissingElements(this.noiseSettings.getPercMissingsOnBackground(), this.noiseSettings.getPercMissingsOnTrics());
+		generatedDataset.plantMissingElements(this.qualitySettings.getPercMissingsOnBackground(), this.qualitySettings.getPercMissingsOnTrics());
 		
 		updateProgressStatusAndMessage(85, "Generating Noise...");
-		generatedDataset.plantNoisyElements(this.noiseSettings.getPercNoiseOnBackground(), this.noiseSettings.getPercNoiseOnTrics(), this.noiseSettings.getNoiseDeviation());
+		generatedDataset.plantNoisyElements(this.qualitySettings.getPercNoiseOnBackground(), this.qualitySettings.getPercNoiseOnTrics(), this.qualitySettings.getNoiseDeviation());
 		
 		updateProgressStatusAndMessage(90, "Generating Errors...");
-		generatedDataset.plantErrors(this.noiseSettings.getPercErrorsOnBackground(), this.noiseSettings.getPercErrorsOnTrics(), this.noiseSettings.getNoiseDeviation());
+		generatedDataset.plantErrors(this.qualitySettings.getPercErrorsOnBackground(), this.qualitySettings.getPercErrorsOnTrics(), this.qualitySettings.getNoiseDeviation());
 		
 		updateProgressStatusAndMessage(95, "Writing output...");
 		
@@ -594,15 +594,15 @@ public class GTricService extends Observable implements Observer {
 		stopTimeBics = System.currentTimeMillis();
 		
 		updateProgressStatusAndMessage(80, "Generating Missings...");
-		generatedDataset.plantMissingElements(this.noiseSettings.getPercMissingsOnBackground(), this.noiseSettings.getPercMissingsOnTrics());
+		generatedDataset.plantMissingElements(this.qualitySettings.getPercMissingsOnBackground(), this.qualitySettings.getPercMissingsOnTrics());
 		
 		updateProgressStatusAndMessage(85, "Generating Noise...");
-		generatedDataset.plantNoisyElements(this.noiseSettings.getPercNoiseOnBackground(), this.noiseSettings.getPercNoiseOnTrics(), 
-				(int)this.noiseSettings.getNoiseDeviation());
+		generatedDataset.plantNoisyElements(this.qualitySettings.getPercNoiseOnBackground(), this.qualitySettings.getPercNoiseOnTrics(), 
+				(int)this.qualitySettings.getNoiseDeviation());
 		
 		updateProgressStatusAndMessage(90, "Generating Errors...");
-		generatedDataset.plantErrors(this.noiseSettings.getPercErrorsOnBackground(), this.noiseSettings.getPercErrorsOnTrics(), 
-				(int)this.noiseSettings.getNoiseDeviation());
+		generatedDataset.plantErrors(this.qualitySettings.getPercErrorsOnBackground(), this.qualitySettings.getPercErrorsOnTrics(), 
+				(int)this.qualitySettings.getNoiseDeviation());
 		
 		String tricDataFileName;
 		String datasetFileName;
@@ -854,11 +854,11 @@ public class GTricService extends Observable implements Observer {
 		}
 		
 		System.out.println("\n*** Missing/Noise/Error Settings ***");
-		System.out.println("% of missings on background: " + this.noiseSettings.getPercMissingsOnBackground());
-		System.out.println("Max % of missings on trics: " + this.noiseSettings.getPercMissingsOnTrics());
-		System.out.println("% of noise on background: " + this.noiseSettings.getPercNoiseOnBackground());
-		System.out.println("Max % of noise on trics: " + this.noiseSettings.getPercNoiseOnTrics());
-		System.out.println("% of errors on background: " + this.noiseSettings.getPercErrorsOnBackground());
-		System.out.println("Max % of errors on trics: " + this.noiseSettings.getPercErrorsOnTrics());
+		System.out.println("% of missings on background: " + this.qualitySettings.getPercMissingsOnBackground());
+		System.out.println("Max % of missings on trics: " + this.qualitySettings.getPercMissingsOnTrics());
+		System.out.println("% of noise on background: " + this.qualitySettings.getPercNoiseOnBackground());
+		System.out.println("Max % of noise on trics: " + this.qualitySettings.getPercNoiseOnTrics());
+		System.out.println("% of errors on background: " + this.qualitySettings.getPercErrorsOnBackground());
+		System.out.println("Max % of errors on trics: " + this.qualitySettings.getPercErrorsOnTrics());
 	}
 }

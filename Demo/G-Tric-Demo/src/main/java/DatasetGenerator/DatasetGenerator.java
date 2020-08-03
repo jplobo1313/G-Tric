@@ -30,7 +30,7 @@ import com.gtric.utils.TriclusterPattern;
 import com.gtric.utils.TriclusterStructure;
 
 /**
- * Class to show how G-Tric can be used programmatically and to generate the defined datasets in the paper (config_files folder)
+ * Class to show how G-Tric can be used programmatically and to generate the datasets defined in the paper (config_files folder)
  * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
  */
 public class DatasetGenerator {
@@ -44,8 +44,45 @@ public class DatasetGenerator {
 	        directory.mkdir();
 	    }
 		
-		Document doc = load_config_file("config_files/Rich/dataset_rich_C.xml");
-		generateDatasetByConfig(doc);
+	    //Real World data
+		generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_1.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_2.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_3.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_4.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_5.xml"));
+		
+		//Base
+		generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_R.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_S.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_B.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_C.xml"));
+		
+		//Overlapping
+		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_R_overlapping_low.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_R_overlapping_high.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_S_overlapping_low.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_S_overlapping_high.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_B_overlapping_low.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_B_overlapping_high.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_C_overlapping_low.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_C_overlapping_high.xml"));
+		
+		//Quality
+		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_R_quality_low.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_R_quality_high.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_S_quality_low.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_S_quality_high.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_B_quality_low.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_B_quality_high.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_C_quality_low.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_C_quality_high.xml"));
+		
+		//Rich
+		generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_R.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_S.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_B.xml"));
+		generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_C.xml"));
+		
 		
 		//generateNumericDataset();
 		//generateSymbolicDataset();

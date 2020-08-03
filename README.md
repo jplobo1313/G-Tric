@@ -13,4 +13,4 @@ Three-dimensional dataset generator with triclustering solutions.
 **Requirements:**
 - Java 11 or above
 
-**Note:** The generation of large datasets (>10^8 elements) can fail due to memory restrictions (Java Heap Space). One way to overcome the problem is to increase the memory available by setting the JVM argument `-Xmx<amount>g`. For example: `java -jar -Xmx6g G-Tric-X.X.X.jar`.
+**Note:** The generation of large datasets (>10^8 elements) can fail due to memory restrictions (Java Heap Space). One way to overcome this problem is to increase the memory available by setting the JVM argument `-Xmx<amount>g`. For example: `java -Xmx6g -jar G-Tric-X.X.X.jar`.

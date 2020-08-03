@@ -751,7 +751,7 @@ public class MenuPrincipalController{
 				this.gTricService.setOverlappingSettings(model.getPlaidCoherencyEscolhida(), model.getPercOverlappingTrics() / 100, model.getMaxOverlappingTrics(),
 						model.getPercOverlappingElements() / 100, model.getPercOverlappingRows() / 100, model.getPercOverlappingColumns() / 100, model.getPercOverlappingContexts() / 100);
 				
-				this.gTricService.setExtras(model.getPercMissingsBackground() / 100, model.getPercMissingsTrics() / 100, 
+				this.gTricService.setQualitySettings(model.getPercMissingsBackground() / 100, model.getPercMissingsTrics() / 100, 
 						model.getPercNoiseBackground() / 100, model.getPercNoiseTrics() / 100, model.getNoiseDeviation(), 
 						model.getPercErrorsBackground() / 100, model.getPercErrorsTrics() / 100);
 

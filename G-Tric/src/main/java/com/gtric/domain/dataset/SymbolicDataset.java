@@ -1,3 +1,10 @@
+/**
+ * SymbolicDataset Class
+ * 
+ * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
+ * @version 1.0
+ */
+
 package com.gtric.domain.dataset;
 
 import java.util.ArrayList;
@@ -21,19 +28,20 @@ public class SymbolicDataset extends Dataset {
 	private Random r = new Random();
 
 	private String[] alphabet;
+	//The map that stores the elements
 	private Map<String, String> symbolicMatrixMap;
 	private boolean symmetries;
 
 	private List<SymbolicTricluster> plantedTrics;
 
 	/**
-	 * Symbolic dataset with random background 
-	 * @param numRows
-	 * @param numCols
-	 * @param numBics
-	 * @param probs array with probability associated to which symbol. If null, uniform dist is used
-	 * @param symmetries
-	 * @param alphabetL
+	 * Symbolic dataset constructor
+	 * @param numRows The dataset's number of rows
+	 * @param numCols The dataset's number of columns
+	 * @param numCont The dataset's number of contexts
+	 * @param background The dataset's background
+	 * @param symmetries TO BE IMPLEMENTED, USE 'FALSE'
+	 * @param alphabetL The alphabet's number of symbols
 	 */
 	public SymbolicDataset(int numRows, int numCols, int numCont, Background background, boolean symmetries,
 			int alphabetL) {
@@ -54,6 +62,15 @@ public class SymbolicDataset extends Dataset {
 		this.symbolicMatrixMap = new HashMap<>();
 	}
 
+	/**
+	 * 
+	 * @param numRows The dataset's number of rows
+	 * @param numCols The dataset's number of columns
+	 * @param numCont The dataset's number of contexts
+	 * @param background The dataset's background
+	 * @param symmetries TO BE IMPLEMENTED, USE 'FALSE'
+	 * @param alphabet Array with the alphabet symbols
+	 */
 	public SymbolicDataset(int numRows, int numCols, int numCont, Background background, boolean symmetries,
 			String[] alphabet) {
 
@@ -66,6 +83,11 @@ public class SymbolicDataset extends Dataset {
 		this.symbolicMatrixMap = new HashMap<>();
 	}
 
+	/**
+	 * Get symbol index in the alphabet
+	 * @param s The symbol
+	 * @return The symbol's index
+	 */
 	public int getSymbolIndex(String s) {
 
 		int index = -1;
@@ -78,31 +100,34 @@ public class SymbolicDataset extends Dataset {
 		return index;
 	}
 
-	public SymbolicTricluster getTricluster(int id) {
-
-		SymbolicTricluster res = null;
-
-		for(int i = 0; i < this.plantedTrics.size() && res == null; i++) {
-			SymbolicTricluster t = this.plantedTrics.get(i);
-			if(t.getId() == id) 
-				res = t;
-		}
-
-		return res;
-	}
-
+	/**
+	 * Add a tricluster to this dataset
+	 * @param tric The tricluster object
+	 */
 	public void addTricluster(SymbolicTricluster tric) {
 		this.plantedTrics.add(tric);
 	}
 
+	/**
+	 * Get the planted triclusters
+	 * @return The list of planted triclusters
+	 */
 	public List<SymbolicTricluster> getPlantedTrics() {
 		return plantedTrics;
 	}
 
+	/**
+	 * Set the dataset's alphabet
+	 * @param alphabet Array with the alphabet
+	 */
 	public void setAlphabet(String[] alphabet) {
 		this.alphabet = alphabet;
 	}
 
+	/**
+	 * Get the dataset's alphabet
+	 * @return
+	 */
 	public String[] getAlphabet() {
 		return this.alphabet;
 	}
@@ -111,14 +136,35 @@ public class SymbolicDataset extends Dataset {
 		return symmetries;
 	}
 
+	/**
+	 * Set dataset's element value
+	 * @param context The context ID
+	 * @param row The row ID
+	 * @param column The column ID
+	 * @param newItem The element's value
+	 */
 	public void setMatrixItem(int context, int row, int column, String newItem) {
 		this.symbolicMatrixMap.put(context + ":" + row + ":" + column, newItem);
 	}
 
+	/**
+	 * Get an element's value
+	 * @param context The contexte ID
+	 * @param row The row ID
+	 * @param column The columns ID
+	 * @return The element's value
+	 */
 	public String getMatrixItem(int context, int row, int column) {
 		return this.symbolicMatrixMap.get(context + ":" + row + ":" + column);
 	}
 
+	/**
+	 * Check if a dataset's value already exists
+	  * @param context The contexte ID
+	 * @param row The row ID
+	 * @param column The columns ID
+	 * @return True if the elements exists, False otherwise
+	 */
 	public boolean existsMatrixItem(int context, int row, int column) {
 		
 		return this.symbolicMatrixMap.containsKey(context + ":" + row + ":" + column);
@@ -137,6 +183,10 @@ public class SymbolicDataset extends Dataset {
 		return t;
 	}
 	
+	/**
+	 * Generated a value for the background
+	 * @return a random generated value
+	 */
 	public String generateBackgroundValue() {
 		
 		String element = null;
@@ -154,7 +204,7 @@ public class SymbolicDataset extends Dataset {
 	}
 
 	
-	public String generateBackgroundValue(double[] probs) {
+	private String generateBackgroundValue(double[] probs) {
 		
 		String element = null;
 		
@@ -174,7 +224,7 @@ public class SymbolicDataset extends Dataset {
 		return element;
 	}
 	
-	public String generateBackgroundValue(double mean, double sd) {
+	private String generateBackgroundValue(double mean, double sd) {
 		
 		String element = null;
 		
@@ -239,7 +289,7 @@ public class SymbolicDataset extends Dataset {
 
 		for(SymbolicTricluster t : this.plantedTrics) {
 
-			System.out.println("Planting missings on tric " + t.getId());
+			//System.out.println("Planting missings on tric " + t.getId());
 			
 			int nrMissingsTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
 
@@ -253,7 +303,7 @@ public class SymbolicDataset extends Dataset {
 				this.addMissingElement(e);
 
 				for(Integer i : this.getTricsByElem(e))
-					this.getTricluster(i).addMissing();
+					this.getTriclusterById(i).addMissing();
 
 				String[] coord = e.split(":");
 
@@ -274,6 +324,12 @@ public class SymbolicDataset extends Dataset {
 		}
 	}
 
+	/**
+	 * Plant noisy elements on the dataset
+	 * @param percBackground The percentage of noisy elements in the background (elements that do not belong to any tricluster)
+	 * @param percTricluster The maximum percentage of noisy elements in the triclusters
+	 * @param maxDeviation The noise deviation value
+	 */
 	public void plantNoisyElements(double percBackground, double percTricluster, int maxDeviation) {
 
 		int nrNoiseBackground = (int) (this.getBackgroundSize() * percBackground);
@@ -308,7 +364,7 @@ public class SymbolicDataset extends Dataset {
 		
 		for(SymbolicTricluster t : this.plantedTrics) {
 
-			System.out.println("Planting noise on tric " + t.getId());
+			//System.out.println("Planting noise on tric " + t.getId());
 			
 			int nrNoisyTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
 
@@ -324,7 +380,7 @@ public class SymbolicDataset extends Dataset {
 				//System.out.println("Noisy on tric " + t.getId() + "on " + e);
 				
 				for(Integer i : this.getTricsByElem(e))
-					this.getTricluster(i).addNoisy();
+					this.getTriclusterById(i).addNoisy();
 			}
 		}
 
@@ -363,6 +419,12 @@ public class SymbolicDataset extends Dataset {
 	}
 
 
+	/**
+	 * Plant error elements on the dataset
+	 * @param percMissing The percentage of error elements in the background (elements that do not belong to any tricluster)
+	 * @param percTricluster The maximum percentage of error elements in the triclusters
+	 * @param minDeviation The noise deviation value
+	 */
 	public void plantErrors(double percBackground, double percTricluster, int minDeviation) {
 
 		int nrErrorsBackground = (int) (this.getBackgroundSize() * percBackground);
@@ -404,7 +466,7 @@ public class SymbolicDataset extends Dataset {
 		
 		for(SymbolicTricluster t : this.plantedTrics) {
 
-			System.out.println("Planting errors on tric " + t.getId());
+			//System.out.println("Planting errors on tric " + t.getId());
 			
 			int nrErrorsTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
 
@@ -418,7 +480,7 @@ public class SymbolicDataset extends Dataset {
 				this.addErrorElement(e);
 
 				for(Integer i : this.getTricsByElem(e))
-					this.getTricluster(i).addError();
+					this.getTriclusterById(i).addError();
 				
 				String[] coord = e.split(":");
 				ctx = Integer.parseInt(coord[0]);
@@ -455,7 +517,7 @@ public class SymbolicDataset extends Dataset {
 		List<Integer> trics = this.getTricsByElem(elem);
 
 		for(int i = 0; i < trics.size() && respects; i++) {
-			SymbolicTricluster t = this.getTricluster(trics.get(i));
+			SymbolicTricluster t = (SymbolicTricluster) this.getTriclusterById(trics.get(i));
 			int maxAllowed = (int) (t.getSize() * percTricluster);
 
 			if(type.equals("Missings") && t.getNumberOfMissings() + 1 > maxAllowed)
@@ -490,7 +552,7 @@ public class SymbolicDataset extends Dataset {
 		
 		dataset.put("Triclusters", triclusters);
 		
-		System.out.println("\n\n" + dataset.toString());
+		//System.out.println("\n\n" + dataset.toString());
 		
 		return dataset;
 	}

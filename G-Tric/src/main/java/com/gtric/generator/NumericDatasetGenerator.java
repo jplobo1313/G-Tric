@@ -1,3 +1,9 @@
+/**
+ * NumericTriclusterDatasetGenerator Class
+ * 
+ * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
+ * @version 1.0
+ */
 package com.gtric.generator;
 
 import java.util.Arrays;
@@ -35,6 +41,17 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 	private boolean realValued;
 	private int numTrics;
 
+	/**
+	 * Constructor
+	 * @param realValued boolean that indicates if the dataset is real valued
+	 * @param numRows the dataset's number of rows
+	 * @param numCols the dataset's number of columns
+	 * @param numContexts the dataset's number of contexts
+	 * @param numTrics the number of trics to plant
+	 * @param background the dataset's background
+	 * @param minM the dataset's minimum alphabet value
+	 * @param maxM the dataset's maximum alphabet value
+	 */
 	public NumericDatasetGenerator(boolean realValued, int numRows, int numCols, int numContexts, int numTrics, Background background, double minM, double maxM) {
 
 		this.realValued = realValued;
@@ -107,7 +124,7 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 			if(k >= overlappingThreshold)
 				allowsOverlap = false;
 
-			System.out.println("k = " + k + " (" + numTrics + ")");
+			System.out.println("Generating tricluster " + k + " of " + numTrics + "...");
 			
 			TriclusterPattern currentPattern;
 

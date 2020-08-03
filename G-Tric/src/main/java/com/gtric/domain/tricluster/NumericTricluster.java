@@ -1,3 +1,10 @@
+/**
+ * NumericTricluster Class
+ * 
+ * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
+ * @version 1.0
+ */
+
 package com.gtric.domain.tricluster;
 
 import java.text.DecimalFormat;
@@ -22,6 +29,14 @@ public class NumericTricluster<T extends Number> extends Tricluster {
 	private NumericBicluster<T> template;
 	private List<Slice<T>> contexts;
 
+	/**
+	 * Constructor
+	 * @param id The tricluster id
+	 * @param template the tricluster's bicluster template
+	 * @param contextPattern the context pattern
+	 * @param plaidPattern the plaid coherency
+	 * @param tricContexts array with contexts ids of the tricluster
+	 */
 	public NumericTricluster(int id, NumericBicluster<T> template, PatternType contextPattern, PlaidCoherency plaidPattern, int[] tricContexts) {
 		super(contextPattern, plaidPattern, id);
 		this.template = template;
@@ -32,48 +47,98 @@ public class NumericTricluster<T extends Number> extends Tricluster {
 
 	}
 
+	/**
+	 * Add context to tricluster
+	 * @param contextID The context id
+	 * @param factor the context factor
+	 */
 	public void addContext(int contextID, T factor) {
 		this.contexts.add(new Slice<>(contextID, factor));
 	}
 
+	/**
+	 * Add context to tricluster
+	 * @param contextID The context id
+	 */
 	public void addContext(int contextID) {
 		this.contexts.add(new Slice<>(contextID));
 	}
 
+	/**
+	 * Add context to tricluster
+	 * @param contextID The context id
+	 * @param patternSeed the context pattern 
+	 */
 	public void addContext(int contextID, T[][] patternSeed) {
 		this.contexts.add(new Slice<>(contextID, patternSeed));
 	}
 
 	// ** setters **
 
+	/**
+	 * Set the tricluster numeric seed
+	 * @param seed the seed value
+	 */
 	public void setSeed(T seed) {
 		this.template.setSeed(seed);
 	}
 
+	/**
+	 * Set the tricluster pattern seed
+	 * @param seed the matrix with the pattern seed
+	 */
 	public void setSeed(T[][] seed) {
 		this.template.setSeed(seed);
 	}
 
+	/**
+	 * Set the context factor
+	 * @param context the context id
+	 * @param factor the factor
+	 */
 	public void setContextFactor(int context, T factor) {
 		this.contexts.get(context).setFactor(factor);
 	}
 
+	/**
+	 * Set the context pattern
+	 * @param context the context id
+	 * @param patternSeed the matrix with the pattern
+	 */
 	public void setContextPattern(int context, T[][] patternSeed) {
 		this.contexts.get(context).setPatternSeed(patternSeed);
 	}
 
+	/**
+	 * Set the row factor
+	 * @param row the row id
+	 * @param factor the factor's value
+	 */
 	public void setRowFactor(int row, T factor) {
 		this.template.setRowFactor(row, factor);
 	}
 
+	/**
+	 * Set the rows' factors
+	 * @param factors array of factors
+	 */
 	public void setRowFactors(T[] factors) {
 		this.template.setRowFactors(factors);
 	}
 
+	/**
+	 * Set the columns' factors
+	 * @param factors array of factors
+	 */
 	public void setColumnFactors(T[] factors) {
 		this.template.setColumnFactors(factors);
 	}
 
+	/**
+	 * Set the column factor
+	 * @param column the column id
+	 * @param factor the factor's value
+	 */
 	public void setColumnFactor(int col, T factor) {
 		this.template.setColumnFactor(col, factor);
 	}
@@ -82,26 +147,53 @@ public class NumericTricluster<T extends Number> extends Tricluster {
 
 	//** getters **
 
+	/**
+	 * Get the tricluster's number of factors
+	 * @return the number of factors
+	 */
 	public int getNumContexts() {
 		return this.contexts.size();
 	}
 
+	/**
+	 * Get the tricluster's number of rows
+	 * @return the number of rows
+	 */
 	public int getNumRows() {
 		return this.template.numRows();
 	}
 
+	/**
+	 * Get the tricluster's number of columns
+	 * @return the number of columns
+	 */
 	public int getNumCols() {
 		return this.template.numColumns();
 	}
 
+	/**
+	 * Get context factor
+	 * @param context the context id
+	 * @return the context's factor
+	 */
 	public T getContextFactor(int context) {
 		return this.contexts.get(context).getFactor();
 	}
 
+	/**
+	 * Get row factor
+	 * @param row the row id
+	 * @return the row's factor
+	 */
 	public T getRowFactor(int row) {
 		return this.template.getRowFactor(row);
 	}
 
+	/**
+	 * Get column factor
+	 * @param col the column id
+	 * @return the column's factor
+	 */
 	public T getColumnFactor(int col) {
 		return this.template.getColumnFactor(col);
 	}

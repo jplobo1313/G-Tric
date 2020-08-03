@@ -1,3 +1,9 @@
+/**
+ * IOUtils Class
+ * 
+ * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
+ * @version 1.0
+ */
 package com.gtric.utils;
 
 import java.io.BufferedReader;
@@ -70,13 +76,21 @@ public class IOUtils {
 		return result.toString();
 	}
 
+	/**
+	 * Converts the dataset into a string oriented by columns
+	 * @param dataset The generated dataset
+	 * @param threshold How many rows to convert
+	 * @param step In which row to start printing
+	 * @param printHeader boolean that indicates if the header should be added
+	 * @return
+	 */
 	public static String matrixToStringColOriented(NumericDataset dataset, int threshold, int step, boolean printHeader) {
 
 		StringBuilder result = new StringBuilder();
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(2);
 
-		System.out.println("Writing step " + (step * threshold));
+		System.out.println("Writing dataset file: " + (step * 10) + "%");
 		
 		if(printHeader) {
 			result.append("X\t"); 
@@ -116,10 +130,20 @@ public class IOUtils {
 		return result.toString();
 	}
 
+	/**
+	 * Converts the dataset into a string oriented by columns
+	 * @param dataset The generated dataset
+	 * @param threshold How many rows to convert
+	 * @param step In which row to start printing
+	 * @param printHeader boolean that indicates if the header should be added
+	 * @return
+	 */
 	public static String matrixToStringColOriented(SymbolicDataset dataset, int threshold, int step,boolean printHeade) {
 
 		StringBuilder result = new StringBuilder();
 
+		System.out.println("Writing dataset file: " + (step * 10) + "%");
+		
 		if(printHeade) {
 			result.append("X\t"); 
 
@@ -150,6 +174,13 @@ public class IOUtils {
 		return result.toString();
 	}
 
+	/**
+	 * Writes the dataset into a file
+	 * @param path The file path
+	 * @param name The file name
+	 * @param content The content of the dataset
+	 * @throws Exception
+	 */
 	public static void writeFile(String path, String name, String content) throws Exception {
 		FileWriter fstream = new FileWriter(path+name, true);
 		BufferedWriter out = new BufferedWriter(fstream);

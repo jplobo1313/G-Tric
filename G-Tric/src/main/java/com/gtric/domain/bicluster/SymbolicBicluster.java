@@ -1,3 +1,9 @@
+/**
+ * Class that represents a symbolic tricluster
+ * 
+ * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
+ * @author Rui Henriques - rmch@tecnico.ulisboa.pt
+ */
 package com.gtric.domain.bicluster;
 
 import java.util.Set;
@@ -7,17 +13,33 @@ import com.gtric.types.PatternType;
 
 public class SymbolicBicluster extends Bicluster{
 	
+	//Pattern seed
 	private String[][] seed;
 	
+	/**
+	 * Construtor
+	 * @param rows Dataset's set of rows
+	 * @param cols Dataset's set of cols
+	 * @param rowPattern The row pattern
+	 * @param columnPattern The column pattern
+	 */
 	public SymbolicBicluster(SortedSet<Integer> rows, SortedSet<Integer> cols, PatternType rowPattern, PatternType columnPattern) {
 		
 		super(rows, cols, rowPattern, columnPattern);
 	}
 
+	/**
+	 * Set the biclusters seed
+	 * @param seed The matrix
+	 */
 	public void setSeed(String[][] seed) {
 		this.seed = seed;
 	}
 	
+	/**
+	 * Get biclusters seed
+	 * @return
+	 */
 	public String[][] getSeed() {
 		return this.seed;
 	}

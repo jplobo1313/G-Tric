@@ -1,3 +1,9 @@
+/**
+ * SymbolicTriclusterDatasetGenerator Class
+ * 
+ * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
+ * @version 1.0
+ */
 package com.gtric.generator;
 
 import java.util.Arrays;
@@ -28,11 +34,31 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 	private boolean allowsOverlap = false;
 	private int numTrics;
 
+	/**
+	 * Constructor
+	 * @param nRows the dataset's number of rows
+	 * @param nCols the dataset's number of columns
+	 * @param nCont the dataset's number of contexts
+	 * @param numTrics the number of trics to plant
+	 * @param background the dataset's background
+	 * @param alphabetL the alphabet length
+	 * @param symmetric NOT IMPLEMENTED
+	 */
 	public SymbolicDatasetGenerator(int nRows, int nCols, int nCont, int numTrics, Background background, int alphabetL, boolean symmetric) {
 		this.numTrics = numTrics;
 		this.data = new SymbolicDataset(nRows, nCols, nCont, background, symmetric, alphabetL);
 	}
 	
+	/**
+	 * Constructor
+	 * @param nRows the dataset's number of rows
+	 * @param nCols the dataset's number of columns
+	 * @param nCont the dataset's number of contexts
+	 * @param numTrics the number of trics to plant
+	 * @param background the dataset's background
+	 * @param alphabet array with alphabet symbols
+	 * @param symmetric NOT IMPLEMENTED
+	 */
 	public SymbolicDatasetGenerator(int nRows, int nCols, int nCont, int numTrics, Background background, String[] alphabet, boolean symmetric) {
 		this.numTrics = numTrics;
 		this.data = new SymbolicDataset(nRows, nCols, nCont, background, symmetric, alphabet);
@@ -89,8 +115,9 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 			
 			boolean hasSpace = true;
 			
-			System.out.println("K = " + k);
 			changeState("Stage:1, Msg:Tricluster " + k);
+			
+			System.out.println("Generating tricluster " + k + " of " + numTrics + "...");
 			
 			if(k >= overlappingThreshold)
 				allowsOverlap = false;
@@ -146,14 +173,6 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 				double overlappingContsPerc = overlappingPercs.get("contextPerc");
 				double overlappingColsPerc = overlappingPercs.get("columnPerc");
 				double overlappingRowsPerc = overlappingPercs.get("rowPerc");
-				
-				int overlappedTricArea = 0;
-				
-				if(bicsWithOverlap != null) {
-					int overlappingTricIndex = bicsWithOverlap[0];
-					overlappedTricArea = bicsConts[overlappingTricIndex].length * bicsRows[overlappingTricIndex].length
-							* bicsCols[overlappingTricIndex].length;
-				}
 				
 				bicsCols[k] = generate(numColsTrics, numCols, overlappingContsPerc, bicsCols, bicsWithOverlap,
 						bicsExcluded, tricStructure.getContiguity().equals(Contiguity.COLUMNS));
@@ -217,9 +236,6 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 	
 				/** PART VI: generate biclusters coherencies **/
 				String[][][] bicsymbols = new String[bicsConts[k].length][bicsRows[k].length][bicsCols[k].length];
-				
-				boolean transposedXY = false;
-				boolean transposedYZ = false;
 				
 				if(rowType.equals(PatternType.ORDER_PRESERVING)) {
 					bicsymbols = new String[bicsConts[k].length][bicsCols[k].length][bicsRows[k].length];

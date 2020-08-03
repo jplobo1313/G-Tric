@@ -1,3 +1,9 @@
+/**
+ * TriclusterDatasetGenerator Class
+ * 
+ * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
+ * @version 1.0
+ */
 package com.gtric.generator;
 
 import java.util.HashMap;
@@ -26,11 +32,18 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 	
 	Random random = new Random();
 	
-
+	/**
+	 * Generate a dataset with planted triclusters
+	 * @param patterns The list of patterns for each tricluster
+	 * @param tricStructure The information about the tricluster's structure
+	 * @param overlapping The information about overlapping properties
+	 * @return The generated dataset
+	 * @throws Exception
+	 */
 	public abstract Dataset generate(List<TriclusterPattern> patterns, TriclusterStructure tricStructure,
 			OverlappingSettings overlapping) throws Exception;
 
-	public int[] generateRows(int dimSize, int tricSize, double percOverlap, int[][] tricsRows,
+	protected int[] generateRows(int dimSize, int tricSize, double percOverlap, int[][] tricsRows,
 			int[] tricsWithOverlap, int[] tricsExcluded, int[] tricCols, int[] tricConts, Set<String> elements) throws Exception {
 		
 		//guardar rows escolhidas
@@ -153,7 +166,7 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 		return result;
 	}
 
-	public int[] generateOthers(int dimSize, int tricSize, double percOverlap, int[][] tricsDimIndex, Set<Integer> chosenIndexes,
+	protected int[] generateOthers(int dimSize, int tricSize, double percOverlap, int[][] tricsDimIndex, Set<Integer> chosenIndexes,
 			int[] tricsWithOverlap, int[] tricsExcluded, boolean contiguity) throws Exception {
 
 		int[] result = new int[tricSize];
@@ -295,7 +308,7 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 
 
 	//TODO: fatorizar isto
-	public int[] generate(int nBicDim, int nDim, double overlap, int[][] vecsL, int[] overlapVecs, int[] vecsExc, boolean contiguity)
+	protected int[] generate(int nBicDim, int nDim, double overlap, int[][] vecsL, int[] overlapVecs, int[] vecsExc, boolean contiguity)
 			throws Exception {
 
 		int[] result = new int[nBicDim];
@@ -441,7 +454,7 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 	 * @param vecsExc
 	 * @return
 	 */
-	public int[] generateContiguous(int bicDimSize, int datasetDimSize) {
+	protected int[] generateContiguous(int bicDimSize, int datasetDimSize) {
 
 		int[] result = new int[bicDimSize];
 
@@ -457,7 +470,7 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 		return result;
 	}
 
-	public int[] generateNonOverlappingOthers(int nBicDim, int nDim, Set<Integer> chosenCols, boolean contiguity) {
+	protected int[] generateNonOverlappingOthers(int nBicDim, int nDim, Set<Integer> chosenCols, boolean contiguity) {
 
 		int[] result = new int[nBicDim];
 		SortedSet<Integer> set = new TreeSet<>();
@@ -484,7 +497,7 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 		return result;
 	}
 
-	public int[] generateNonOverlappingRows(int nBicDim, int nDim, int[] bicCols, int[] bicConts, Set<String> elements) throws Exception {
+	protected int[] generateNonOverlappingRows(int nBicDim, int nDim, int[] bicCols, int[] bicConts, Set<String> elements) throws Exception {
 
 		int[] result = new int[nBicDim];
 		SortedSet<Integer> set = new TreeSet<>();
@@ -510,7 +523,7 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 		return result;
 	}
 
-	public String[][][] transposeMatrix(String[][][] matrix, String oldDim, String newDim) {
+	protected String[][][] transposeMatrix(String[][][] matrix, String oldDim, String newDim) {
 
 		String[][][] transposed = null;
 
@@ -537,7 +550,7 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 		return transposed;
 	}
 
-	public Double[][][] transposeMatrix(Double[][][] matrix, String oldDim, String newDim) {
+	protected Double[][][] transposeMatrix(Double[][][] matrix, String oldDim, String newDim) {
 
 		Double[][][] transposed = null;
 
@@ -579,7 +592,7 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 		return false;
 	}
 
-	public Map<String, Double> generateOverlappingDistribution(int tricSize, OverlappingSettings overlapping,
+	protected Map<String, Double> generateOverlappingDistribution(int tricSize, OverlappingSettings overlapping,
 			int numContsTrics, int numRowsTrics, int numColsTrics) throws OutputErrorException {
 		
 		Map<String, Double> overlappingDist = new HashMap<>();
@@ -642,7 +655,7 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 		return overlappingDist;
 	}
 	
-	public Map<String, Integer> generateTricStructure(TriclusterStructure tricStructure, int maxRows, int maxCols, int maxConts){
+	protected Map<String, Integer> generateTricStructure(TriclusterStructure tricStructure, int maxRows, int maxCols, int maxConts){
 
 		/**
 		 * PART II: select number of rows and columns according to distribution
@@ -751,10 +764,18 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 		this.statsFileName = statsFileName;
 	}
 	
+	/**
+	 * Set the file path
+	 * @param path the file path
+	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
 	
+	/**
+	 * Get the file path
+	 * @return the file path
+	 */
 	public String getPath() {
 		return this.path;
 	}

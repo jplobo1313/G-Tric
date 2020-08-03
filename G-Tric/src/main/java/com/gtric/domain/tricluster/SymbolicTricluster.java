@@ -1,3 +1,10 @@
+/**
+ * SymbolicTricluster Class
+ * 
+ * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
+ * @version 1.0
+ */
+
 package com.gtric.domain.tricluster;
 
 import java.text.DecimalFormat;
@@ -22,22 +29,39 @@ public class SymbolicTricluster extends Tricluster {
 	private SymbolicBicluster template;
 	private List<Slice<String>> contexts;
 	
+	/**
+	 * Constructor
+	 * @param id Trucluster ID
+	 * @param template The tricluster's template bicluster
+	 * @param contextPattern The context pattern
+	 */
 	public SymbolicTricluster(int id, SymbolicBicluster template, PatternType contextPattern) {
 		super(contextPattern, PlaidCoherency.NONE, id);
 		this.template = template;
 		this.contexts = new ArrayList<>();
 	}
 	
-	
-	
+	/**
+	 * Sets the template seed
+	 * @param seed the 2D matrix that represents the template (bicluster) seed
+	 */
 	public void setSeed(String[][] seed) {
 		this.template.setSeed(seed);
 	}
 	
+	/**
+	 * Add context to the tricluster
+	 * @param seed the pattern of the context's bicluster
+	 * @param context the context id
+	 */
 	public void addContext(String[][] seed, int context) {
 		this.contexts.add(new Slice<>(context, seed));
 	}
 	
+	/**
+	 * Add context to the tricluster
+	 * @param context the context id
+	 */
 	public void addContext(int context) {
 		this.contexts.add(new Slice<>(context));
 	}
@@ -72,14 +96,26 @@ public class SymbolicTricluster extends Tricluster {
 		return this.template.getColumns();
 	}
 	
+	/**
+	 * Tricluster number of rows
+	 * @return the number of rows
+	 */
 	public int getNumRows() {
 		return this.template.numRows();
 	}
 	
+	/**
+	 * Tricluster number of columns
+	 * @return the number of columns
+	 */
 	public int getNumCols() {
 		return this.template.numColumns();
 	}
 	
+	/**
+	 * Tricluster number of contexts
+	 * @return the number of contexts
+	 */
 	public int getNumContexts() {
 		return this.contexts.size();
 	}

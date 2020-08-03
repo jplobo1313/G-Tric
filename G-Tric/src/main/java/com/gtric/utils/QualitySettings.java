@@ -1,3 +1,9 @@
+/**
+ * QualitySettings Class
+ * 
+ * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
+ * @version 1.0
+ */
 package com.gtric.utils;
 
 public class QualitySettings {
@@ -12,14 +18,14 @@ public class QualitySettings {
 	
 	public QualitySettings() {}
 	
-	/**
-	 * @param percMissingsOnBackground
-	 * @param percMissingsOnTrics
-	 * @param percNoiseOnBackground
-	 * @param percNoiseOnTrics
-	 * @param noiseDeviation
-	 * @param percErrorsOnBackground
-	 * @param percErrorsOnTrics
+	/** Constructor
+	 * @param percMissingsOnBackground The percentage of missings on dataset's background
+	 * @param percMissingsOnTrics The maximum percentage of missings on planted triclusters
+	 * @param percNoiseOnBackground  The percentage of noise on dataset's background
+	 * @param percNoiseOnTrics The maximum percentage of noise on planted triclusters
+	 * @param noiseDeviation The noise deviation value
+	 * @param percErrorsOnBackground The percentage of errors on dataset's background
+	 * @param percErrorsOnTrics The maximum percentage of errors on planted triclusters
 	 */
 	public QualitySettings(double percMissingsOnBackground, double percMissingsOnTrics, double percNoiseOnBackground,
 			double percNoiseOnTrics, double noiseDeviation, double percErrorsOnBackground, double percErrorsOnTrics) {
@@ -33,98 +39,98 @@ public class QualitySettings {
 	}
 
 	/**
-	 * @return the percMissingsOnBackground
+	 * @return The percentage of missings on dataset's background
 	 */
 	public double getPercMissingsOnBackground() {
 		return percMissingsOnBackground;
 	}
 
 	/**
-	 * @param percMissingsOnBackground the percMissingsOnBackground to set
+	 * @param percMissingsOnBackground The percentage of missings on dataset's background to set
 	 */
 	public void setPercMissingsOnBackground(double percMissingsOnBackground) {
 		this.percMissingsOnBackground = percMissingsOnBackground;
 	}
 
 	/**
-	 * @return the percMissingsOnTrics
+	 * @return The maximum percentage of missings on planted triclusters
 	 */
 	public double getPercMissingsOnTrics() {
 		return percMissingsOnTrics;
 	}
 
 	/**
-	 * @param percMissingsOnTrics the percMissingsOnTrics to set
+	 * @param percMissingsOnTrics The maximum percentage of missings on planted triclusters to set
 	 */
 	public void setPercMissingsOnTrics(double percMissingsOnTrics) {
 		this.percMissingsOnTrics = percMissingsOnTrics;
 	}
 
 	/**
-	 * @return the percNoiseOnBackground
+	 * @return The percentage of noise on dataset's background
 	 */
 	public double getPercNoiseOnBackground() {
 		return percNoiseOnBackground;
 	}
 
 	/**
-	 * @param percNoiseOnBackground the percNoiseOnBackground to set
+	 * @param percNoiseOnBackground The percentage of noise on dataset's background to set
 	 */
 	public void setPercNoiseOnBackground(double percNoiseOnBackground) {
 		this.percNoiseOnBackground = percNoiseOnBackground;
 	}
 
 	/**
-	 * @return the percNoiseOnTrics
+	 * @return The maximum percentage of noise on planted triclusters
 	 */
 	public double getPercNoiseOnTrics() {
 		return percNoiseOnTrics;
 	}
 
 	/**
-	 * @param percNoiseOnTrics the percNoiseOnTrics to set
+	 * @param percNoiseOnTrics The maximum percentage of noise on planted triclusters to set
 	 */
 	public void setPercNoiseOnTrics(double percNoiseOnTrics) {
 		this.percNoiseOnTrics = percNoiseOnTrics;
 	}
 
 	/**
-	 * @return the noiseDeviation
+	 * @return the noise deviation value
 	 */
 	public double getNoiseDeviation() {
 		return noiseDeviation;
 	}
 
 	/**
-	 * @param noiseDeviation the noiseDeviation to set
+	 * @param noiseDeviation the noise deviation value to set
 	 */
 	public void setNoiseDeviation(double noiseDeviation) {
 		this.noiseDeviation = noiseDeviation;
 	}
 
 	/**
-	 * @return the percErrorsOnBackground
+	 * @return The percentage of errors on dataset's background
 	 */
 	public double getPercErrorsOnBackground() {
 		return percErrorsOnBackground;
 	}
 
 	/**
-	 * @param percErrorsOnBackground the percErrorsOnBackground to set
+	 * @param percErrorsOnBackground The percentage of errors on dataset's background to set
 	 */
 	public void setPercErrorsOnBackground(double percErrorsOnBackground) {
 		this.percErrorsOnBackground = percErrorsOnBackground;
 	}
 
 	/**
-	 * @return the percErrorsOnTrics
+	 * @return The maximum percentage of errors on planted triclusters
 	 */
 	public double getPercErrorsOnTrics() {
 		return percErrorsOnTrics;
 	}
 
 	/**
-	 * @param percErrorsOnTrics the percErrorsOnTrics to set
+	 * @param percErrorsOnTrics The maximum percentage of errors on planted triclusters to set
 	 */
 	public void setPercErrorsOnTrics(double percErrorsOnTrics) {
 		this.percErrorsOnTrics = percErrorsOnTrics;

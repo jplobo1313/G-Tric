@@ -1,3 +1,9 @@
+/**
+ * GTricService Class
+ * 
+ * @author Joao Lobo - jlobo@lasige.di.fc.ul.pt
+ * @version 1.0
+ */
 package com.gtric.service;
 
 import java.io.BufferedReader;
@@ -43,6 +49,7 @@ public class GTricService extends Observable implements Observer {
 	private String filename = "";
 	private boolean singleFile;
 	
+	//Helper class to organize the tricluster's patterns
 	public class TriclusterPatternWrapper{
 		
 		String rowPattern;
@@ -132,6 +139,9 @@ public class GTricService extends Observable implements Observer {
 	//Extras
 	private QualitySettings qualitySettings;
 
+	/**
+	 * Constructor
+	 */
 	public GTricService() {
 		
 		this.currentProgress = 0;
@@ -167,18 +177,33 @@ public class GTricService extends Observable implements Observer {
 		symbolType.add("Custom");
 	}
 
+	/**
+	 * @return the symbol types available
+	 */
 	public List<String> getSymbolType(){
 		return this.symbolType;
 	}
 	
+	/**
+	 * Set whether the symbolic dataset will use the dafault symbols or not
+	 * @param b true is dataset is composed by the default symbols, false otherwise
+	 */
 	public void setDefaultSymbolBoolean(boolean b) {
 		this.defaultSymbols = b;
 	}
 	
+	/**
+	 * Set whether the output should be written in a single or multiple files
+	 * @param b true if single file, false otherwise
+	 */
 	public void setSingleFileOutput(boolean b) {
 		this.singleFile = b;
 	}
 	
+	/**
+	 * Check if the output will be written in a single file
+	 * @return true if output is written in a single file, false otherwise
+	 */
 	public boolean isSingleFileOutput() {
 		return this.singleFile;
 	}
@@ -270,6 +295,10 @@ public class GTricService extends Observable implements Observer {
 		datasetBackground.add("Missing");
 	}
 
+	/**
+	 * Set the dataset's data type
+	 * @param type the data tpe
+	 */
 	public void setDatasetType(String type) {
 		this.datasetType = type;
 	}
@@ -280,34 +309,72 @@ public class GTricService extends Observable implements Observer {
 		numericDatasetDataTypes.add("Real Valued");
 	}
 
+	/**
+	 * @return the list of available data types
+	 */
 	public List<String> getDataTypes(){
 		return this.numericDatasetDataTypes;
 	}
 	
+	/**
+	 * @return the list of available background's distributions
+	 */
 	public List<String> getDatasetBackground(){
 		return this.datasetBackground;
 	}
 	
+	/**
+	 * @return the list of available distributions
+	 */
 	public List<String> getDistributions(){
 		return this.distributions;
 	}
 	
+	/**
+	 * Get the available contiguities
+	 * @return the list with the contiguity values
+	 */
 	public List<String> getContiguity(){
 		return this.contiguity;
 	}
 	
+	/**
+	 * Get the available plaid coherencies
+	 * @return list with plaid coherencies
+	 */
 	public List<String> getPlaidCoherency(){
 		return this.plaidCoherency;
 	}
 	
+	/**
+	 * Get tricluster's symbolic patterns
+	 * @return list with the patterns
+	 */
 	public List<TriclusterPatternWrapper> getSymbolicPatterns(){
 		return this.symbolicPatterns;
 	}
 	
+	/**
+	 * Get tricluster's numeric patterns
+	 * @return list with numeric patterns
+	 */
 	public List<TriclusterPatternWrapper> getNumericPatterns(){
 		return this.numericPatterns;
 	}
 	
+	/**
+	 * Set numeric dataset's properties
+	* @param numRows Dataset's number of rows
+	 * @param numCols Dataset's number of columns
+	 * @param numCtxs Dataset's number of contexts
+	 * @param realValued boolean that indicates if the dataset is real valued
+	 * @param minM The alphabet min
+	 * @param maxM The alphabet max
+	  * @param background The dataset's background (NORMAL, UNIFORM, DISCRETE or MISSING)
+	 * @param backgroundParam1 The background's first parameter (mean or min)
+	 * @param backgroundParam2 The background's second parameter (std or max)
+	 * @param backgroundParam3 The background's third parameter (probabilities array)
+	 */
 	public void setDatasetProperties(int numRows, int numCols, int numCtxs, boolean realValued, double minM, double maxM, String background,
 			double backgroundParam1, double backgroundParam2, double[] backgroundParam3) {
 		
@@ -339,6 +406,19 @@ public class GTricService extends Observable implements Observer {
 		this.background.setParam3(backgroundParam3);
 	}
 	
+	/**
+	 * Set symbolic dataset's properties
+	 * @param numRows Dataset's number of rows
+	 * @param numCols Dataset's number of columns
+	 * @param numCtxs Dataset's number of contexts
+	 * @param defaultSymbols Boolean that indicates if the user used the dafult symbols or the custom ones
+	 * @param alphabetLength The size of the alphabet
+	 * @param symbols The array with the alphabet's symbols
+	 * @param background The dataset's background (NORMAL, UNIFORM, DISCRETE or MISSING)
+	 * @param backgroundParam1 The background's first parameter (mean or min)
+	 * @param backgroundParam2 The background's second parameter (std or max)
+	 * @param backgroundParam3 The background's third parameter (probabilities array)
+	 */
 	public void setDatasetProperties(int numRows, int numCols, int numCtxs, boolean defaultSymbols, int alphabetLength, String[] symbols, String background,
 			double backgroundParam1, double backgroundParam2, double[] backgroundParam3) {
 		
@@ -370,6 +450,20 @@ public class GTricService extends Observable implements Observer {
 		this.background.setParam3(backgroundParam3);
 	}
 	
+	/**
+	 * Set tricluster's structure properties
+	 * @param numTrics The number of triclusters to plant
+	 * @param rowDist The row distribution (normal or uniform)
+	 * @param rowsParam1 The first parameter of the row distribution (mean or min)
+	 * @param rowsParam2 The second parameter of the row distribution (std or max)
+	 * @param colDist The column distribution (normal or uniform)
+	 * @param columnsParam1 The first parameter of the column distribution (mean or min)
+	 * @param columnsParam2 The second parameter of the column distribution (std or max)
+	 * @param ctxDist The context distribution (normal or uniform)
+	 * @param contextsParam1 The first parameter of the context distribution (mean or min)
+	 * @param contextsParam2 The second parameter of the context distribution (std or max)
+	 * @param contiguity Which dimension is contiguous (COLUMNS or CONTEXTS) or NONE
+	 */
 	public void setTriclustersProperties(int numTrics, String rowDist, double rowDistParam1, double rowDistParam2, String colDist, 
 			double colDistParam1, double colDistParam2, String ctxDist, double ctxDistParam1, double ctxDistParam2, String contiguity) {
 		
@@ -440,6 +534,17 @@ public class GTricService extends Observable implements Observer {
 		return res;
 	}
 	
+	/**
+	 * 
+	 * @param plaidCoherency The plaid coherency
+	 * @param percOverlappingTrics The percentage of dataset's triclusters that can overlap
+	 * @param maxOverlappingTrics The maximum amount of trics that can overlap together
+	 * @param percOverlappingElements The maximum percentage of elements tha can be share between 
+	 * triclusters (relative to the smallest tric)
+	 * @param percOverlappingRows The maximum percentage of overlapping in the row dimension
+	 * @param percOverlappingColumns The maximum percentage of overlapping in the column dimension
+	 * @param percOverlappingContexts The maximum percentage of overlapping in the context dimension
+	 */
 	public void setOverlappingSettings(String plaidCoherency, double percOverlappingTrics, int maxOverlappingTrics, double percOverlappingElements,
 			double percOverlappingRows, double percOverlappingColumns, double percOverlappingContexts) {
 		
@@ -465,7 +570,17 @@ public class GTricService extends Observable implements Observer {
 		this.overlappingSettings.setPercOfOverlappingContexts(percOverlappingContexts);
 	}
 	
-	public void setExtras(double percMissingsOnBackground, double percMissingsOnTrics, double percNoiseOnBackground, double percNoiseOnTrics,
+	/**
+	 * Set the Quality properties 
+	 * @param percMissingsOnBackground The percentage of missings on dataset's background
+	 * @param percMissingsOnTrics The maximum percentage of missings on planted triclusters
+	 * @param percNoiseOnBackground  The percentage of noise on dataset's background
+	 * @param percNoiseOnTrics The maximum percentage of noise on planted triclusters
+	 * @param noiseDeviation The noise deviation value
+	 * @param percErrorsOnBackground The percentage of errors on dataset's background
+	 * @param percErrorsOnTrics The maximum percentage of errors on planted triclusters
+	 */
+	public void setQualitySettings(double percMissingsOnBackground, double percMissingsOnTrics, double percNoiseOnBackground, double percNoiseOnTrics,
 			double noiseDeviation, double percErrorsOnBackground, double percErrorsOnTrics) {
 		
 		this.qualitySettings = new QualitySettings();
@@ -479,10 +594,18 @@ public class GTricService extends Observable implements Observer {
 		this.qualitySettings.setPercErrorsOnTrics(percErrorsOnTrics);
 	}
 	
+	/**
+	 * Get the generated dataset
+	 * @return the generated dataset
+	 */
 	public Dataset getGeneratedDataset() {
 		return this.generatedDataset;
 	}
 	
+	/**
+	 * Generated a numeric dataset
+	 * @throws Exception
+	 */
 	public void generateNumericDataset() throws Exception {
 		
 		long startTimeGen;
@@ -538,12 +661,15 @@ public class GTricService extends Observable implements Observer {
 		System.out.println("(GeneratePlaidRealTrics) Execution Time: " + ((double) (stopTimeBics - startTimeBics)) / 1000);
 		
 		updateProgressStatusAndMessage(80, "Generating Missings...");
+		System.out.println("Generating Missings...");
 		generatedDataset.plantMissingElements(this.qualitySettings.getPercMissingsOnBackground(), this.qualitySettings.getPercMissingsOnTrics());
 		
 		updateProgressStatusAndMessage(85, "Generating Noise...");
+		System.out.println("Generating Noise...");
 		generatedDataset.plantNoisyElements(this.qualitySettings.getPercNoiseOnBackground(), this.qualitySettings.getPercNoiseOnTrics(), this.qualitySettings.getNoiseDeviation());
 		
 		updateProgressStatusAndMessage(90, "Generating Errors...");
+		System.out.println("Generating Errors...");
 		generatedDataset.plantErrors(this.qualitySettings.getPercErrorsOnBackground(), this.qualitySettings.getPercErrorsOnTrics(), this.qualitySettings.getNoiseDeviation());
 		
 		updateProgressStatusAndMessage(95, "Writing output...");
@@ -554,10 +680,18 @@ public class GTricService extends Observable implements Observer {
 		//updateProgressStatusAndMessage(100, "Completed!");
 	}
 	
+	/**
+	 * Get the JSON with the triclusters info
+	 * @return the JSON Object
+	 */
 	public JSONObject getTriclustersJSON() {
 		return this.triclustersJSON;
 	}
 	
+	/**
+	 * Generated a symbolic dataset
+	 * @throws Exception
+	 */
 	public void generateSymbolicDataset() throws Exception {
 	
 		long startTimeGen;
@@ -594,13 +728,16 @@ public class GTricService extends Observable implements Observer {
 		stopTimeBics = System.currentTimeMillis();
 		
 		updateProgressStatusAndMessage(80, "Generating Missings...");
+		System.out.println("Generating Missings...");
 		generatedDataset.plantMissingElements(this.qualitySettings.getPercMissingsOnBackground(), this.qualitySettings.getPercMissingsOnTrics());
 		
 		updateProgressStatusAndMessage(85, "Generating Noise...");
+		System.out.println("Generating Noise...");
 		generatedDataset.plantNoisyElements(this.qualitySettings.getPercNoiseOnBackground(), this.qualitySettings.getPercNoiseOnTrics(), 
 				(int)this.qualitySettings.getNoiseDeviation());
 		
 		updateProgressStatusAndMessage(90, "Generating Errors...");
+		System.out.println("Generating Errors...");
 		generatedDataset.plantErrors(this.qualitySettings.getPercErrorsOnBackground(), this.qualitySettings.getPercErrorsOnTrics(), 
 				(int)this.qualitySettings.getNoiseDeviation());
 		
@@ -637,35 +774,24 @@ public class GTricService extends Observable implements Observer {
 		//updateProgressStatusAndMessage(100, "Completed!");
 	}
 	
+	/**
+	 * Save the generated datset's output
+	 * @param generatedDataset The dataset
+	 * @param tricDataFileName The name of the tricluster's files
+	 * @param datasetFileName The name of the dataset file
+	 * @throws Exception
+	 */
 	public void saveResult(NumericDataset generatedDataset, String tricDataFileName, String datasetFileName) throws Exception {
 
-		long startWriting = 0;
-		long stopWriting = 0;
+		System.out.println("Writting output...");
 		
-		long startWritingTxt;
-		long stopWritingTxt;
-		
-		long startWritingJson;
-		long stopWritingJson;
-		
-		startWritingTxt = System.currentTimeMillis();
 		IOUtils.writeFile(path, tricDataFileName + ".txt",generatedDataset.getTricsInfo());
-		System.out.println("txt info file written!");
-		stopWritingTxt = System.currentTimeMillis();
-		System.out.println("(Writing TXT) Execution Time: " + ((double)(stopWritingTxt - startWritingTxt))/1000 + " secs");
+		System.out.println("Triclusters txt file written!");
 		
-		startWritingJson = System.currentTimeMillis();
 		this.triclustersJSON = generatedDataset.getTricsInfoJSON(generatedDataset);
 		IOUtils.writeFile(path, tricDataFileName + ".json", this.triclustersJSON.toString());
-		stopWritingJson = System.currentTimeMillis();
-		System.out.println("JSON file written!");
-		System.out.println("(Writing JSON1) Execution Time: " + ((double)(stopWritingJson - startWritingJson))/1000 + " secs");
+		System.out.println("Triclusters JSON file written!");
 		
-		long memory_before = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-		System.out.println("Memory before gc: " + memory_before);
-		System.gc();
-		long memory_after = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-		System.out.println("Memory after gc: " + memory_after);
 		
 		this.triclustersJSON = this.triclustersJSON.getJSONObject("Triclusters");
 		
@@ -677,20 +803,9 @@ public class GTricService extends Observable implements Observer {
 		if(!this.isSingleFileOutput())
 			es = Executors.newCachedThreadPool();
 		
-		long startBuildingFile = 0;
-		long endBuildingFile = 0;
-		
-		
 		for(int s = 0; s < step; s++)
-			if(this.isSingleFileOutput()) {
-				startBuildingFile = System.currentTimeMillis();
-				String content = IOUtils.matrixToStringColOriented(generatedDataset, threshold, s, s==0);
-				endBuildingFile = System.currentTimeMillis();
-				
-				startWriting = System.currentTimeMillis();
-				IOUtils.writeFile(path, datasetFileName + ".tsv", content);	
-				stopWriting = System.currentTimeMillis();
-			}
+			if(this.isSingleFileOutput())
+				IOUtils.writeFile(path, datasetFileName + ".tsv", IOUtils.matrixToStringColOriented(generatedDataset, threshold, s, s==0));	
 			else {
 				Thread t = new Thread(new OutputWriterThread(path, datasetFileName, s, threshold, generatedDataset));
 				es.execute(t);
@@ -702,33 +817,28 @@ public class GTricService extends Observable implements Observer {
 			es.awaitTermination(5, TimeUnit.MINUTES);
 		}
 		
-		System.out.println("(Building File) Execution Time: " + ((double)(endBuildingFile - startBuildingFile))/1000 + " secs");
-		System.out.println("(Writing File) Execution Time: " + ((double)(stopWriting - startWriting))/1000 + " secs");
+		System.out.println("Dataset tsv file written!");
 
 	}
 	
+	/**
+	 * Save the generated datset's output
+	 * @param generatedDataset The dataset
+	 * @param tricDataFileName The name of the tricluster's files
+	 * @param datasetFileName The name of the dataset file
+	 * @throws Exception
+	 */
 	public void saveResult(SymbolicDataset generatedDataset, String tricDataFileName, String datasetFileName) throws Exception {
 
-		long startWriting;
-		long stopWriting;
+		System.out.println("Writting output...");
 		
-		long startWritingTxt;
-		long stopWritingTxt;
-		
-		long startWritingJson;
-		long stopWritingJson;
-		
-		startWritingTxt = System.currentTimeMillis();
 		IOUtils.writeFile(path, tricDataFileName + ".txt",generatedDataset.getTricsInfo());
-		stopWritingTxt = System.currentTimeMillis();
-		System.out.println("(Writing TXT) Execution Time: " + ((double)(stopWritingTxt - startWritingTxt))/1000 + " secs");
+		System.out.println("Triclusters txt file written!");
 		
 		this.triclustersJSON = generatedDataset.getTricsInfoJSON(generatedDataset);
 		
-		startWritingJson = System.currentTimeMillis();
 		IOUtils.writeFile(path, tricDataFileName + ".json", this.triclustersJSON.toString());
-		stopWritingJson = System.currentTimeMillis();
-		System.out.println("(Writing JSON) Execution Time: " + ((double)(stopWritingJson - startWritingJson))/1000 + " secs");
+		System.out.println("Triclusters JSON file written");
 		
 		this.triclustersJSON = this.triclustersJSON.getJSONObject("Triclusters");
 
@@ -740,23 +850,20 @@ public class GTricService extends Observable implements Observer {
 		if(!this.isSingleFileOutput())
 			es = Executors.newCachedThreadPool();
 		
-		startWriting = System.currentTimeMillis();
 		for(int s = 0; s <= step; s++)
-			if(this.isSingleFileOutput()) {
+			if(this.isSingleFileOutput())
 				IOUtils.writeFile(path, datasetFileName + ".tsv", IOUtils.matrixToStringColOriented(generatedDataset, threshold, s, s==0));
-			}
 			else {
 				Thread t = new Thread(new OutputWriterThread(path, datasetFileName, s, threshold, generatedDataset));
 				es.execute(t);
 			}
-		stopWriting = System.currentTimeMillis();
 
 		if(!this.isSingleFileOutput()) {
 			es.shutdown();
 			es.awaitTermination(5, TimeUnit.MINUTES);
 		}
 		
-		System.out.println("(Writing) Execution Time: " + ((double)(stopWriting - startWriting))/1000 + " secs");
+		System.out.println("Dataset tsv file written!");
 
 	}
 
@@ -768,10 +875,18 @@ public class GTricService extends Observable implements Observer {
         this.messageUpdate = messageUpdate ;
     }
 	
+	/**
+	 * Set the output's path
+	 * @param path the path
+	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
 	
+	/**
+	 * Set output's file name
+	 * @param filename the file name
+	 */
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}

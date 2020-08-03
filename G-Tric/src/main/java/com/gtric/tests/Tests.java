@@ -117,7 +117,7 @@ public class Tests {
 			}
 		}
 		else {
-			for(NumericTricluster<Double> t : ((NumericDataset<Double>) generatedDataset).getPlantedBics()) {
+			for(NumericTricluster<Double> t : ((NumericDataset<Double>) generatedDataset).getPlantedTrics()) {
 
 				List<String> elements = generatedDataset.getTriclusterElements(t.getId());
 				/*

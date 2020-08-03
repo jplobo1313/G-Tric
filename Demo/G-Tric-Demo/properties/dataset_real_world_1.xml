@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<dataset>
+    <filename>dataset_real_world_1</filename>
+    <data_type>integer</data_type>
+	<dataset_properties>
+		<num_rows>100</num_rows>
+        <num_cols>13</num_cols>
+        <num_ctxs>14</num_ctxs>
+		<background>DISCRETE</background>
+        <probabilities>
+            <probability symbol=1>0.1</probability>
+            <probability symbol=2>0.15</probability>
+            <probability symbol=3>0.3</probability>
+            <probability symbol=4>0.3</probability>
+            <probability symbol=5>0.15</probability>
+        </probabilities>
+		<alphabet_min>1</alphabet_min>
+		<alphabet_max>5</alphabet_max>
+	</dataset_properties>
+	<triclusters_properties>
+        <num_trics>7</num_trics>
+        <row_distribution>UNIFORM</row_distribution>
+        <row_param_1>8</row_param_1>
+        <row_param_2>40</row_param_2>
+        <col_distribution>UNIFORM</col_distribution>
+        <col_param_1>2</col_param_1>
+        <col_param_2>4</col_param_2>
+        <ctx_distribution>UNIFORM</ctx_distribution>
+        <ctx_param_1>3</ctx_param_1>
+        <ctx_param_2>13</ctx_param_2>
+        <contiguity>NONE</contiguity>
+    </triclusters_properties>
+    <patterns>
+        <pattern>
+            <rows>NONE</rows>
+            <cols>ORDER_PRESERVING</cols>
+            <ctxs>NONE</ctxs>
+        </pattern>
+         <pattern>
+            <rows>NONE</rows>
+            <cols>NONE</cols>
+            <ctxs>ORDER_PRESERVING</ctxs>
+        </pattern>
+        <pattern>
+            <rows>CONSTANT</rows>
+            <cols>CONSTANT</cols>
+            <ctxs>CONSTANT</ctxs>
+        </pattern>
+         <pattern>
+            <rows>CONSTANT</rows>
+            <cols>NONE</cols>
+            <ctxs>CONSTANT</ctxs>
+        </pattern>
+        <pattern>
+            <rows>ADDITIVE</rows>
+            <cols>ADDITIVE</cols>
+            <ctxs>ADDITIVE</ctxs>
+        </pattern>
+        <pattern>
+            <rows>ADDITIVE</rows>
+            <cols>NONE</cols>
+            <ctxs>ADDITIVE</ctxs>
+        </pattern>
+        <pattern>
+            <rows>MULTIPLICATIVE</rows>
+            <cols>MULTIPLICATIVE</cols>
+            <ctxs>MULTIPLICATIVE</ctxs>
+        </pattern>
+    </patterns>
+    <overlapping>
+        <plaid_coherency>NO_OVERLAPPING</plaid_coherency>
+    </overlapping>
+    <quality>
+        <background_missings>0</background_missings>
+        <tricluster_missings>0</tricluster_missings>
+        <background_noise>0</background_noise>
+        <tricluster_noise>0</tricluster_noise>
+        <noise_deviation>0</noise_deviation>
+        <background_errors>0</background_errors>
+        <tricluster_errors>0</tricluster_errors>
+    </quality>
+</dataset>

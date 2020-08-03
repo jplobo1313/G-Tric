@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<dataset>
+    <filename>dataset_base_S_quality_high</filename>
+    <data_type>symbolic</data_type>
+	<dataset_properties>
+		<num_rows>1000</num_rows>
+        <num_cols>100</num_cols>
+        <num_ctxs>10</num_ctxs>
+        <alphabet>1,2,3,4,5</alphabet>
+		<background>DISCRETE</background>
+		<background_probabilites>
+            <probabilty symbol="1">0.1</probabilty>
+            <probabilty symbol="2">0.15</probabilty>
+            <probabilty symbol="3">0.3</probabilty>
+            <probabilty symbol="4">0.3</probabilty>
+            <probabilty symbol="5">0.15</probabilty>
+        </background_probabilites>
+	</dataset_properties>
+	<triclusters_properties>
+        <num_trics>12</num_trics>
+        <row_distribution>UNIFORM</row_distribution>
+        <row_param_1>30</row_param_1>
+        <row_param_2>50</row_param_2>
+        <col_distribution>UNIFORM</col_distribution>
+        <col_param_1>5</col_param_1>
+        <col_param_2>10</col_param_2>
+        <ctx_distribution>UNIFORM</ctx_distribution>
+        <ctx_param_1>2</ctx_param_1>
+        <ctx_param_2>4</ctx_param_2>
+        <contiguity>NONE</contiguity>
+    </triclusters_properties>
+    <patterns>
+         <pattern>
+            <rows>ORDER_PRESERVING</rows>
+            <cols>NONE</cols>
+            <ctxs>NONE</ctxs>
+        </pattern>
+        <pattern>
+            <rows>NONE</rows>
+            <cols>ORDER_PRESERVING</cols>
+            <ctxs>NONE</ctxs>
+        </pattern>
+         <pattern>
+            <rows>NONE</rows>
+            <cols>NONE</cols>
+            <ctxs>ORDER_PRESERVING</ctxs>
+        </pattern>
+        <pattern>
+            <rows>CONSTANT</rows>
+            <cols>CONSTANT</cols>
+            <ctxs>CONSTANT</ctxs>
+        </pattern>
+         <pattern>
+            <rows>CONSTANT</rows>
+            <cols>NONE</cols>
+            <ctxs>CONSTANT</ctxs>
+        </pattern>
+         <pattern>
+            <rows>CONSTANT</rows>
+            <cols>CONSTANT</cols>
+            <ctxs>NONE</ctxs>
+        </pattern>
+    </patterns>
+    <overlapping>
+        <plaid_coherency>NO_OVERLAPPING</plaid_coherency>
+        <perc_overlapping_trics>0</perc_overlapping_trics>
+        <max_trics_overlapped_area>0</max_trics_overlapped_area>
+        <perc_overlapping_elems>0</perc_overlapping_elems>
+        <perc_overlapping_rows>0</perc_overlapping_rows>
+        <perc_overlapping_cols>0</perc_overlapping_cols>
+        <perc_overlapping_ctxs>0</perc_overlapping_ctxs>
+    </overlapping>
+    <quality>
+        <background_missings>0.02</background_missings>
+        <tricluster_missings>0.02</tricluster_missings>
+        <background_noise>0.1</background_noise>
+        <tricluster_noise>0.1</tricluster_noise>
+        <noise_deviation>1</noise_deviation>
+        <background_errors>0.05</background_errors>
+        <tricluster_errors>0.05</tricluster_errors>
+    </quality>
+</dataset>

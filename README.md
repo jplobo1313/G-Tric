@@ -1,7 +1,7 @@
 # G-Tric
 Three-dimensional dataset generator with triclustering solutions.
 
-**Contents:**:
+**Contents:**
 - [G-Tric](https://github.com/jplobo1313/G-Tric/tree/master/G-Tric) source project.
 - [Runnable JAR](https://github.com/jplobo1313/G-Tric/tree/master/Executable%20JAR) to run the G-Tric's GUI version.
 - [Demo project](https://github.com/jplobo1313/G-Tric/tree/master/Demo/G-Tric-Demo) to generate the synthetic datasets defined on G-Tric's paper (configured on external files [here](https://github.com/jplobo1313/G-Tric/tree/master/Demo/G-Tric-Demo/config_files), and to exemplify how G-Tric can be imported into another project and used programaticly.

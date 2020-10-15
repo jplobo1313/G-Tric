@@ -7,6 +7,7 @@
 package com.gtric.generator;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import com.gtric.types.Background;
 import com.gtric.types.Contiguity;
 import com.gtric.types.PatternType;
 import com.gtric.types.PlaidCoherency;
+import com.gtric.types.TimeProfile;
 import com.gtric.utils.BicMath;
 import com.gtric.utils.OverlappingSettings;
 import com.gtric.utils.TriclusterPattern;
@@ -136,6 +138,7 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 			PatternType rowType = currentPattern.getRowsPattern();
 			PatternType columnType = currentPattern.getColumnsPattern();
 			PatternType contextType = currentPattern.getContextsPattern();
+			TimeProfile timeProfile = currentPattern.getTimeProfile();
 
 			Map<String, Integer> structure = generateTricStructure(tricStructure, numRows, numCols, numConts);
 
@@ -234,7 +237,12 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 				NumericBicluster<Double> bicK = new NumericBicluster<>(BicMath.getSet(bicsRows[k]), 
 						BicMath.getSet(bicsCols[k]), rowType, columnType, new Double[numRowsTrics], new Double[numColsTrics]);
 
-				NumericTricluster<Double> tricK = new NumericTricluster<>(k, bicK, contextType, plaidPattern, bicsConts[k]);
+				NumericTricluster<Double> tricK;
+				
+				if(contextType.equals(PatternType.ORDER_PRESERVING))
+					tricK = new NumericTricluster<>(k, bicK, contextType, timeProfile, plaidPattern, bicsConts[k]);
+				else
+					tricK = new NumericTricluster<>(k, bicK, contextType, plaidPattern, bicsConts[k]);
 
 				/** PART VI: generate biclusters coherencies **/
 				Double[][][] bicsymbols = new Double[bicsConts[k].length][bicsRows[k].length][bicsCols[k].length];
@@ -333,7 +341,7 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 				} 
 
 				else if(currentPattern.contains(PatternType.ORDER_PRESERVING)) {
-					bicsymbols = generateOrderPreserving(currentPattern, tricK, minAllowed, maxAllowed);
+					bicsymbols = generateOrderPreserving(currentPattern, timeProfile, tricK, minAllowed, maxAllowed);
 
 
 				}
@@ -828,7 +836,7 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 		return bicsymbols;
 	}
 
-	private Double[][][] generateOrderPreserving(TriclusterPattern pattern, NumericTricluster<Double> tricK, double min, double max) {
+	private Double[][][] generateOrderPreserving(TriclusterPattern pattern, TimeProfile timeProfile, NumericTricluster<Double> tricK, double min, double max) {
 
 		Double[][][] bicsymbols = null;
 
@@ -893,6 +901,14 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 
 			bicsymbols = new Double[tricK.getNumCols()][tricK.getNumRows()][tricK.getNumContexts()];
 
+			Integer[] order = null;
+			if(timeProfile.equals(TimeProfile.RANDOM)) {
+				order = new Integer[tricK.getNumContexts()];
+				for(int i = 0; i < tricK.getNumContexts(); i++)
+					order[i] = i;
+				Collections.shuffle(Arrays.asList(order));
+			}
+			
 			for(int col = 0; col < tricK.getNumCols(); col++) {
 				for(int row = 0; row < tricK.getNumRows(); row++) {
 					for (int ctx = 0; ctx < tricK.getNumContexts(); ctx++) {
@@ -910,7 +926,17 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 								bicsymbols[col][row][ctx] = (double) bicsymbols[col][row][ctx].intValue();
 						}	
 					}
-					Arrays.sort(bicsymbols[col][row]);
+					
+					if(timeProfile.equals(TimeProfile.RANDOM)) {
+						Arrays.parallelSort(bicsymbols[col][row]);
+						bicsymbols[col][row] = shuffle(order, bicsymbols[col][row]);
+					}
+					else if(timeProfile.equals(TimeProfile.UP_REGULATED))
+						Arrays.sort(bicsymbols[col][row]);
+					
+					else
+						Arrays.sort(bicsymbols[col][row], Collections.reverseOrder());
+					
 				}
 			}
 			bicsymbols = transposeMatrix(bicsymbols, "z", "y");
@@ -918,6 +944,17 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 		return bicsymbols;
 	}
 
+	private Double[] shuffle(Integer[] order, Double[] array) {
+		
+		Double[] newArray = new Double[array.length];
+		
+		for(int i = 0; i < order.length; i++) {
+			newArray[order[i]] = array[i];
+		}
+		
+		return newArray;
+	}
+	
 	private Double[][][] generateConstant(TriclusterPattern pattern, NumericTricluster<Double> tricK, double min, double max){
 
 		Double[][][] bicsymbols = new Double[tricK.getNumContexts()][tricK.getNumRows()][tricK.getNumCols()];

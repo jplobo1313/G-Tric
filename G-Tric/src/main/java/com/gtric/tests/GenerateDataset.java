@@ -15,6 +15,7 @@ import com.gtric.types.Contiguity;
 import com.gtric.types.Distribution;
 import com.gtric.types.PatternType;
 import com.gtric.types.PlaidCoherency;
+import com.gtric.types.TimeProfile;
 import com.gtric.utils.IOUtils;
 import com.gtric.utils.InputValidation;
 import com.gtric.utils.OverlappingSettings;
@@ -76,7 +77,7 @@ public class GenerateDataset{
 		*/
 		for(int i = 0; i < 1; i++) {
 			System.out.println("Run " + i);
-			generateReal();
+			generateSymbolic();
 		}
 	}
 
@@ -92,16 +93,16 @@ public class GenerateDataset{
 
 		//** 1 - Define dataset properties **//
 		//num de linhas do dataset
-		int numRows = 100;
+		int numRows = 5;
 		//num de colunas do dataset
-		int numCols = 100;
-		int numCtxs = 100;
+		int numCols = 5;
+		int numCtxs = 5;
 		//num de bics a plantar
-		int numTrics = 8;
+		int numTrics = 3;
 
 		//tamanho do alfabeto ou simbolos do alfabeto (escolher um)
-		int alphabetL = 5;
-		String[] alphabet = {"1","2","3","4","5"};
+		int alphabetL = 10;
+		//String[] alphabet = {"1","2","3","4","5"};
 
 		//simetrias nos valores do dataset
 		boolean symmetries = false;
@@ -112,29 +113,29 @@ public class GenerateDataset{
 		/* Background Normal(2.5, 1)
     	background = new Background(BackgroundType.NORMAL, 2.5, 1);
 		 */
-		/* Background Uniform
+		 //Background Uniform
         background = new Background(BackgroundType.UNIFORM);
-		 */
+		 
 		/* Background Missing
         background = new Background(BackgroundType.MISSING);
 		 */
 		// Background Weighted probabilities
-		double[] probs = {0.05, 0.1, 0.3, 0.35, 0.2};
-		background = new Background(BackgroundType.DISCRETE, probs);
+		//double[] probs = {0.05, 0.1, 0.3, 0.35, 0.2};
+		//background = new Background(BackgroundType.DISCRETE, probs);
 		// **************** //
 		
 		InputValidation.validateDatasetSettings(numRows, numCols, numCtxs, numTrics, alphabetL);
 		
 		startTimeGen = System.currentTimeMillis();
 
-		generator = new SymbolicDatasetGenerator(numRows,numCols, numCtxs, numTrics, background, alphabet, symmetries);
+		generator = new SymbolicDatasetGenerator(numRows,numCols, numCtxs, numTrics, background, alphabetL, symmetries);
 		stopTimeGen = System.currentTimeMillis();
 
 		System.out.println("(BicMatrixGenerator) Execution Time: " + ((double)(stopTimeGen - startTimeGen))/1000 + " secs");
 
 		//** 2 - Set tricluster's patterns **//
 		List<TriclusterPattern> patterns = new ArrayList<>();
-		patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.NONE, PatternType.ORDER_PRESERVING));
+		patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.NONE, PatternType.ORDER_PRESERVING, TimeProfile.RANDOM));
 		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.CONSTANT, PatternType.NONE));
 		//patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.CONSTANT, PatternType.CONSTANT));
 		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.NONE, PatternType.CONSTANT));
@@ -152,9 +153,9 @@ public class GenerateDataset{
 		//Distribution used to calculate the number of rows/cols/ctxs for a tric (NORMAL or UNIFORM)
 		//Dist args: if dist=UNIFORM, then param1 and param2 represents the min and max, respectively
 		//			 if dist=NORMAL, then param1 and param2 represents the mean and stdDev, respectively
-		tricStructure.setRowsSettings(Distribution.NORMAL, 3, 7);
-		tricStructure.setColumnsSettings(Distribution.NORMAL, 4, 6);
-		tricStructure.setContextsSettings(Distribution.NORMAL, 2, 10);
+		tricStructure.setRowsSettings(Distribution.UNIFORM, 2, 2);
+		tricStructure.setColumnsSettings(Distribution.UNIFORM, 2, 2);
+		tricStructure.setContextsSettings(Distribution.UNIFORM, 4, 5);
 		
 		//Contiguity can occour on COLUMNS or CONTEXTS. To avoid contiguity use NONE
 		tricStructure.setContiguity(Contiguity.NONE);
@@ -239,7 +240,10 @@ public class GenerateDataset{
 			datasetFileName = "data_multiple" + "_" + numRows + "x" + numCols + "x" + numCtxs;
 		}
 
-		saveResult(generatedDataset, tricDataFileName, datasetFileName);
+		GTricService serv = new GTricService();
+		serv.setPath("/Users/atticus/git/G-Tric/G-Tric/temp/");
+		serv.setSingleFileOutput(true);
+		serv.saveResult(generatedDataset, tricDataFileName, datasetFileName);
 
 		//Tests.testMaxTricsOnOverlappedArea(generatedDataset, overlapping, numTrics);
 		//Tests.testPercOfOverlappingTrics(generatedDataset, overlapping, numTrics);
@@ -258,28 +262,28 @@ public class GenerateDataset{
 		long stopTimeBics;
 
 		//num de linhas do dataset
-		int numRows = 28;
+		int numRows = 5;
 		//num de colunas do dataset
-		int numCols = 20;
-		int numCtxs = 365;
+		int numCols = 5;
+		int numCtxs = 5;
 		//num de bics a plantar
-		int numTrics = 128;
+		int numTrics = 3;
 
 		trics = numTrics;
 		
 		//TODO: limites dos valores do dataset (usar em caso de dataset real)
-		double min = -10;
-		double max = 30;
+		double min = 1;
+		double max = 10;
 
 		//use real valued or integer alphabet
-		boolean realValued = true;
+		boolean realValued = false;
 
 		Background background = null;
 		TriclusterDatasetGenerator generator = null;
 
 		/* Background Normal(2.5, 1)
     	*/
-    	background = new Background(BackgroundType.NORMAL, 14, 7);
+    	background = new Background(BackgroundType.UNIFORM);
 		 
 
 		/* Background Uniform
@@ -308,33 +312,34 @@ public class GenerateDataset{
 
 		//Padrao
 		List<TriclusterPattern> patterns = new ArrayList<>();
-		patterns.add(new TriclusterPattern(PatternType.ORDER_PRESERVING, PatternType.NONE, PatternType.NONE));
-		patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.ORDER_PRESERVING, PatternType.NONE));
-		patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.NONE, PatternType.ORDER_PRESERVING));
+		//patterns.add(new TriclusterPattern(PatternType.ORDER_PRESERVING, PatternType.NONE, PatternType.NONE));
+		//patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.ORDER_PRESERVING, PatternType.NONE));
+		patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.NONE, PatternType.ORDER_PRESERVING, TimeProfile.RANDOM));
 		
-		patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.NONE, PatternType.NONE));
-		patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.CONSTANT, PatternType.NONE));
-		patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.NONE, PatternType.CONSTANT));
-		patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.CONSTANT, PatternType.CONSTANT));
-		patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.NONE, PatternType.CONSTANT));
-		patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.CONSTANT, PatternType.NONE));
-		patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.CONSTANT, PatternType.CONSTANT));
+		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.NONE, PatternType.NONE));
+		//patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.CONSTANT, PatternType.NONE));
+		//patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.NONE, PatternType.CONSTANT));
+		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.CONSTANT, PatternType.CONSTANT));
+		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.NONE, PatternType.CONSTANT));
+		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.CONSTANT, PatternType.NONE));
+		//patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.CONSTANT, PatternType.CONSTANT));
 		
-		patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.CONSTANT, PatternType.CONSTANT));
-		patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.ADDITIVE, PatternType.CONSTANT));
-		patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.CONSTANT, PatternType.ADDITIVE));
-		patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.ADDITIVE, PatternType.ADDITIVE));
-		patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.ADDITIVE, PatternType.ADDITIVE));
-		patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.CONSTANT, PatternType.ADDITIVE));
-		patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.ADDITIVE, PatternType.CONSTANT));
+		//patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.CONSTANT, PatternType.CONSTANT));
+		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.ADDITIVE, PatternType.CONSTANT));
+		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.CONSTANT, PatternType.ADDITIVE));
+		//patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.ADDITIVE, PatternType.ADDITIVE));
+		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.ADDITIVE, PatternType.ADDITIVE));
+		//patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.CONSTANT, PatternType.ADDITIVE));
+		//patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.ADDITIVE, PatternType.CONSTANT));
 		
-		patterns.add(new TriclusterPattern(PatternType.MULTIPLICATIVE, PatternType.CONSTANT, PatternType.CONSTANT));
-		patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.MULTIPLICATIVE, PatternType.CONSTANT));
-		patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.CONSTANT, PatternType.MULTIPLICATIVE));
-		patterns.add(new TriclusterPattern(PatternType.MULTIPLICATIVE, PatternType.MULTIPLICATIVE, PatternType.MULTIPLICATIVE));
-		patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.MULTIPLICATIVE, PatternType.MULTIPLICATIVE));
-		patterns.add(new TriclusterPattern(PatternType.MULTIPLICATIVE, PatternType.CONSTANT, PatternType.MULTIPLICATIVE));
-		patterns.add(new TriclusterPattern(PatternType.MULTIPLICATIVE, PatternType.MULTIPLICATIVE, PatternType.CONSTANT));
+		//patterns.add(new TriclusterPattern(PatternType.MULTIPLICATIVE, PatternType.CONSTANT, PatternType.CONSTANT));
+		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.MULTIPLICATIVE, PatternType.CONSTANT));
+		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.CONSTANT, PatternType.MULTIPLICATIVE));
+		//patterns.add(new TriclusterPattern(PatternType.MULTIPLICATIVE, PatternType.MULTIPLICATIVE, PatternType.MULTIPLICATIVE));
+		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.MULTIPLICATIVE, PatternType.MULTIPLICATIVE));
+		//patterns.add(new TriclusterPattern(PatternType.MULTIPLICATIVE, PatternType.CONSTANT, PatternType.MULTIPLICATIVE));
+		//patterns.add(new TriclusterPattern(PatternType.MULTIPLICATIVE, PatternType.MULTIPLICATIVE, PatternType.CONSTANT));
+		
 		
 
 		//** 3 - Define tricluster's structure **//
@@ -344,9 +349,9 @@ public class GenerateDataset{
 		//Distribution used to calculate the number of rows/cols/ctxs for a tric (NORMAL or UNIFORM)
 		//Dist args: if dist=UNIFORM, then param1 and param2 represents the min and max, respectively
 		//			 if dist=NORMAL, then param1 and param2 represents the mean and stdDev, respectively
-		tricStructure.setRowsSettings(Distribution.UNIFORM, 4, 4);
-		tricStructure.setColumnsSettings(Distribution.UNIFORM, 4, 4);
-		tricStructure.setContextsSettings(Distribution.UNIFORM, 8, 8);
+		tricStructure.setRowsSettings(Distribution.UNIFORM, 2, 2);
+		tricStructure.setColumnsSettings(Distribution.UNIFORM, 2, 2);
+		tricStructure.setContextsSettings(Distribution.UNIFORM, 4, 5);
 		
 		//Contiguity can occour on COLUMNS or CONTEXTS. To avoid contiguity use NONE
 		tricStructure.setContiguity(Contiguity.NONE);
@@ -419,12 +424,12 @@ public class GenerateDataset{
 		//Percentage of missing values on the background, that is, values that do not belong to planted trics (Range = [0,1])
 		//Maximum percentage of missing values on each tricluster. Range [0,1]. 
 		//Ex: 0.1 significa que cada tric tem no maximo 10% de missings. Pode ter menos
-		double missingPercOnBackground = 0.15;
-		double missingPercOnPlantedTrics = 0.05;
+		double missingPercOnBackground = 0.0;
+		double missingPercOnPlantedTrics = 0.0;
 		
 		//Same as above but for noise
-		double noisePercOnBackground = 0.2;
-		double noisePercOnPlantedTrics = 0.1;
+		double noisePercOnBackground = 0.0;
+		double noisePercOnPlantedTrics = 0.0;
 		//Level of symbol deviation, that is, the maximum difference between the current symbol on the matrix and the one that
 		//will replaced it to be considered noise.
 		//Ex: Let Alphabet = [1,2,3,4,5] and CurrentSymbol = 3, if the noiseDeviation is '1', then CurrentSymbol will be, randomly,
@@ -436,8 +441,8 @@ public class GenerateDataset{
 		//greater than noiseDeviation.
 		//Ex: Alphabet = [1,2,3,4,5], If currentValue = 2, and errorDeviation = 2, to turn currentValue an error, it's value must be
 		//replaced by '5', that is the only possible value that respects abs(currentValue - newValue) > noiseDeviation
-		double errorPercOnBackground = 0.05;
-		double errorPercOnPlantedTrics = 0.02;
+		double errorPercOnBackground = 0.0;
+		double errorPercOnPlantedTrics = 0.0;
 		
 		generatedDataset.plantMissingElements(missingPercOnBackground, missingPercOnPlantedTrics);
 		generatedDataset.plantNoisyElements(noisePercOnBackground, noisePercOnPlantedTrics, noiseDeviation);
@@ -459,8 +464,8 @@ public class GenerateDataset{
 					+ "_" + numRows + "x" + numCols + "x" + numCtxs;
 		}
 		else {
-			tricDataFileName = "dataset_5_trics";
-			datasetFileName = "dataset_5_data";
+			tricDataFileName = "dataset_test_op_up_reg_trics";
+			datasetFileName = "dataset_test_op_up_reg_data";
 		}
 		 
 		//Tests.testMissingNoiseError(generatedDataset);
@@ -469,7 +474,7 @@ public class GenerateDataset{
 		//System.out.println("Errors: " + Arrays.toString(generatedDataset.getErrorElements().toArray()));
 		
 		GTricService serv = new GTricService();
-		serv.setPath("/Users/atticus/git/pyTriclustering/G-Tric/");
+		serv.setPath("/Users/atticus/git/G-Tric/G-Tric/temp/");
 		serv.setSingleFileOutput(true);
 		serv.saveResult(generatedDataset, tricDataFileName, datasetFileName);
 

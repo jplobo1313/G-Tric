@@ -37,6 +37,7 @@ import com.gtric.types.Contiguity;
 import com.gtric.types.Distribution;
 import com.gtric.types.PatternType;
 import com.gtric.types.PlaidCoherency;
+import com.gtric.types.TimeProfile;
 import com.gtric.utils.IOUtils;
 import com.gtric.utils.QualitySettings;
 import com.gtric.utils.OverlappingSettings;
@@ -55,6 +56,7 @@ public class GTricService extends Observable implements Observer {
 		String rowPattern;
 		String columnPattern;
 		String contextPattern;
+		String timeProfile;
 		String imagePath;
 		
 		public TriclusterPatternWrapper(String rowPattern, String columnPattern, String contextPattern,
@@ -62,6 +64,15 @@ public class GTricService extends Observable implements Observer {
 			this.rowPattern = rowPattern;
 			this.columnPattern = columnPattern;
 			this.contextPattern = contextPattern;
+			this.imagePath = imagePath;
+		}
+		
+		public TriclusterPatternWrapper(String rowPattern, String columnPattern, String contextPattern,
+				String timeProfile, String imagePath) {
+			this.rowPattern = rowPattern;
+			this.columnPattern = columnPattern;
+			this.contextPattern = contextPattern;
+			this.timeProfile = timeProfile;
 			this.imagePath = imagePath;
 		}
 
@@ -81,6 +92,20 @@ public class GTricService extends Observable implements Observer {
 			return imagePath;
 		}
 		
+		/**
+		 * @return the timeProfile
+		 */
+		public String getTimeProfile() {
+			return timeProfile;
+		}
+
+		/**
+		 * @param timeProfile the timeProfile to set
+		 */
+		public void setTimeProfile(String timeProfile) {
+			this.timeProfile = timeProfile;
+		}
+
 		public String toString() {
 			return rowPattern + "|" + columnPattern + "|" + contextPattern;
 		}
@@ -511,6 +536,8 @@ public class GTricService extends Observable implements Observer {
 		for(TriclusterPatternWrapper p : patterns) {
 			TriclusterPattern tp = new TriclusterPattern(getPatternType(p.rowPattern), getPatternType(p.columnPattern),
 					getPatternType(p.contextPattern));
+			if(tp.getContextsPattern().equals(PatternType.ORDER_PRESERVING))
+				tp.setTimeProfile(getTimeProfile(p.getTimeProfile()));
 			System.out.println(getPatternType(p.rowPattern));
 			this.tricPatterns.add(tp);
 		}
@@ -530,6 +557,20 @@ public class GTricService extends Observable implements Observer {
 			res = PatternType.ORDER_PRESERVING;
 		else
 			res = PatternType.NONE;
+		
+		return res;
+	}
+	
+	private TimeProfile getTimeProfile(String type) {
+		
+		TimeProfile res = null;
+		System.out.println(type);
+		if(type.contains("Random"))
+			res = TimeProfile.RANDOM;
+		else if(type.contains("Up-Regulated"))
+			res = TimeProfile.UP_REGULATED;
+		else
+			res = TimeProfile.DOWN_REGULATED;
 		
 		return res;
 	}
@@ -796,6 +837,10 @@ public class GTricService extends Observable implements Observer {
 		this.triclustersJSON = this.triclustersJSON.getJSONObject("Triclusters");
 		
 		int threshold = generatedDataset.getNumRows() / 10;
+		
+		if (threshold == 0)
+			threshold++;
+		
 		int step = generatedDataset.getNumRows() / threshold;
 
 		ExecutorService es = null;
@@ -843,6 +888,10 @@ public class GTricService extends Observable implements Observer {
 		this.triclustersJSON = this.triclustersJSON.getJSONObject("Triclusters");
 
 		int threshold = generatedDataset.getNumRows() / 10;
+		
+		if (threshold == 0)
+			threshold++;
+		
 		int step = generatedDataset.getNumRows() / threshold;
 
 		ExecutorService es = null;

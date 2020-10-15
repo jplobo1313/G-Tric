@@ -1,12 +1,16 @@
 package com.gtric.utils;
 
 import java.io.File;
+import java.util.Arrays;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -19,18 +23,34 @@ public class TriclusterPatternTableView {
 	private String columnPattern;
 	private String contextPattern;
 	private String imageName;
+	private ComboBox<String> timeProfile;
 	private Button example;
 	private CheckBox select;
 	
 	public TriclusterPatternTableView(Integer num, String rowPattern, String columnPattern, String contextPattern, String imageName,
-			Button example, CheckBox select) {
+			ComboBox<String> timeProfile, Button example, CheckBox select) {
 		this.num = num;
 		this.rowPattern = rowPattern;
 		this.columnPattern = columnPattern;
 		this.contextPattern = contextPattern;
+		this.timeProfile = timeProfile;
 		this.select = select;
 		this.example = example;
 		this.imageName = imageName;
+		
+		
+		final ObservableList<String> timeProfiles = FXCollections.observableArrayList();
+		String[] array = {"Random", "Up-Regulated", "Down-Regulated"};
+		Arrays.asList(array).forEach(t->timeProfiles.add(t));
+		
+		
+		this.timeProfile.setItems(timeProfiles);
+		this.timeProfile.setValue(timeProfiles.get(0)); 
+		
+		if(!this.contextPattern.equals("Order Preserving")) {
+			this.timeProfile.setDisable(true);
+			this.timeProfile.setValue("Not applicable");
+		}
 		
 		this.example.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -106,6 +126,20 @@ public class TriclusterPatternTableView {
 	
 	public Integer getNum() {
 		return this.num;
+	}
+
+	/**
+	 * @return the timeProfile
+	 */
+	public ComboBox<String> getTimeProfile() {
+		return timeProfile;
+	}
+
+	/**
+	 * @param timeProfile the timeProfile to set
+	 */
+	public void setTimeProfile(ComboBox<String> timeProfile) {
+		this.timeProfile = timeProfile;
 	}
 	
 }

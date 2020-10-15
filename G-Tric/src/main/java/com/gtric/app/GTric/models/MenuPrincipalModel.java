@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 
 public class MenuPrincipalModel {
 
@@ -175,7 +176,7 @@ public class MenuPrincipalModel {
 		int i = 1;
 		for(TriclusterPatternWrapper p : gTricService.getNumericPatterns()) {
 			TriclusterPatternTableView t = new TriclusterPatternTableView(i, p.getRowPattern(), p.getColumnPattern(), 
-					p.getContextPattern(), p.getImagePath(), new Button("See"), new CheckBox());
+					p.getContextPattern(), p.getImagePath(), new ComboBox<String>(), new Button("See"), new CheckBox());
 			
 			if(i == 1)
 				t.getSelect().setSelected(true);
@@ -188,7 +189,7 @@ public class MenuPrincipalModel {
 		i = 1;
 		for(TriclusterPatternWrapper p : gTricService.getSymbolicPatterns()) {
 			TriclusterPatternTableView t = new TriclusterPatternTableView(i, p.getRowPattern(), p.getColumnPattern(), 
-					p.getContextPattern(), p.getImagePath(), new Button("See"), new CheckBox());
+					p.getContextPattern(), p.getImagePath(), new ComboBox<String>(), new Button("See"), new CheckBox());
 			
 			if(i == 1)
 				t.getSelect().setSelected(true);

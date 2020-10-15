@@ -125,6 +125,7 @@ public class MenuPrincipalController{
 	@FXML private TableColumn<TriclusterPatternTableView, String> rowTC;
 	@FXML private TableColumn<TriclusterPatternTableView, String> columnTC;
 	@FXML private TableColumn<TriclusterPatternTableView, String> contextTC;
+	@FXML private TableColumn<TriclusterPatternTableView, ComboBox<String>> timeProfileTC;
 	@FXML private TableColumn<TriclusterPatternTableView, Label> exampleTC;
 	@FXML private TableColumn<TriclusterPatternTableView, CheckBox> selectTC;
 	ObservableList<TriclusterPatternTableView> patternList;
@@ -277,6 +278,7 @@ public class MenuPrincipalController{
 		this.rowTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, String>("rowPattern"));
 		this.columnTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, String>("columnPattern"));
 		this.contextTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, String>("contextPattern"));
+		this.timeProfileTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, ComboBox<String>>("timeProfile"));
 		this.exampleTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, Label>("example"));
 		this.selectTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, CheckBox>("select"));
 
@@ -618,6 +620,7 @@ public class MenuPrincipalController{
 		this.rowTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, String>("rowPattern"));
 		this.columnTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, String>("columnPattern"));
 		this.contextTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, String>("contextPattern"));
+		this.timeProfileTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, ComboBox<String>>("timeProfile"));
 		this.exampleTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, Label>("example"));
 		this.selectTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, CheckBox>("select"));
 	}
@@ -635,6 +638,7 @@ public class MenuPrincipalController{
 		this.rowTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, String>("rowPattern"));
 		this.columnTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, String>("columnPattern"));
 		this.contextTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, String>("contextPattern"));
+		this.timeProfileTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, ComboBox<String>>("timeProfile"));
 		this.exampleTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, Label>("example"));
 		this.selectTC.setCellValueFactory(new PropertyValueFactory<TriclusterPatternTableView, CheckBox>("select"));
 
@@ -740,8 +744,11 @@ public class MenuPrincipalController{
 
 				for(TriclusterPatternTableView p : availablePatterns) {
 					if(p.getSelect().isSelected()) {
-						System.out.println("hi");
-						TriclusterPatternWrapper tric = this.gTricService.new TriclusterPatternWrapper(p.getRowPattern(), p.getColumnPattern(), p.getContextPattern(), null);
+						TriclusterPatternWrapper tric;
+						if(p.getContextPattern().equals("Order Preserving"))
+							tric = this.gTricService.new TriclusterPatternWrapper(p.getRowPattern(), p.getColumnPattern(), p.getContextPattern(), p.getTimeProfile().getValue(), null);
+						else
+							tric = this.gTricService.new TriclusterPatternWrapper(p.getRowPattern(), p.getColumnPattern(), p.getContextPattern(), null);
 						System.out.println(tric.toString());
 						listPatterns.add(tric);
 					}

@@ -7,6 +7,7 @@
 package com.gtric.generator;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import com.gtric.types.Background;
 import com.gtric.types.Contiguity;
 import com.gtric.types.PatternType;
 import com.gtric.types.PlaidCoherency;
+import com.gtric.types.TimeProfile;
 import com.gtric.utils.BicMath;
 import com.gtric.utils.OverlappingSettings;
 import com.gtric.utils.TriclusterPattern;
@@ -132,6 +134,7 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 			PatternType rowType = currentPattern.getRowsPattern();
 			PatternType columnType = currentPattern.getColumnsPattern();
 			PatternType contextType = currentPattern.getContextsPattern();
+			TimeProfile timeProfile = currentPattern.getTimeProfile();
 			
 			Map<String, Integer> structure = generateTricStructure(tricStructure, numRows, numCols, numConts);
 			
@@ -232,7 +235,13 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 				Arrays.parallelSort(bicsConts[k]);
 				
 				SymbolicBicluster bicK = new SymbolicBicluster(BicMath.getSet(bicsRows[k]), BicMath.getSet(bicsCols[k]), rowType, columnType);
-				SymbolicTricluster tricK = new SymbolicTricluster(k, bicK, contextType);
+				
+				SymbolicTricluster tricK;
+				
+				if(contextType.equals(PatternType.ORDER_PRESERVING))
+					tricK = new SymbolicTricluster(k, bicK, contextType, timeProfile);
+				else
+					tricK = new SymbolicTricluster(k, bicK, contextType);
 	
 				/** PART VI: generate biclusters coherencies **/
 				String[][][] bicsymbols = new String[bicsConts[k].length][bicsRows[k].length][bicsCols[k].length];
@@ -263,6 +272,14 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 				else if(contextType.equals(PatternType.ORDER_PRESERVING)) {
 					bicsymbols = new String[bicsCols[k].length][bicsRows[k].length][bicsConts[k].length];
 					
+					Integer[] order = null;
+					if(timeProfile.equals(TimeProfile.RANDOM)) {
+						order = new Integer[bicsConts[k].length];
+						for(int i = 0; i < bicsConts[k].length; i++)
+							order[i] = i;
+						Collections.shuffle(Arrays.asList(order));
+					}
+					
 					for(int ctx = 0; ctx < numColsTrics; ctx++) {
 						for(int row = 0; row < numRowsTrics; row++) {
 							for (int col = 0; col < numContsTrics; col++) {
@@ -271,10 +288,19 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 								if(ctx == 0 && row == 0)
 									tricK.addContext(bicsConts[k][col]);
 							}
-								
-							Arrays.sort(bicsymbols[ctx][row]);
+							
+							if(timeProfile.equals(TimeProfile.RANDOM)) {
+								Arrays.parallelSort(bicsymbols[ctx][row]);
+								bicsymbols[ctx][row] = shuffle(order, bicsymbols[ctx][row]);
+							}
+							else if(timeProfile.equals(TimeProfile.UP_REGULATED))
+								Arrays.sort(bicsymbols[ctx][row]);
+							
+							else
+								Arrays.sort(bicsymbols[ctx][row], Collections.reverseOrder());
 						}
 					}
+					
 					bicsymbols = transposeMatrix(bicsymbols, "z", "y");
 				}
 				else if(rowType.equals(PatternType.CONSTANT) && columnType.equals(PatternType.CONSTANT) && 
@@ -378,6 +404,17 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 			}
 		}
 		return data;
+	}
+	
+	private  String[] shuffle(Integer[] order, String[] array) {
+		
+		String[] newArray = new String[array.length];
+		
+		for(int i = 0; i < order.length; i++) {
+			newArray[order[i]] = array[i];
+		}
+		
+		return newArray;
 	}
 	
 	

@@ -15,12 +15,14 @@ import org.json.JSONObject;
 import com.gtric.domain.dataset.Dataset;
 import com.gtric.types.PatternType;
 import com.gtric.types.PlaidCoherency;
+import com.gtric.types.TimeProfile;
 
 public abstract class Tricluster {
 	
 	private int id;
 	
 	private PatternType contextPattern;
+	private TimeProfile timeProfile;
 	private PlaidCoherency plaidPattern;
 	
 	private int numOfMissings;
@@ -37,6 +39,17 @@ public abstract class Tricluster {
 		
 		this.id = id;
 		this.contextPattern = contextPattern;
+		this.plaidPattern = plaidPattern;
+		this.numOfMissings = 0;
+		this.numOfNoisy = 0;
+		this.numOfErrors = 0;
+	}
+	
+	public Tricluster(PatternType contextPattern, TimeProfile timeProfile, PlaidCoherency plaidPattern, int id) {
+		
+		this.id = id;
+		this.contextPattern = contextPattern;
+		this.timeProfile = timeProfile;
 		this.plaidPattern = plaidPattern;
 		this.numOfMissings = 0;
 		this.numOfNoisy = 0;
@@ -67,6 +80,20 @@ public abstract class Tricluster {
 	 */
 	public abstract Set<Integer> getContexts();
 	
+	/**
+	 * @return the timeProfile
+	 */
+	public TimeProfile getTimeProfile() {
+		return timeProfile;
+	}
+
+	/**
+	 * @param timeProfile the timeProfile to set
+	 */
+	public void setTimeProfile(TimeProfile timeProfile) {
+		this.timeProfile = timeProfile;
+	}
+
 	/**
 	 * Get the triclster's ID
 	 * @return The ID

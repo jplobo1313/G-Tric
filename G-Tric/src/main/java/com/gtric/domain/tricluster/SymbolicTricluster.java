@@ -23,6 +23,7 @@ import com.gtric.domain.dataset.Dataset;
 import com.gtric.domain.dataset.SymbolicDataset;
 import com.gtric.types.PatternType;
 import com.gtric.types.PlaidCoherency;
+import com.gtric.types.TimeProfile;
 
 public class SymbolicTricluster extends Tricluster {
 
@@ -37,6 +38,12 @@ public class SymbolicTricluster extends Tricluster {
 	 */
 	public SymbolicTricluster(int id, SymbolicBicluster template, PatternType contextPattern) {
 		super(contextPattern, PlaidCoherency.NONE, id);
+		this.template = template;
+		this.contexts = new ArrayList<>();
+	}
+	
+	public SymbolicTricluster(int id, SymbolicBicluster template, PatternType contextPattern, TimeProfile timeProfile) {
+		super(contextPattern, timeProfile, PlaidCoherency.NONE, id);
 		this.template = template;
 		this.contexts = new ArrayList<>();
 	}
@@ -171,6 +178,8 @@ public class SymbolicTricluster extends Tricluster {
 		double noisePerc = ((double) this.getNumberOfNoisy()) / ((double) this.getSize()) * 100;
 		double errorsPerc = ((double) this.getNumberOfErrors()) / ((double) this.getSize()) * 100;
 		
+		if(super.getContextPattern().equals(PatternType.ORDER_PRESERVING))
+			res.append(" Time Profile=" + super.getTimeProfile() + ",");
 		
 		res.append(" %Missings=" + df.format(missingsPerc) + ",");
 		res.append(" %Noise=" + df.format(noisePerc) + ",");

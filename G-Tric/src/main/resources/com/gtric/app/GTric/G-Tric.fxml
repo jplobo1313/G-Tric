@@ -28,9 +28,9 @@
    <children>
       <VBox layoutX="155.0" layoutY="40.0" prefHeight="479.0" prefWidth="660.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TabPane prefHeight="802.0" prefWidth="1300.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane prefHeight="802.0" prefWidth="1500.0" style="-fx-tab-min-width: 165px; -fx-tab-min-height: 30px;" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Dataset Properties">
+                <Tab style="-fx-font-size: 16;" text="Dataset Properties">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="696.0" prefWidth="1300.0">
                            <children>
@@ -108,8 +108,8 @@
                                        <font>
                                           <Font size="17.0" />
                                        </font></TextField>
-                                    <ComboBox fx:id="dataTypeCB" editable="true" onAction="#dataTypeSelecionado" prefHeight="32.0" prefWidth="163.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                                    <ComboBox fx:id="backgroundTypeCB" editable="true" onAction="#backgroundTypeSelecionado" prefHeight="32.0" prefWidth="163.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <ComboBox fx:id="dataTypeCB" editable="true" onAction="#dataTypeSelecionado" prefHeight="32.0" prefWidth="163.0" style="-fx-font-size: 18px;" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                    <ComboBox fx:id="backgroundTypeCB" editable="true" onAction="#backgroundTypeSelecionado" prefHeight="32.0" prefWidth="163.0" style="-fx-font-size: 18px;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                     <Label text="Dataset Type:" GridPane.rowIndex="3">
                                        <font>
                                           <Font size="18.0" />
@@ -130,7 +130,7 @@
                                        <font>
                                           <Font size="18.0" />
                                        </font></Label>
-                                    <ComboBox fx:id="symbolTypeCB" editable="true" minHeight="-Infinity" minWidth="-Infinity" onAction="#symbolTypeSelected" prefHeight="32.0" prefWidth="163.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                    <ComboBox fx:id="symbolTypeCB" editable="true" minHeight="-Infinity" minWidth="-Infinity" onAction="#symbolTypeSelected" prefHeight="32.0" prefWidth="163.0" style="-fx-font-size: 18px;" GridPane.columnIndex="3" GridPane.rowIndex="3">
                                        <styleClass>
                                           <String fx:value="combo-box-base" />
                                           <String fx:value="text" />
@@ -149,7 +149,7 @@
                                        </font></TextField>
                                     <Pane fx:id="discreteProbsPane" prefHeight="272.0" prefWidth="283.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
                                        <children>
-                                          <TableView fx:id="discreteProbsTV" layoutY="32.0" prefHeight="296.0" prefWidth="353.0">
+                                          <TableView fx:id="discreteProbsTV" layoutY="32.0" prefHeight="296.0" prefWidth="353.0" style="-fx-font-size: 18px;">
                                             <columns>
                                               <TableColumn fx:id="symbolTC" prefWidth="181.0" text="Symbol" />
                                               <TableColumn fx:id="probTC" prefWidth="170.0" text="Probability" />
@@ -193,7 +193,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Triclusters Properties">
+                <Tab style="-fx-font-size: 16; -fx-tab-min-width: 100px;" text="Triclusters Properties">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="750.0" prefWidth="1300.0">
                            <children>
@@ -229,7 +229,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </TextField>
-                                    <ComboBox fx:id="rowStructureDistCB" editable="true" layoutX="230.0" layoutY="131.0" onAction="#rowStructureDistSelecionada" prefHeight="32.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="rowStructureDistCB" editable="true" layoutX="230.0" layoutY="131.0" onAction="#rowStructureDistSelecionada" prefHeight="32.0" prefWidth="200.0" style="-fx-font-size: 18px;" />
                                     <Label layoutX="40.0" layoutY="42.0" text="Number of Triclusters:">
                                        <font>
                                           <Font size="18.0" />
@@ -270,7 +270,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </TextField>
-                                    <ComboBox fx:id="columnStructureDistCB" editable="true" layoutX="230.0" layoutY="321.0" onAction="#columnStructureDistSelecionada" prefHeight="32.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="columnStructureDistCB" editable="true" layoutX="230.0" layoutY="321.0" onAction="#columnStructureDistSelecionada" prefHeight="32.0" prefWidth="200.0" style="-fx-font-size: 18px;" />
                                     <Text layoutX="40.0" layoutY="495.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contexts Structure:">
                                        <font>
                                           <Font size="20.0" />
@@ -301,13 +301,13 @@
                                           <Font size="18.0" />
                                        </font>
                                     </TextField>
-                                    <ComboBox fx:id="contextStructureDistCB" editable="true" layoutX="230.0" layoutY="511.0" onAction="#contextStructureDistSelecionada" prefHeight="32.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="contextStructureDistCB" editable="true" layoutX="230.0" layoutY="511.0" onAction="#contextStructureDistSelecionada" prefHeight="32.0" prefWidth="200.0" style="-fx-font-size: 18px;" />
                                     <Label layoutX="40.0" layoutY="684.0" text="Contiguity:">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="contiguityCB" editable="true" layoutX="230.0" layoutY="680.0" onAction="#contiguitySelecionada" prefHeight="32.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="contiguityCB" editable="true" layoutX="230.0" layoutY="680.0" onAction="#contiguitySelecionada" prefHeight="32.0" prefWidth="200.0" style="-fx-font-size: 18px;" />
                                     <Separator layoutX="24.0" layoutY="266.0" prefHeight="13.0" prefWidth="501.0" />
                                     <Separator layoutX="14.0" layoutY="76.0" prefHeight="13.0" prefWidth="501.0" />
                                     <Separator layoutX="24.0" layoutY="463.0" prefHeight="13.0" prefWidth="501.0" />
@@ -317,18 +317,19 @@
                            </children></AnchorPane>
                   </content>
                 </Tab>
-                  <Tab text="Triclusters Patterns">
+                  <Tab style="-fx-font-size: 16; -fx-tab-min-width: 100px;" text="Triclusters Patterns">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="patternsTV" layoutX="24.0" layoutY="24.0" prefHeight="516.0" prefWidth="840.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="patternsTV" layoutX="24.0" layoutY="24.0" prefHeight="516.0" prefWidth="840.0" style="-fx-font-size: 18px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                     <TableColumn fx:id="numTC" prefWidth="39.0" style="-fx-alignment: CENTER;" text="#" />
-                                  <TableColumn fx:id="rowTC" prefWidth="254.0" style="-fx-alignment: CENTER;" text="Row Pattern" />
-                                  <TableColumn fx:id="columnTC" minWidth="0.0" prefWidth="339.0" style="-fx-alignment: CENTER;" text="Columns Pattern" />
-                                    <TableColumn fx:id="contextTC" minWidth="0.0" prefWidth="279.0" style="-fx-alignment: CENTER;" text="Context Pattern" />
-                                    <TableColumn fx:id="exampleTC" minWidth="0.0" prefWidth="204.0" style="-fx-alignment: CENTER;" text="Example" />
-                                    <TableColumn fx:id="selectTC" prefWidth="184.0" style="-fx-alignment: CENTER;" text="Select" />
+                                  <TableColumn fx:id="rowTC" prefWidth="199.0" style="-fx-alignment: CENTER;" text="Row Pattern" />
+                                  <TableColumn fx:id="columnTC" minWidth="0.0" prefWidth="241.0" style="-fx-alignment: CENTER;" text="Columns Pattern" />
+                                    <TableColumn fx:id="contextTC" minWidth="0.0" prefWidth="230.0" style="-fx-alignment: CENTER;" text="Context Pattern" />
+                                    <TableColumn fx:id="timeProfileTC" minWidth="0.0" prefWidth="228.0" style="-fx-alignment: CENTER;" text="Time Profile" />
+                                    <TableColumn fx:id="exampleTC" maxWidth="187.0" minWidth="0.0" prefWidth="184.0" style="-fx-alignment: CENTER;" text="Example" />
+                                    <TableColumn fx:id="selectTC" prefWidth="178.0" style="-fx-alignment: CENTER;" text="Select" />
                                 </columns>
                                  <opaqueInsets>
                                     <Insets />
@@ -337,7 +338,7 @@
                            </children></AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Overlapping">
+                  <Tab style="-fx-font-size: 16; -fx-tab-min-width: 100px;" text="Overlapping">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -378,7 +379,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="plaidCoherencyCB" editable="true" layoutX="415.0" layoutY="129.0" onAction="#plaidCoherencySelecionada" prefHeight="32.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="plaidCoherencyCB" editable="true" layoutX="415.0" layoutY="129.0" onAction="#plaidCoherencySelecionada" prefHeight="32.0" prefWidth="200.0" style="-fx-font-size: 18px;" />
                                     <TextField fx:id="percOverlappingTricsTF" layoutX="415.0" layoutY="191.0" prefHeight="32.0" prefWidth="200.0">
                                        <font>
                                           <Font size="18.0" />
@@ -438,7 +439,7 @@
                            </children></AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Quality">
+                  <Tab style="-fx-font-size: 16; -fx-tab-min-width: 100px;" text="Quality">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -559,7 +560,7 @@
                            </children></AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Output">
+                  <Tab style="-fx-font-size: 16; -fx-tab-min-width: 100px;" text="Output">
                      <content>
                         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="786.0" prefWidth="1300.0">
                            <children>
@@ -663,18 +664,18 @@
                            </children></AnchorPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="visualizationTab" disable="true" text="Visualization">
+                  <Tab fx:id="visualizationTab" disable="true" style="-fx-font-size: 16; -fx-tab-min-width: 100px;" text="Visualization">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <TextFlow fx:id="tricSummaryTF" layoutX="48.0" layoutY="139.0" prefHeight="590.0" prefWidth="563.0" />
-                              <TableView fx:id="heatMapTV" layoutX="625.0" layoutY="137.0" prefHeight="593.0" prefWidth="635.0">
+                              <TableView fx:id="heatMapTV" layoutX="625.0" layoutY="137.0" prefHeight="593.0" prefWidth="635.0" style="-fx-font-size: 18px;">
                                 <columns>
                                   <TableColumn fx:id="contextIDTC" prefWidth="322.0" style="-fx-alignment: CENTER;" text="Context ID" />
                                   <TableColumn fx:id="showButtonTC" prefWidth="312.0" style="-fx-alignment: CENTER;" text="Visualization" />
                                 </columns>
                               </TableView>
-                              <ComboBox fx:id="tricIDCB" editable="true" layoutX="142.0" layoutY="70.0" onAction="#changeTriclusterVisualization" prefHeight="32.0" prefWidth="200.0" />
+                              <ComboBox fx:id="tricIDCB" editable="true" layoutX="142.0" layoutY="70.0" onAction="#changeTriclusterVisualization" prefHeight="32.0" prefWidth="200.0" style="-fx-font-size: 18px;" />
                               <Text layoutX="46.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tricluster:">
                                  <font>
                                     <Font size="18.0" />

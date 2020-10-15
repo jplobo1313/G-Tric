@@ -23,6 +23,7 @@ import com.gtric.domain.dataset.Dataset;
 import com.gtric.domain.dataset.NumericDataset;
 import com.gtric.types.PatternType;
 import com.gtric.types.PlaidCoherency;
+import com.gtric.types.TimeProfile;
 
 public class NumericTricluster<T extends Number> extends Tricluster {
 
@@ -39,6 +40,17 @@ public class NumericTricluster<T extends Number> extends Tricluster {
 	 */
 	public NumericTricluster(int id, NumericBicluster<T> template, PatternType contextPattern, PlaidCoherency plaidPattern, int[] tricContexts) {
 		super(contextPattern, plaidPattern, id);
+		this.template = template;
+		this.contexts = new ArrayList<>();
+
+		for(int c : tricContexts)
+			contexts.add(new Slice<T>(c));
+
+	}
+	
+	public NumericTricluster(int id, NumericBicluster<T> template, PatternType contextPattern, TimeProfile timeProfile,
+			PlaidCoherency plaidPattern, int[] tricContexts) {
+		super(contextPattern, timeProfile, plaidPattern, id);
 		this.template = template;
 		this.contexts = new ArrayList<>();
 
@@ -310,6 +322,8 @@ public class NumericTricluster<T extends Number> extends Tricluster {
 		double noisePerc = ((double) this.getNumberOfNoisy()) / ((double) this.getSize()) * 100;
 		double errorsPerc = ((double) this.getNumberOfErrors()) / ((double) this.getSize()) * 100;
 		
+		if(super.getContextPattern().equals(PatternType.ORDER_PRESERVING))
+			res.append(" Time Profile=" + super.getTimeProfile() + ",");
 		
 		res.append(" %Missings=" + df.format(missingsPerc) + ",");
 		res.append(" %Noise=" + df.format(noisePerc) + ",");

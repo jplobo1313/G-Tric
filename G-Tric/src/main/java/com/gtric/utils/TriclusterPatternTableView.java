@@ -40,7 +40,7 @@ public class TriclusterPatternTableView {
 		
 		
 		final ObservableList<String> timeProfiles = FXCollections.observableArrayList();
-		String[] array = {"Random", "Up-Regulated", "Down-Regulated"};
+		String[] array = {"Random", "Monotonically Increasing", "Monotonically Decreasing"};
 		Arrays.asList(array).forEach(t->timeProfiles.add(t));
 		
 		

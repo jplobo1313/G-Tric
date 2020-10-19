@@ -8,8 +8,8 @@
         <num_ctxs>2844</num_ctxs>
 		<background>DISCRETE</background>
         <background_probabilities>
-        <probabily symbol="0">0.7</probabily>
-        <probabily symbol="1">0.3</probabily>
+        <probability symbol="0">0.7</probability>
+        <probability symbol="1">0.3</probability>
         </background_probabilities>
         <alphabet>0,1</alphabet>
     </dataset_properties>

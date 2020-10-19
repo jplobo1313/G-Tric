@@ -2,8 +2,8 @@ package com.gtric.types;
 
 public enum TimeProfile {
 	RANDOM ("Random"), 
-	UP_REGULATED ("Up-Regulated"), 
-	DOWN_REGULATED ("Down-Regulated");
+	MONONICALLY_INCREASING ("Monotonically Increasing"), 
+	MONONICALLY_DECREASING ("Monotonically Decreasing");
 	
 	private final String name;
 	

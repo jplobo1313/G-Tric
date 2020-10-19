@@ -8,13 +8,13 @@
         <num_ctxs>100</num_ctxs>
         <alphabet>1,2,3,4,5</alphabet>
 		<background>DISCRETE</background>
-		<background_probabilites>
-            <probabilty symbol="1">0.1</probabilty>
-            <probabilty symbol="2">0.15</probabilty>
-            <probabilty symbol="3">0.3</probabilty>
-            <probabilty symbol="4">0.3</probabilty>
-            <probabilty symbol="5">0.15</probabilty>
-        </background_probabilites>
+		<background_probabilities>
+            <probability symbol="1">0.1</probability>
+            <probability symbol="2">0.15</probability>
+            <probability symbol="3">0.3</probability>
+            <probability symbol="4">0.3</probability>
+            <probability symbol="5">0.15</probability>
+        </background_probabilities>
 	</dataset_properties>
 	<triclusters_properties>
         <num_trics>12000</num_trics>

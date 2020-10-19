@@ -215,7 +215,8 @@ public class MenuPrincipalController{
 
 		this.symbolicTypeRB.setSelected(true);
 		this.symbolTypeParamTF.textProperty().bindBidirectional(model.getNumberOfSymbolsProperty(), new NumberStringConverter());
-
+		this.symbolTypeParamTF.textProperty().setValue("10");
+		
 		this.symbolTypeParamTF.focusedProperty().addListener((obs, oldText, newText) -> {
 			if(newText == false && oldText == true && model.getBackgroundTypeEscolhido().equals("Discrete")) {
 				initDiscreteTable();
@@ -1017,12 +1018,19 @@ public class MenuPrincipalController{
 							Text rowPattern = new Text("Row Pattern:\t\t" + tric.getString("RowPattern").toString() + "\n\n");
 							Text colPattern = new Text("Column Pattern:\t" + tric.getString("ColumnPattern").toString() + "\n\n");
 							Text ctxPattern = new Text("Context Pattern:\t" + tric.getString("ContextPattern").toString() + "\n\n");
-
+							
 							rowPattern.setFont(Font.font("System", FontPosture.REGULAR, 14));
 							colPattern.setFont(Font.font("System", FontPosture.REGULAR, 14));
 							ctxPattern.setFont(Font.font("System", FontPosture.REGULAR, 14));
 							
 							tricSummaryTF.getChildren().addAll(title, dimensions, rows, cols, ctxs, rowPattern, colPattern, ctxPattern);
+							
+							if(tric.getString("ContextPattern").toString().equals("OrderPreserving")) {
+								Text timeProfile = new Text("Time Profile:\t\t" + tric.getString("TimeProfile").toString() + "\n\n");
+								timeProfile.setFont(Font.font("System", FontPosture.REGULAR, 14));
+								tricSummaryTF.getChildren().add(timeProfile);
+							}
+							
 							
 							if(tric.has("Seed")) {
 								Text seed = new Text("Seed:\t\t\t\t" + tric.getString("Seed").toString() + "\n\n");

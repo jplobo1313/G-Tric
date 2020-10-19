@@ -23,6 +23,7 @@ import com.gtric.types.Contiguity;
 import com.gtric.types.Distribution;
 import com.gtric.types.PatternType;
 import com.gtric.types.PlaidCoherency;
+import com.gtric.types.TimeProfile;
 import com.gtric.utils.InputValidation;
 import com.gtric.utils.OverlappingSettings;
 import com.gtric.utils.QualitySettings;
@@ -45,43 +46,43 @@ public class DatasetGenerator {
 	    }
 		
 	    //Real World data
-		generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_1.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_2.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_3.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_4.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_5.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_1.xml"));
+	    //generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_2.xml"));
+	    generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_3.xml"));
+	    //generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_4.xml"));
+	    //generateDatasetByConfig(load_config_file("config_files/Real World/dataset_real_world_5.xml"));
 		
 		//Base
-		generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_R.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_R.xml"));
 		generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_S.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_B.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_C.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_B.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Base/dataset_base_C.xml"));
 		
 		//Overlapping
-		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_R_overlapping_low.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_R_overlapping_high.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_S_overlapping_low.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_S_overlapping_high.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_B_overlapping_low.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_B_overlapping_high.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_R_overlapping_low.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_R_overlapping_high.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_S_overlapping_low.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_S_overlapping_high.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_B_overlapping_low.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_B_overlapping_high.xml"));
 		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_C_overlapping_low.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_C_overlapping_high.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Overlapping/dataset_base_C_overlapping_high.xml"));
 		
 		//Quality
-		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_R_quality_low.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_R_quality_low.xml"));
 		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_R_quality_high.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_S_quality_low.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_S_quality_high.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_B_quality_low.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_B_quality_high.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_C_quality_low.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_C_quality_high.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_S_quality_low.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_S_quality_high.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_B_quality_low.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_B_quality_high.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_C_quality_low.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Quality/dataset_base_C_quality_high.xml"));
 		
 		//Rich
-		generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_R.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_S.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_R.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_S.xml"));
 		generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_B.xml"));
-		generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_C.xml"));
+		//generateDatasetByConfig(load_config_file("config_files/Rich/dataset_rich_C.xml"));
 		
 		
 		//generateNumericDataset();
@@ -311,6 +312,12 @@ public class DatasetGenerator {
 			TriclusterPattern p = new TriclusterPattern(PatternType.valueOf(patternInfo.getElementsByTagName("rows").item(0).getTextContent()),
 					PatternType.valueOf(patternInfo.getElementsByTagName("cols").item(0).getTextContent()),
 					PatternType.valueOf(patternInfo.getElementsByTagName("ctxs").item(0).getTextContent()));
+			
+			if(p.getContextsPattern().equals(PatternType.ORDER_PRESERVING)) {
+				TimeProfile tp = TimeProfile.valueOf(patternInfo.getElementsByTagName("time_profile").item(0).getTextContent());
+				p.setTimeProfile(tp);
+			}
+				
 			patterns.add(p);	
 		}
 		return patterns;

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <dataset>
-    <filename>dataset_real_world_3/filename>
+    <filename>dataset_real_world_3</filename>
     <data_type>real</data_type>
 	<dataset_properties>
 		<num_rows>20</num_rows>
@@ -33,6 +33,7 @@
             <rows>NONE</rows>
             <cols>NONE</cols>
             <ctxs>ORDER_PRESERVING</ctxs>
+            <time_profile>RANDOM</time_profile>
         </pattern>
         <pattern>
             <rows>CONSTANT</rows>

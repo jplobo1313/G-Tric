@@ -323,11 +323,13 @@ public class NumericTricluster<T extends Number> extends Tricluster {
 		double errorsPerc = ((double) this.getNumberOfErrors()) / ((double) this.getSize()) * 100;
 		
 		if(super.getContextPattern().equals(PatternType.ORDER_PRESERVING))
-			res.append(" Time Profile=" + super.getTimeProfile() + ",");
+			res.append(" TimeProfile=" + super.getTimeProfile() + ",");
 		
 		res.append(" %Missings=" + df.format(missingsPerc) + ",");
 		res.append(" %Noise=" + df.format(noisePerc) + ",");
-		res.append(" %Errors=" + df.format(errorsPerc));
+		res.append(" %Errors=" + df.format(errorsPerc) + ",");
+		
+		res.append(" PlaidCoherency=" + super.getPlaidCoherency().toString());
 
 		return res.toString().replace(",]", "]");
 	}
@@ -396,6 +398,9 @@ public class NumericTricluster<T extends Number> extends Tricluster {
 		double noisePerc = ((double) this.getNumberOfNoisy()) / ((double) this.getSize()) * 100;
 		double errorsPerc = ((double) this.getNumberOfErrors()) / ((double) this.getSize()) * 100;
 
+		if(super.getContextPattern().equals(PatternType.ORDER_PRESERVING))
+			tricluster.put("TimeProfile",new String(super.getTimeProfile().toString()));
+		
 		tricluster.put("%Missings", df.format(missingsPerc));
 		tricluster.put("%Noise", df.format(noisePerc));
 		tricluster.put("%Errors", df.format(errorsPerc));

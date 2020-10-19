@@ -843,11 +843,12 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 		PatternType rowType = pattern.getRowsPattern();
 		PatternType columnType = pattern.getColumnsPattern();
 		PatternType contextType = pattern.getContextsPattern();
-
+		
 		if(rowType.equals(PatternType.ORDER_PRESERVING)) {
 
 			bicsymbols = new Double[tricK.getNumContexts()][tricK.getNumCols()][tricK.getNumRows()];
-
+			Integer[] order = generateOrder(tricK.getNumRows());
+				
 			for(int ctx = 0; ctx < tricK.getNumContexts(); ctx++) {
 				for(int col = 0; col < tricK.getNumCols(); col++) {
 
@@ -866,7 +867,8 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 								bicsymbols[ctx][col][row] = (double) bicsymbols[ctx][col][row].intValue();
 						}	
 					}
-					Arrays.sort(bicsymbols[ctx][col]);
+					Arrays.parallelSort(bicsymbols[ctx][col]);
+					bicsymbols[ctx][col] = shuffle(order, bicsymbols[ctx][col]);
 				}
 			}
 			bicsymbols = transposeMatrix(bicsymbols, "x", "y");
@@ -874,7 +876,8 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 		else if(columnType.equals(PatternType.ORDER_PRESERVING)) {
 
 			bicsymbols = new Double[tricK.getNumContexts()][tricK.getNumRows()][tricK.getNumCols()];
-
+			Integer[] order = generateOrder(tricK.getNumCols());
+			
 			for(int ctx = 0; ctx < tricK.getNumContexts(); ctx++) {
 				for(int row = 0; row < tricK.getNumRows(); row++) {
 
@@ -893,21 +896,19 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 								bicsymbols[ctx][row][col] = (double) bicsymbols[ctx][row][col].intValue();
 						}	
 					}
-					Arrays.sort(bicsymbols[ctx][row]);
+					Arrays.parallelSort(bicsymbols[ctx][row]);
+					bicsymbols[ctx][row] = shuffle(order, bicsymbols[ctx][row]);
 				}
 			}
 		}
 		else if(contextType.equals(PatternType.ORDER_PRESERVING)) {
 
 			bicsymbols = new Double[tricK.getNumCols()][tricK.getNumRows()][tricK.getNumContexts()];
-
+			
 			Integer[] order = null;
-			if(timeProfile.equals(TimeProfile.RANDOM)) {
-				order = new Integer[tricK.getNumContexts()];
-				for(int i = 0; i < tricK.getNumContexts(); i++)
-					order[i] = i;
-				Collections.shuffle(Arrays.asList(order));
-			}
+			if(timeProfile.equals(TimeProfile.RANDOM))
+				order = generateOrder(tricK.getNumContexts());
+			
 			
 			for(int col = 0; col < tricK.getNumCols(); col++) {
 				for(int row = 0; row < tricK.getNumRows(); row++) {
@@ -931,7 +932,7 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 						Arrays.parallelSort(bicsymbols[col][row]);
 						bicsymbols[col][row] = shuffle(order, bicsymbols[col][row]);
 					}
-					else if(timeProfile.equals(TimeProfile.UP_REGULATED))
+					else if(timeProfile.equals(TimeProfile.MONONICALLY_INCREASING))
 						Arrays.sort(bicsymbols[col][row]);
 					
 					else
@@ -944,6 +945,14 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 		return bicsymbols;
 	}
 
+	private Integer[] generateOrder(int size) {
+		Integer[] order = new Integer[size];
+		for(int i = 0; i < size; i++)
+			order[i] = i;
+		Collections.shuffle(Arrays.asList(order));
+		return order;
+	}
+	
 	private Double[] shuffle(Integer[] order, Double[] array) {
 		
 		Double[] newArray = new Double[array.length];

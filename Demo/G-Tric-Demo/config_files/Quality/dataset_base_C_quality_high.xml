@@ -33,6 +33,7 @@
             <rows>NONE</rows>
             <cols>NONE</cols>
             <ctxs>ORDER_PRESERVING</ctxs>
+            <time_profile>RANDOM</time_profile>
         </pattern>
         <pattern>
             <rows>CONSTANT</rows>

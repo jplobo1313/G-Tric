@@ -111,7 +111,7 @@
 			        <descriptorRefs>
 			            <descriptorRef>jar-with-dependencies</descriptorRef>
 			        </descriptorRefs>
-			        <finalName>G-Tric-0.0.1</finalName>
+			        <finalName>G-Tric-1.0.1</finalName>
         			<appendAssemblyId>false</appendAssemblyId>
 			    </configuration>
 			</plugin>

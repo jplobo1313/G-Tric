@@ -262,10 +262,10 @@ public class GenerateDataset{
 		long stopTimeBics;
 
 		//num de linhas do dataset
-		int numRows = 5;
+		int numRows = 10;
 		//num de colunas do dataset
-		int numCols = 5;
-		int numCtxs = 5;
+		int numCols = 10;
+		int numCtxs = 10;
 		//num de bics a plantar
 		int numTrics = 3;
 
@@ -273,7 +273,7 @@ public class GenerateDataset{
 		
 		//TODO: limites dos valores do dataset (usar em caso de dataset real)
 		double min = 1;
-		double max = 10;
+		double max = 20;
 
 		//use real valued or integer alphabet
 		boolean realValued = false;
@@ -349,9 +349,9 @@ public class GenerateDataset{
 		//Distribution used to calculate the number of rows/cols/ctxs for a tric (NORMAL or UNIFORM)
 		//Dist args: if dist=UNIFORM, then param1 and param2 represents the min and max, respectively
 		//			 if dist=NORMAL, then param1 and param2 represents the mean and stdDev, respectively
-		tricStructure.setRowsSettings(Distribution.UNIFORM, 2, 2);
-		tricStructure.setColumnsSettings(Distribution.UNIFORM, 2, 2);
-		tricStructure.setContextsSettings(Distribution.UNIFORM, 4, 5);
+		tricStructure.setRowsSettings(Distribution.UNIFORM, 3, 3);
+		tricStructure.setColumnsSettings(Distribution.UNIFORM, 3, 3);
+		tricStructure.setContextsSettings(Distribution.UNIFORM, 3, 3);
 		
 		//Contiguity can occour on COLUMNS or CONTEXTS. To avoid contiguity use NONE
 		tricStructure.setContiguity(Contiguity.NONE);

@@ -568,9 +568,9 @@ public class GTricService extends Observable implements Observer {
 		if(type.contains("Random"))
 			res = TimeProfile.RANDOM;
 		else if(type.contains("Up-Regulated"))
-			res = TimeProfile.UP_REGULATED;
+			res = TimeProfile.MONONICALLY_INCREASING;
 		else
-			res = TimeProfile.DOWN_REGULATED;
+			res = TimeProfile.MONONICALLY_DECREASING;
 		
 		return res;
 	}

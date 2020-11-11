@@ -89,6 +89,7 @@ public class IOUtils {
 		StringBuilder result = new StringBuilder();
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(2);
+		df.setGroupingUsed(false);
 
 		System.out.println("Writing dataset file: " + (step * 10) + "%");
 		

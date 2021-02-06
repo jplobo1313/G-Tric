@@ -207,6 +207,16 @@ public class MenuPrincipalController{
 		this.numContextsTF.textProperty().bindBidirectional(model.getNumContextsProperty(), new NumberStringConverter());
 		this.numContextsTF.textProperty().setValue("100");
 
+		this.numContextsTF.focusedProperty().addListener((obs, oldText, newText) -> {
+			if(newText == false && oldText == true && model.getNumContexts() == 1 ) {
+				enableBiclusteringGeneration();
+			}
+			else
+				disableBiclusteringGeneration();
+			// ...
+		});
+
+		
 		this.dataTypeCB.setItems(model.getDataTypes());
 		this.dataTypeCB.setValue(model.getDataTypeEscolhido());
 
@@ -317,6 +327,41 @@ public class MenuPrincipalController{
 
 		this.triclusterVizData = new HashMap<>();
 	}
+
+	private void enableBiclusteringGeneration() {
+		
+		this.contextStructureDistCB.setValue("Uniform");
+		this.contextStructureDistCB.setDisable(true);
+		this.contextDistParam1TF.setText("1");
+		this.contextDistParam1TF.setDisable(true);
+		this.contextDistParam2TF.setText("1");
+		this.contextDistParam2TF.setDisable(true);
+		this.percOverlappingContextsTF.setText("100");
+		this.percOverlappingContextsTF.setDisable(true);
+		
+		this.model.getContiguity().remove((String) "Contexts");
+		this.contiguityCB.setValue(this.model.getContiguity().get(0));
+	}
+	
+	private void disableBiclusteringGeneration() {
+		
+		this.contextStructureDistCB.setDisable(false);
+		this.contextDistParam1TF.setText("3");
+		this.contextDistParam1TF.setDisable(false);
+		this.contextDistParam2TF.setText("5");
+		this.contextDistParam2TF.setDisable(false);
+		
+		boolean ov = (this.plaidCoherencyCB.getValue() == "No Overlapping");
+		this.percOverlappingContextsLB.setDisable(ov);
+		this.percOverlappingContextsTF.setDisable(ov);
+		
+				
+		
+		this.model.getContiguity().clear();
+		gTricService.getContiguity().forEach(c->this.model.getContiguity().add(c));
+		this.contiguityCB.setValue(this.model.getContiguity().get(0));
+	}
+
 
 	private void setNumericDatasetParametersVisible(boolean b) {
 
@@ -590,8 +635,11 @@ public class MenuPrincipalController{
 			this.percOverlappingRowsTF.setDisable(false);
 			this.percOverlappingColumnsLB.setDisable(false);
 			this.percOverlappingColumnsTF.setDisable(false);
-			this.percOverlappingContextsLB.setDisable(false);
-			this.percOverlappingContextsTF.setDisable(false);
+			if(model.getNumContexts() != 1 ) {
+				this.percOverlappingContextsLB.setDisable(false);
+				this.percOverlappingContextsTF.setDisable(false);
+			}
+			
 		}
 
 	}

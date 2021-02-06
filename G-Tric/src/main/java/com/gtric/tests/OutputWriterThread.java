@@ -19,9 +19,9 @@ public class OutputWriterThread implements Runnable {
 		try {
 			
 			if(symbolicDataset == null)
-				IOUtils.writeFile(path, this.name + "_" + step + ".txt", IOUtils.matrixToStringColOriented(numericDataset, threshold, step, true));
+				IOUtils.writeFile(path, this.name + "_" + step + ".txt", IOUtils.matrixToStringColOriented(numericDataset, threshold, step, true), false);
 			else
-				IOUtils.writeFile(path, this.name + "_" + step + ".txt", IOUtils.matrixToStringColOriented(symbolicDataset, threshold, step, true));
+				IOUtils.writeFile(path, this.name + "_" + step + ".txt", IOUtils.matrixToStringColOriented(symbolicDataset, threshold, step, true), false);
 				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -91,7 +91,7 @@ public class IOUtils {
 		df.setMaximumFractionDigits(2);
 		df.setGroupingUsed(false);
 
-		System.out.println("Writing dataset file: " + (step * 10) + "%");
+		System.out.println("Writing dataset file: " + (((double) step) / (dataset.getNumRows() / threshold) * 100) + "%");
 		
 		if(printHeader) {
 			result.append("X\t"); 
@@ -139,11 +139,11 @@ public class IOUtils {
 	 * @param printHeader boolean that indicates if the header should be added
 	 * @return
 	 */
-	public static String matrixToStringColOriented(SymbolicDataset dataset, int threshold, int step,boolean printHeade) {
+	public static String matrixToStringColOriented(SymbolicDataset dataset, int threshold, int step, boolean printHeade) {
 
 		StringBuilder result = new StringBuilder();
 
-		System.out.println("Writing dataset file: " + (step * 10) + "%");
+		System.out.println("Writing dataset file: " + (((double) step) / (dataset.getNumRows() / threshold) * 100) + "%");
 		
 		if(printHeade) {
 			result.append("X\t"); 
@@ -182,8 +182,8 @@ public class IOUtils {
 	 * @param content The content of the dataset
 	 * @throws Exception
 	 */
-	public static void writeFile(String path, String name, String content) throws Exception {
-		FileWriter fstream = new FileWriter(path+name, true);
+	public static void writeFile(String path, String name, String content, boolean append) throws Exception {
+		FileWriter fstream = new FileWriter(path+name, append);
 		BufferedWriter out = new BufferedWriter(fstream);
 		out.write(content);
 		out.close();

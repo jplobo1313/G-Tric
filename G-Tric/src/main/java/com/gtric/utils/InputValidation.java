@@ -152,7 +152,7 @@ public class InputValidation {
 				messages.append("(Tricluster Structure) Error: Columns param1 should be greater than 0!");
 			
 			if(Double.compare(col2, numCols) > 0)
-				messages.append("(Tricluster Structure) Error: Columns param2 should be less than the number of rows in the dataset!");
+				messages.append("(Tricluster Structure) Error: Columns param2 should be less than the number of columns in the dataset!");
 		}
 		else {
 			if(Double.compare(col1, 0.0) < 0 || Double.compare(col2, 0.0) < 0)
@@ -168,7 +168,7 @@ public class InputValidation {
 				messages.append("(Tricluster Structure) Error: Contexts param1 should be greater than 0!");
 			
 			if(Double.compare(ctx2, numCtxs) > 0)
-				messages.append("(Tricluster Structure) Error: Contexts param2 should be less than the number of rows in the dataset!");
+				messages.append("(Tricluster Structure) Error: Contexts param2 should be less than the number of contexts in the dataset!");
 		}
 		else {
 			if(Double.compare(ctx1, 0.0) < 0 || Double.compare(ctx2, 0.0) < 0)

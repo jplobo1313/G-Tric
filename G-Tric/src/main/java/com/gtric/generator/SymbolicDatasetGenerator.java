@@ -48,7 +48,7 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 	 */
 	public SymbolicDatasetGenerator(int nRows, int nCols, int nCont, int numTrics, Background background, int alphabetL, boolean symmetric) {
 		this.numTrics = numTrics;
-		this.data = new SymbolicDataset(nRows, nCols, nCont, background, symmetric, alphabetL);
+		this.data = new SymbolicDataset(nRows, nCols, nCont, numTrics, background, symmetric, alphabetL);
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 	 */
 	public SymbolicDatasetGenerator(int nRows, int nCols, int nCont, int numTrics, Background background, String[] alphabet, boolean symmetric) {
 		this.numTrics = numTrics;
-		this.data = new SymbolicDataset(nRows, nCols, nCont, background, symmetric, alphabet);
+		this.data = new SymbolicDataset(nRows, nCols, nCont, numTrics, background, symmetric, alphabet);
 	}
 
 	@Override
@@ -119,7 +119,7 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 			
 			changeState("Stage:1, Msg:Tricluster " + k);
 			
-			System.out.println("Generating tricluster " + k + " of " + numTrics + "...");
+			System.out.println("Generating tricluster " + (k+1) + " of " + numTrics + "...");
 			
 			if(k >= overlappingThreshold)
 				allowsOverlap = false;
@@ -177,15 +177,22 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 				double overlappingColsPerc = overlappingPercs.get("columnPerc");
 				double overlappingRowsPerc = overlappingPercs.get("rowPerc");
 				
+				System.out.println("Tric " + (k+1) + " - Generating columns...");
 				bicsCols[k] = generate(numColsTrics, numCols, overlappingContsPerc, bicsCols, bicsWithOverlap,
 						bicsExcluded, tricStructure.getContiguity().equals(Contiguity.COLUMNS));
-				//System.out.println("k=" + k + " Columns = " + Arrays.toString(bicsCols[k]));
+				
+				
+				
+				System.out.println("Tric " + (k+1) + " - Generating contexts...");
 				bicsConts[k] = generate(numContsTrics, numConts, overlappingColsPerc, bicsConts, bicsWithOverlap,
 						bicsExcluded, tricStructure.getContiguity().equals(Contiguity.CONTEXTS));
-				//System.out.println("k=" + k + " Contexts = " + Arrays.toString(bicsConts[k]));
+				System.out.println("Contexts: " + bicsConts[k].length);
+				
+				System.out.println("Tric " + (k+1) + " - Generating rows...");
 				bicsRows[k] = generate(numRowsTrics, numRows, overlappingRowsPerc, bicsRows, bicsWithOverlap,
 						bicsExcluded, false);
-				//System.out.println("k=" + k + " Rows = " + Arrays.toString(bicsRows[k]) + "\n");
+				System.out.println("Rows: " + bicsRows[k].length);
+				
 				
 				if(bicsRows[k] == null) {
 					hasSpace = false;
@@ -201,12 +208,18 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 					numAttempts = 0;
 			}
 			else {
+				
+				System.out.println("Tric " + (k+1) + " - Generating columns...");
 				bicsCols[k] = generateNonOverlappingOthers(numColsTrics, numCols, chosenCols, tricStructure.getContiguity().equals(Contiguity.COLUMNS));
-				//System.out.println("k=" + k + " Columns = " + Arrays.toString(bicsCols[k]));
+				System.out.println("Columns: " + bicsCols[k].length);
+				
+				System.out.println("Tric " + (k+1) + " - Generating contexts...");
 				bicsConts[k] = generateNonOverlappingOthers(numContsTrics, numConts, chosenConts, tricStructure.getContiguity().equals(Contiguity.CONTEXTS));
-				//System.out.println("k=" + k + " Contexts = " + Arrays.toString(bicsConts[k]));
+				System.out.println("Contexts: " + bicsConts[k].length);
+				
+				System.out.println("Tric " + (k+1) + " - Generating rows...");
 				bicsRows[k] = generateNonOverlappingRows(numRowsTrics, numRows, bicsCols[k], bicsConts[k], data.getElements());
-				//System.out.println("k=" + k + " Rows = " + Arrays.toString(bicsRows[k]) + "\n");
+				System.out.println("Rows: " + bicsRows[k].length);
 				
 				if(bicsRows[k] == null) {
 					hasSpace = false;
@@ -224,6 +237,8 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 
 			if(hasSpace) {
 	
+				System.out.println("Tric " + (k+1) + " - Has space, lets plant the patterns");
+				
 				for (Integer c : bicsCols[k])
 					chosenCols.add(c);
 				
@@ -388,17 +403,39 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 				 * Part VII: generate the layers according to plaid type and put them in the
 				 * background
 				 **/
-				//TODO: change this to use the setters
+				System.out.println("Tric " + (k+1) + " - planting the tric");
 				for(int ctx = 0; ctx < bicsConts[k].length; ctx++)
-					for (int row = 0; row < bicsRows[k].length; row++)
+					for (int row = 0; row < bicsRows[k].length; row++) {
+						
+						if(row % 10000 == 0)
+							System.out.println("Planting on ctx " + ctx + " row " + row);
+						
 						for (int col = 0; col < bicsCols[k].length; col++) {
 							this.data.setMatrixItem(bicsConts[k][ctx], bicsRows[k][row], bicsCols[k][col], bicsymbols[ctx][row][col]);
 							data.addElement(bicsConts[k][ctx] + ":" + bicsRows[k][row] + ":" + bicsCols[k][col], k);
 						}
-								
-	
-	
+				}
 				data.addTricluster(tricK);
+				int mb = 1024*1024;
+
+				//Getting the runtime reference from system
+				Runtime runtime = Runtime.getRuntime();
+
+				System.out.println("##### Heap utilization statistics [MB] #####");
+
+				//Print used memory
+				System.out.println("Used Memory:"
+					+ (runtime.totalMemory() - runtime.freeMemory()) / mb);
+
+				//Print free memory
+				System.out.println("Free Memory:"
+					+ runtime.freeMemory() / mb);
+
+				//Print total available memory
+				System.out.println("Total Memory:" + runtime.totalMemory() / mb);
+
+				//Print Maximum available memory
+				System.out.println("Max Memory:" + runtime.maxMemory() / mb);
 			}
 		}
 		return data;

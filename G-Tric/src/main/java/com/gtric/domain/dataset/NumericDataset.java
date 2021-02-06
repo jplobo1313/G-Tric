@@ -42,9 +42,9 @@ public class NumericDataset<T extends Number> extends Dataset {
 	 * @param minM The dataset's minimum alphabet value
 	 * @param maxM The dataset's maximum alphabet value
 	 */
-	public NumericDataset(int numRows, int numCols, int numContexts, Background background, T minM, T maxM) {
+	public NumericDataset(int numRows, int numCols, int numContexts, int numTrics, Background background, T minM, T maxM) {
 
-		super(numRows, numCols, numContexts, background);
+		super(numRows, numCols, numContexts, numTrics, background);
 
 		plantedTrics = new ArrayList<>();
 		this.minM = minM;
@@ -274,25 +274,24 @@ public class NumericDataset<T extends Number> extends Dataset {
 
 			this.addMissingElement(e);
 		}
-
-		for(NumericTricluster<? extends Number> t : this.plantedTrics) {
-
-			double random = rand.nextDouble();
-			int nrMissingsTric = (int) (t.getSize() * percTricluster * random);
-			
-			double ratio = ((double)nrMissingsTric) / ((double)t.getSize());
-
-			List<String> elems = this.getTriclusterElements(t.getId());
-			String e;
-			for(int k = t.getNumberOfMissings(); k < nrMissingsTric; k++) {
-				do {
-					e = elems.get(rand.nextInt(elems.size()));
-				} while (this.isMissing(e) || !respectsOverlapConstraint(e, "Missings", percTricluster));
-
-				this.addMissingElement(e);
-				
-				for(Integer i : this.getTricsByElem(e))
-					this.getTricluster(i).addMissing();
+		if(Double.compare(percTricluster, 0.0) > 0) {
+			for(NumericTricluster<? extends Number> t : this.plantedTrics) {
+	
+				double random = rand.nextDouble();
+				int nrMissingsTric = (int) (t.getSize() * percTricluster * random);
+	
+				List<String> elems = this.getTriclusterElements(t.getId());
+				String e;
+				for(int k = t.getNumberOfMissings(); k < nrMissingsTric; k++) {
+					do {
+						e = elems.get(rand.nextInt(elems.size()));
+					} while (this.isMissing(e) || !respectsOverlapConstraint(e, "Missings", percTricluster));
+	
+					this.addMissingElement(e);
+					
+					for(Integer i : this.getTricsByElem(e))
+						this.getTricluster(i).addMissing();
+				}
 			}
 		}
 		
@@ -344,31 +343,32 @@ public class NumericDataset<T extends Number> extends Dataset {
 			this.addNoisyElement(e);
 		}
 
-		for(NumericTricluster<? extends Number> t : this.plantedTrics) {
-
-			double random = rand.nextDouble();
-			int nrNoisyTric = (int) (t.getSize() * percTricluster * random);
-
-			double ratio = ((double)nrNoisyTric) / ((double)t.getSize());
-			/*
-			System.out.println("Tric size: " + t.getSize());
-			System.out.println("Tric max perc: " + percTricluster);
-			System.out.println("Tric random: " + random);
-			System.out.println("Tric " + t.getId() + " - Number of noise: " + nrNoisyTric + "(" + ratio + ")\n");
-			*/
-			
-			List<String> elems = this.getTriclusterElements(t.getId());
-			String e;
-			for(int k = t.getNumberOfNoisy(); k < nrNoisyTric; k++) {
-				do {
-					e = elems.get(rand.nextInt(elems.size()));
-				} while (this.isMissing(e) || this.isNoisy(e) || !respectsOverlapConstraint(e, "Noisy", percTricluster));
-
-				this.addNoisyElement(e);
+		if(Double.compare(percTricluster, 0.0) > 0) {
+			for(NumericTricluster<? extends Number> t : this.plantedTrics) {
+	
+				double random = rand.nextDouble();
+				int nrNoisyTric = (int) (t.getSize() * percTricluster * random);
+	
+				/*
+				System.out.println("Tric size: " + t.getSize());
+				System.out.println("Tric max perc: " + percTricluster);
+				System.out.println("Tric random: " + random);
+				System.out.println("Tric " + t.getId() + " - Number of noise: " + nrNoisyTric + "(" + ratio + ")\n");
+				*/
 				
-				for(Integer i : this.getTricsByElem(e))
-					this.getTricluster(i).addNoisy();
-
+				List<String> elems = this.getTriclusterElements(t.getId());
+				String e;
+				for(int k = t.getNumberOfNoisy(); k < nrNoisyTric; k++) {
+					do {
+						e = elems.get(rand.nextInt(elems.size()));
+					} while (this.isMissing(e) || this.isNoisy(e) || !respectsOverlapConstraint(e, "Noisy", percTricluster));
+	
+					this.addNoisyElement(e);
+					
+					for(Integer i : this.getTricsByElem(e))
+						this.getTricluster(i).addNoisy();
+	
+				}
 			}
 		}
 		
@@ -460,74 +460,75 @@ public class NumericDataset<T extends Number> extends Dataset {
 
 			this.setMatrixItem(ctx, row, col, newElem);
 		}
-
-		for(NumericTricluster<? extends Number> t : this.plantedTrics) {
-
-			int nrErrorsTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
-			double ratio = ((double)nrErrorsTric) / ((double)t.getSize());
-			//System.out.println("Tric " + t.getId() + " - Number of errors: " + nrErrorsTric + "(" + ratio + ")\n");
-
-			List<String> elems = this.getTriclusterElements(t.getId());
-			String e;
-			for(int k = t.getNumberOfErrors(); k < nrErrorsTric; k++) {
-				do {
-					e = elems.get(rand.nextInt(elems.size()));
-				} while (this.isMissing(e) || this.isNoisy(e) || this.isError(e) || !respectsOverlapConstraint(e, "Errors", percTricluster));
-
-				this.addErrorElement(e);
-				
-				for(Integer i : this.getTricsByElem(e))
-					this.getTricluster(i).addError();
-
-				String[] coord = e.split(":");
-
-				ctx = Integer.parseInt(coord[0]);
-				row = Integer.parseInt(coord[1]);
-				col = Integer.parseInt(coord[2]);
-
-				double currentElement = 0;
-				
-				if(this.existsMatrixItem(ctx, row, col))
-					currentElement = this.getMatrixItem(ctx, row, col).doubleValue();
-				else {
-					currentElement = this.generateBackgroundValue().doubleValue();
-					this.setMatrixItem(ctx, row, col, (T) new Double(currentElement));
-				}
-				
-				double candidate = 0;
-				T newElem;
-				
-				if(this.maxM instanceof Double) {
-					
+		
+		if(Double.compare(percTricluster, 0.0) > 0) {
+			for(NumericTricluster<? extends Number> t : this.plantedTrics) {
+	
+				int nrErrorsTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
+				//System.out.println("Tric " + t.getId() + " - Number of errors: " + nrErrorsTric + "(" + ratio + ")\n");
+	
+				List<String> elems = this.getTriclusterElements(t.getId());
+				String e;
+				for(int k = t.getNumberOfErrors(); k < nrErrorsTric; k++) {
 					do {
-						candidate = minM.doubleValue() + (maxM.doubleValue() - minM.doubleValue()) *  rand.nextDouble();
-					}while(Math.abs(currentElement - candidate) <= minDeviation);
+						e = elems.get(rand.nextInt(elems.size()));
+					} while (this.isMissing(e) || this.isNoisy(e) || this.isError(e) || !respectsOverlapConstraint(e, "Errors", percTricluster));
+	
+					this.addErrorElement(e);
 					
-					if(Double.compare(candidate, minM.doubleValue()) < 0)
-						newElem = (T) new Double(minM.doubleValue());
-					else if(Double.compare(candidate, maxM.doubleValue()) > 0)
-						newElem = (T) new Double(maxM.doubleValue());
-					else
-						newElem = (T) new Double(candidate);
+					for(Integer i : this.getTricsByElem(e))
+						this.getTricluster(i).addError();
+	
+					String[] coord = e.split(":");
+	
+					ctx = Integer.parseInt(coord[0]);
+					row = Integer.parseInt(coord[1]);
+					col = Integer.parseInt(coord[2]);
+	
+					double currentElement = 0;
+					
+					if(this.existsMatrixItem(ctx, row, col))
+						currentElement = this.getMatrixItem(ctx, row, col).doubleValue();
+					else {
+						currentElement = this.generateBackgroundValue().doubleValue();
+						this.setMatrixItem(ctx, row, col, (T) new Double(currentElement));
 					}
-				else {
 					
-					do {
-						candidate = minM.doubleValue() + (maxM.doubleValue() - minM.doubleValue()) *  rand.nextDouble();
-					}while(Math.abs(currentElement - candidate) <= minDeviation);
+					double candidate = 0;
+					T newElem;
 					
-					candidate = Math.round(candidate);
+					if(this.maxM instanceof Double) {
+						
+						do {
+							candidate = minM.doubleValue() + (maxM.doubleValue() - minM.doubleValue()) *  rand.nextDouble();
+						}while(Math.abs(currentElement - candidate) <= minDeviation);
+						
+						if(Double.compare(candidate, minM.doubleValue()) < 0)
+							newElem = (T) new Double(minM.doubleValue());
+						else if(Double.compare(candidate, maxM.doubleValue()) > 0)
+							newElem = (T) new Double(maxM.doubleValue());
+						else
+							newElem = (T) new Double(candidate);
+						}
+					else {
+						
+						do {
+							candidate = minM.doubleValue() + (maxM.doubleValue() - minM.doubleValue()) *  rand.nextDouble();
+						}while(Math.abs(currentElement - candidate) <= minDeviation);
+						
+						candidate = Math.round(candidate);
+						
+						if(Double.compare(candidate, minM.doubleValue()) < 0)
+							newElem = (T) new Integer(minM.intValue());
+						else if(Double.compare(candidate, maxM.doubleValue()) > 0)
+							newElem = (T) new Integer(maxM.intValue());
+						else
+							newElem = (T) new Integer((int)candidate);
+					}
 					
-					if(Double.compare(candidate, minM.doubleValue()) < 0)
-						newElem = (T) new Integer(minM.intValue());
-					else if(Double.compare(candidate, maxM.doubleValue()) > 0)
-						newElem = (T) new Integer(maxM.intValue());
-					else
-						newElem = (T) new Integer((int)candidate);
+					setMatrixItem(ctx, row, col, newElem);
+					
 				}
-				
-				setMatrixItem(ctx, row, col, newElem);
-				
 			}
 		}
 

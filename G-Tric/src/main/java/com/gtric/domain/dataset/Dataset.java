@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import com.gtric.domain.tricluster.Tricluster;
 import com.gtric.types.Background;
@@ -24,11 +26,13 @@ public abstract class Dataset {
 	private int numRows;
 	private int numCols;
 	private int numContexts;
+	private int numTrics;
 	
 	private Background background;
+	private int backgroundSize;
 
 	//Map <Tricluster ID, List of elements in the form "ctx:row:col"> to store tricluster's elements
-	private HashMap<Integer, List<String>> elements;
+	//private HashMap<Integer, List<String>> elements;
 	//Map <"ctx:row:col", List<Tricluster IDs>> to store the triclusters associated to a specific element
 	private Map<String, List<Integer>> elementsReversed;
 	
@@ -48,17 +52,19 @@ public abstract class Dataset {
 	 * @param numContexts Dataset's number of contexts
 	 * @param background Background object with the background type and parameters
 	 */
-	public Dataset(int numRows, int numCols, int numContexts, Background background) {
+	public Dataset(int numRows, int numCols, int numContexts, int numTrics, Background background) {
 		
 		this.numRows = numRows;
 		this.numCols = numCols;
 		this.numContexts = numContexts;
 		this.background = background;
-		this.elements = new HashMap<>();
+		//this.elements = new HashMap<>();
 		this.elementsReversed = new HashMap<>();
 		this.missingElements = new TreeSet<>();
 		this.noisyElements = new TreeSet<>();
 		this.errorElements = new TreeSet<>();
+		this.numTrics = numTrics;
+		this.backgroundSize = 0;
 		
 	}
 	
@@ -75,7 +81,8 @@ public abstract class Dataset {
 	 * @return Dataset Size - Triclusters Size
 	 */
 	public int getBackgroundSize() {
-		return this.getSize() - this.getElements().size();
+		
+		return this.getSize() - this.backgroundSize;
 	}
 	
 	/**
@@ -158,7 +165,7 @@ public abstract class Dataset {
 	 * @return the number of planted triclusters
 	 */
 	public int getNumTrics() {
-		return this.elements.size();
+		return this.numTrics;
 	}
 
 	/**
@@ -223,7 +230,7 @@ public abstract class Dataset {
 	 * @param k The tricluster ID
 	 */
 	public void addElement(String e, int k) {
-		
+		/*
 		if(!this.elements.containsKey(k)) {
 			List<String> elems = new ArrayList<>();
 			elems.add(e);
@@ -231,6 +238,7 @@ public abstract class Dataset {
 		}
 		else
 			this.elements.get(k).add(e);
+		*/
 		
 		if(!this.elementsReversed.containsKey(e)) {
 			List<Integer> trics = new ArrayList<>();
@@ -239,6 +247,9 @@ public abstract class Dataset {
 		}
 		else
 			this.elementsReversed.get(e).add(k);
+		
+		this.backgroundSize++;
+		
 	}
 	
 	/**
@@ -254,7 +265,15 @@ public abstract class Dataset {
 	 * @return The list of the tricluster's elements
 	 */
 	public List<String> getTriclusterElements(int id){
-		return this.elements.get(id);
+		List<String> elements = new ArrayList<String>();
+		
+		for(Entry<String, List<Integer>> entry : this.elementsReversed.entrySet()) {
+			if(entry.getValue().contains(id))
+				elements.add(entry.getKey());
+		}
+		
+		return elements;
+		//return this.elements.get(id);
 	}
 	
 	/**
@@ -262,16 +281,30 @@ public abstract class Dataset {
 	 * @return The set of elements
 	 */
 	public Set<String> getElements() {
+		
+		//this.elements.values();
+		
+		
+		//Set<String> flat = 
+		//    this.elements.values().stream()
+		//        .flatMap(List::stream)
+		//        .collect(Collectors.toSet());
+		
+		//System.out.println("Elements reversed: " + flat);
+
 		return elementsReversed.keySet();
+		//return flat;
 	}
 	
 	/**
 	 * Get the set of existing triclusters
 	 * @return The set of tricluster's ID
 	 */
+	/*
 	public Set<Integer> getTriclusters(){
 		return elements.keySet();
 	}
+	*/
 	
 	/**
 	 * Get the tricluster's that contain a certain element
@@ -279,6 +312,19 @@ public abstract class Dataset {
 	 * @return List of tricluster to which the element belongs
 	 */
 	public List<Integer> getTricsByElem(String e){
+		/*
+		List<Integer> trics = new ArrayList<>();
+		
+		for(Entry<Integer, List<String>> tric : this.elements.entrySet()) {
+			if(tric.getValue().contains(e))
+				trics.add(tric.getKey());
+			
+		}
+		
+		//return this.elementsReversed.get(e);
+		return trics;
+		*/
+		
 		return this.elementsReversed.get(e);
 	}
 	
@@ -288,7 +334,21 @@ public abstract class Dataset {
 	 * @return True if the elements belong to a certain element, False otherwise
 	 */
 	public boolean isPlanted(String e) {
+		/*
+		boolean isPlanted = false;
+		
+		for(Entry<Integer, List<String>> tric : this.elements.entrySet()) 
+			if(isPlanted = tric.getValue().contains(e))
+				 break;
+		
+		//return this.elementsReversed.containsKey(e);
+		return isPlanted;
+		*/
 		return this.elementsReversed.containsKey(e);
+	}
+	
+	public void destroyElementsMap() {
+		this.elementsReversed = null;
 	}
 	
 	/**

@@ -7,6 +7,7 @@
 package com.gtric.generator;
 
 import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -32,11 +33,10 @@ import com.gtric.types.TimeProfile;
 import com.gtric.utils.BicMath;
 import com.gtric.utils.OverlappingSettings;
 import com.gtric.utils.TriclusterPattern;
-import com.gtric.utils.TriclusterStructure;;
+import com.gtric.utils.TriclusterStructure;
 
 public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 
-	
 	private NumericDataset data;
 	private Random random = new Random();
 	private boolean allowsOverlap = false;
@@ -60,10 +60,10 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 		this.numTrics = numTrics;
 		
 		if(realValued)
-			this.data = new NumericDataset<Double>(numRows, numCols, numContexts, background,
+			this.data = new NumericDataset<Double>(numRows, numCols, numContexts, numTrics, background,
 					minM, maxM);
 		else
-			this.data = new NumericDataset<Integer>(numRows, numCols, numContexts, background,
+			this.data = new NumericDataset<Integer>(numRows, numCols, numContexts, numTrics, background,
 					(int) minM, (int) maxM);
 	}
 
@@ -111,10 +111,6 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 			}
 		}
 
-		SortedSet<Integer> sharedRows = new TreeSet<>();
-		SortedSet<Integer> sharedCols = new TreeSet<>();
-		SortedSet<Integer> sharedConts = new TreeSet<>();
-
 		int numAttempts = 0;
 		
 		for (int k = 0; k < numTrics; k++) {
@@ -126,7 +122,7 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 			if(k >= overlappingThreshold)
 				allowsOverlap = false;
 
-			System.out.println("Generating tricluster " + k + " of " + numTrics + "...");
+			System.out.println("Generating tricluster " + (k+1) + " of " + numTrics + "...");
 			
 			TriclusterPattern currentPattern;
 
@@ -180,17 +176,22 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 				double overlappingContsPerc = overlappingPercs.get("contextPerc");
 				double overlappingColsPerc = overlappingPercs.get("columnPerc");
 				double overlappingRowsPerc = overlappingPercs.get("rowPerc");
-
+				
+				System.out.println("Tric " + (k+1) + " - Generating contexts...");
 				bicsConts[k] = generate(numContsTrics, numConts, overlappingContsPerc, bicsConts, bicsWithOverlap,
 						bicsExcluded, tricStructure.getContiguity().equals(Contiguity.CONTEXTS));
-
+				System.out.println("Contexts: " + bicsConts[k].length);
 				
+				System.out.println("Tric " + (k+1) + " - Generating columns...");
 				bicsCols[k] = generate(numColsTrics, numCols, overlappingColsPerc, bicsCols, bicsWithOverlap,
 						bicsExcluded, tricStructure.getContiguity().equals(Contiguity.COLUMNS));
+				System.out.println("Columns: " + bicsCols[k].length);
 			
+				System.out.println("Tric " + (k+1) + " - Generating rows...");
 				bicsRows[k] = generateRows(numRows, numRowsTrics, overlappingRowsPerc, bicsRows, bicsWithOverlap,
 						bicsExcluded, bicsCols[k], bicsConts[k], data.getElements());
-
+				System.out.println("Rows: " + bicsRows[k].length);
+				
 				if(bicsRows[k] == null) {
 					hasSpace = false;
 					k--;
@@ -205,13 +206,22 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 					numAttempts = 0;
 			}
 			else {
-
+				
+				System.out.println("Tric " + (k+1) + " - Generating contexts...");
 				bicsConts[k] = generateNonOverlappingOthers(numContsTrics, numConts, chosenConts, tricStructure.getContiguity().equals(Contiguity.CONTEXTS));
+				System.out.println("Contexts: " + bicsConts[k].length);
+				
+				System.out.println("Tric " + (k+1) + " - Generating columns...");
 				bicsCols[k] = generateNonOverlappingOthers(numColsTrics, numCols, chosenCols, tricStructure.getContiguity().equals(Contiguity.COLUMNS));
+				System.out.println("Columns: " + bicsCols[k].length);
+				
+				System.out.println("Tric " + (k+1) + " - Generating rows...");
 				bicsRows[k] = generateNonOverlappingRows(numRowsTrics, numRows, bicsCols[k], bicsConts[k], data.getElements());
+				System.out.println("Rows: " + bicsRows[k].length);
 
 				if(bicsRows[k] == null) {
 					hasSpace = false;
+					System.out.println("Tric " + (k+1) + " no space :(");
 					k--;
 					if(numAttempts == 15) {
 						numTrics--;
@@ -225,6 +235,9 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 			}
 
 			if(hasSpace) {
+				
+				System.out.println("Tric " + (k+1) + " - Has space, lets plant the patterns");
+				
 				for (Integer c : bicsCols[k])
 					chosenCols.add(c);
 				for (Integer c : bicsConts[k])
@@ -247,10 +260,6 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 				/** PART VI: generate biclusters coherencies **/
 				Double[][][] bicsymbols = new Double[bicsConts[k].length][bicsRows[k].length][bicsCols[k].length];
 
-				double minContribution;
-				double maxContribution;
-
-				double seed;
 				double maxAlphabet = realValued ? data.getMaxM().doubleValue() : data.getMaxM().intValue();
 				double minAlphabet = realValued ? data.getMinM().doubleValue() : data.getMinM().intValue();
 				double maxAllowed = maxAlphabet;
@@ -331,7 +340,6 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 				}
 
 				if(currentPattern.contains(PatternType.ADDITIVE)) {				
-
 					bicsymbols = generateAdditiveFactors(currentPattern, tricK, minAllowed, maxAllowed);
 				}
 
@@ -354,8 +362,13 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 				 * Part VII: generate the layers according to plaid type and put them in the
 				 * background
 				 **/
-				for(int ctx = 0; ctx < bicsConts[k].length; ctx++)
-					for (int row = 0; row < bicsRows[k].length; row++)
+				System.out.println("Tric " + (k+1) + " - planting the tric");
+				for(int ctx = 0; ctx < bicsConts[k].length; ctx++) 
+					for (int row = 0; row < bicsRows[k].length; row++) {
+						
+						if(row % 10000 == 0)
+							System.out.println("Planting on ctx " + ctx + " row " + row);
+				
 						for (int col = 0; col < bicsCols[k].length; col++) {
 
 							Double value = bicsymbols[ctx][row][col];
@@ -396,8 +409,29 @@ public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 
 							data.addElement(bicsConts[k][ctx] + ":" + bicsRows[k][row] + ":" + bicsCols[k][col], k);
 						}
-
+					}
 				data.addTricluster(tricK);
+				
+				int mb = 1024*1024;
+
+				//Getting the runtime reference from system
+				Runtime runtime = Runtime.getRuntime();
+
+				System.out.println("##### Heap utilization statistics [MB] #####");
+
+				//Print used memory
+				System.out.println("Used Memory:"
+					+ (runtime.totalMemory() - runtime.freeMemory()) / mb);
+
+				//Print free memory
+				System.out.println("Free Memory:"
+					+ runtime.freeMemory() / mb);
+
+				//Print total available memory
+				System.out.println("Total Memory:" + runtime.totalMemory() / mb);
+
+				//Print Maximum available memory
+				System.out.println("Max Memory:" + runtime.maxMemory() / mb);
 			}
 		}
 		return data;

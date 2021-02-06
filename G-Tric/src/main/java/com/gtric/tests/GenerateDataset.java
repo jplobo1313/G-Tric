@@ -77,7 +77,7 @@ public class GenerateDataset{
 		*/
 		for(int i = 0; i < 1; i++) {
 			System.out.println("Run " + i);
-			generateSymbolic();
+			generateReal();
 		}
 	}
 
@@ -262,21 +262,21 @@ public class GenerateDataset{
 		long stopTimeBics;
 
 		//num de linhas do dataset
-		int numRows = 10;
+		int numRows = 500;
 		//num de colunas do dataset
 		int numCols = 10;
-		int numCtxs = 10;
+		int numCtxs = 5;
 		//num de bics a plantar
-		int numTrics = 3;
+		int numTrics = 0;
 
 		trics = numTrics;
 		
 		//TODO: limites dos valores do dataset (usar em caso de dataset real)
-		double min = 1;
-		double max = 20;
+		double min = 0;
+		double max = 50000;
 
 		//use real valued or integer alphabet
-		boolean realValued = false;
+		boolean realValued = true;
 
 		Background background = null;
 		TriclusterDatasetGenerator generator = null;
@@ -390,7 +390,7 @@ public class GenerateDataset{
 		stopTimeBics = System.currentTimeMillis();
 		
 		System.out.println("(GenerateTrics) Execution Time: " + ((double) (stopTimeBics - startTimeBics)) / 1000);
-		System.out.println("Number of planted trics = " + generatedDataset.getTriclusters().size());
+		//System.out.println("Number of planted trics = " + generatedDataset.getTriclusters().size());
 		
 		/*
 		for(int id = 0; id < numTrics; id++) {
@@ -490,9 +490,9 @@ public class GenerateDataset{
 	private static void saveResult(SymbolicDataset generatedDataset, String tricDataFileName, String datasetFileName) throws Exception {
 
 		//BicResult.println("Planted BICS:\n" + trueBics.toString());
-		IOUtils.writeFile(path, tricDataFileName + ".txt",generatedDataset.getTricsInfo());
+		IOUtils.writeFile(path, tricDataFileName + ".txt",generatedDataset.getTricsInfo(), false);
 		//BicResult.println("Dataset:\n" + BicPrinting.plot(dataset));
-		IOUtils.writeFile(path, tricDataFileName + ".json",generatedDataset.getTricsInfoJSON(generatedDataset).toString());
+		IOUtils.writeFile(path, tricDataFileName + ".json",generatedDataset.getTricsInfoJSON(generatedDataset).toString(), false);
 
 		long startWriting;
 		long stopWriting;
@@ -502,7 +502,7 @@ public class GenerateDataset{
 
 		startWriting = System.currentTimeMillis();
 		for(int s = 0; s <= step; s++)
-			IOUtils.writeFile(path, datasetFileName + ".txt", IOUtils.matrixToStringColOriented(generatedDataset, threshold, s, s==0));
+			IOUtils.writeFile(path, datasetFileName + ".txt", IOUtils.matrixToStringColOriented(generatedDataset, threshold, s, s==0), s!=0);
 		stopWriting = System.currentTimeMillis();
 
 		System.out.println("(Writing) Execution Time: " + ((double)(stopWriting - startWriting))/1000 + " secs");

@@ -716,6 +716,31 @@ public class GTricService extends Observable implements Observer {
 		updateProgressStatusAndMessage(95, "Writing output...");
 		
 		this.generatedDataset = generatedDataset;
+		this.generatedDataset.destroyElementsMap();
+		
+		System.gc();
+		
+		int mb = 1024*1024;
+
+		//Getting the runtime reference from system
+		Runtime runtime = Runtime.getRuntime();
+		
+		System.out.println("##### Heap utilization statistics [MB] #####");
+
+		//Print used memory
+		System.out.println("Used Memory:"
+			+ (runtime.totalMemory() - runtime.freeMemory()) / mb);
+
+		//Print free memory
+		System.out.println("Free Memory:"
+			+ runtime.freeMemory() / mb);
+
+		//Print total available memory
+		System.out.println("Total Memory:" + runtime.totalMemory() / mb);
+
+		//Print Maximum available memory
+		System.out.println("Max Memory:" + runtime.maxMemory() / mb);
+		
 		saveResult(generatedDataset, tricDataFileName, datasetFileName);
 		
 		//updateProgressStatusAndMessage(100, "Completed!");
@@ -810,6 +835,31 @@ public class GTricService extends Observable implements Observer {
 		}
 		
 		this.generatedDataset = generatedDataset;
+		this.generatedDataset.destroyElementsMap();
+		
+		System.gc();
+		
+		int mb = 1024*1024;
+
+		//Getting the runtime reference from system
+		Runtime runtime = Runtime.getRuntime();
+		
+		System.out.println("##### Heap utilization statistics [MB] #####");
+
+		//Print used memory
+		System.out.println("Used Memory:"
+			+ (runtime.totalMemory() - runtime.freeMemory()) / mb);
+
+		//Print free memory
+		System.out.println("Free Memory:"
+			+ runtime.freeMemory() / mb);
+
+		//Print total available memory
+		System.out.println("Total Memory:" + runtime.totalMemory() / mb);
+
+		//Print Maximum available memory
+		System.out.println("Max Memory:" + runtime.maxMemory() / mb);
+		
 		saveResult(generatedDataset, tricDataFileName, datasetFileName);
 		
 		//updateProgressStatusAndMessage(100, "Completed!");
@@ -826,11 +876,11 @@ public class GTricService extends Observable implements Observer {
 
 		System.out.println("Writting output...");
 		
-		IOUtils.writeFile(path, tricDataFileName + ".txt",generatedDataset.getTricsInfo());
+		IOUtils.writeFile(path, tricDataFileName + ".txt",generatedDataset.getTricsInfo(), false);
 		System.out.println("Triclusters txt file written!");
 		
 		this.triclustersJSON = generatedDataset.getTricsInfoJSON(generatedDataset);
-		IOUtils.writeFile(path, tricDataFileName + ".json", this.triclustersJSON.toString());
+		IOUtils.writeFile(path, tricDataFileName + ".json", this.triclustersJSON.toString(), false);
 		System.out.println("Triclusters JSON file written!");
 		
 		
@@ -850,7 +900,7 @@ public class GTricService extends Observable implements Observer {
 		
 		for(int s = 0; s < step; s++)
 			if(this.isSingleFileOutput())
-				IOUtils.writeFile(path, datasetFileName + ".tsv", IOUtils.matrixToStringColOriented(generatedDataset, threshold, s, s==0));	
+				IOUtils.writeFile(path, datasetFileName + ".tsv", IOUtils.matrixToStringColOriented(generatedDataset, threshold, s, s==0), s!=0);	
 			else {
 				Thread t = new Thread(new OutputWriterThread(path, datasetFileName, s, threshold, generatedDataset));
 				es.execute(t);
@@ -877,12 +927,12 @@ public class GTricService extends Observable implements Observer {
 
 		System.out.println("Writting output...");
 		
-		IOUtils.writeFile(path, tricDataFileName + ".txt",generatedDataset.getTricsInfo());
+		IOUtils.writeFile(path, tricDataFileName + ".txt",generatedDataset.getTricsInfo(), false);
 		System.out.println("Triclusters txt file written!");
 		
 		this.triclustersJSON = generatedDataset.getTricsInfoJSON(generatedDataset);
 		
-		IOUtils.writeFile(path, tricDataFileName + ".json", this.triclustersJSON.toString());
+		IOUtils.writeFile(path, tricDataFileName + ".json", this.triclustersJSON.toString(), false);
 		System.out.println("Triclusters JSON file written");
 		
 		this.triclustersJSON = this.triclustersJSON.getJSONObject("Triclusters");
@@ -901,7 +951,7 @@ public class GTricService extends Observable implements Observer {
 		
 		for(int s = 0; s <= step; s++)
 			if(this.isSingleFileOutput())
-				IOUtils.writeFile(path, datasetFileName + ".tsv", IOUtils.matrixToStringColOriented(generatedDataset, threshold, s, s==0));
+				IOUtils.writeFile(path, datasetFileName + ".tsv", IOUtils.matrixToStringColOriented(generatedDataset, threshold, s, s==0), s!=0);
 			else {
 				Thread t = new Thread(new OutputWriterThread(path, datasetFileName, s, threshold, generatedDataset));
 				es.execute(t);

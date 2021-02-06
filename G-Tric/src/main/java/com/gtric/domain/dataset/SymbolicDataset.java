@@ -43,10 +43,10 @@ public class SymbolicDataset extends Dataset {
 	 * @param symmetries TO BE IMPLEMENTED, USE 'FALSE'
 	 * @param alphabetL The alphabet's number of symbols
 	 */
-	public SymbolicDataset(int numRows, int numCols, int numCont, Background background, boolean symmetries,
+	public SymbolicDataset(int numRows, int numCols, int numCont, int numTrics, Background background, boolean symmetries,
 			int alphabetL) {
 
-		super(numRows, numCols, numCont, background);
+		super(numRows, numCols, numCont, numTrics, background);
 
 		this.plantedTrics = new ArrayList<>();
 		this.symmetries = symmetries;
@@ -71,10 +71,10 @@ public class SymbolicDataset extends Dataset {
 	 * @param symmetries TO BE IMPLEMENTED, USE 'FALSE'
 	 * @param alphabet Array with the alphabet symbols
 	 */
-	public SymbolicDataset(int numRows, int numCols, int numCont, Background background, boolean symmetries,
+	public SymbolicDataset(int numRows, int numCols, int numCont, int numTrics, Background background, boolean symmetries,
 			String[] alphabet) {
 
-		super(numRows, numCols, numCont, background);
+		super(numRows, numCols, numCont, numTrics, background);
 
 		this.plantedTrics = new ArrayList<>();
 		this.symmetries = symmetries;
@@ -287,30 +287,32 @@ public class SymbolicDataset extends Dataset {
 		
 		//System.out.println("Total Missings on back: " + this.getNumberOfMissings() + "(" + (double)this.getNumberOfMissings() / this.getBackgroundSize() +  "%)");
 
-		for(SymbolicTricluster t : this.plantedTrics) {
-
-			//System.out.println("Planting missings on tric " + t.getId());
-			
-			int nrMissingsTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
-
-			List<String> elems = this.getTriclusterElements(t.getId());
-			String e;
-			for(int k = t.getNumberOfMissings(); k < nrMissingsTric; k++) {
-				do {
-					e = elems.get(rand.nextInt(elems.size()));
-				} while (this.isMissing(e) || !respectsOverlapConstraint(e, "Missings", percTricluster));
-
-				this.addMissingElement(e);
-
-				for(Integer i : this.getTricsByElem(e))
-					this.getTriclusterById(i).addMissing();
-
-				String[] coord = e.split(":");
-
-				ctx = Integer.parseInt(coord[0]);
-				row = Integer.parseInt(coord[1]);
-				col = Integer.parseInt(coord[2]);
-
+		if(Double.compare(percTricluster, 0.0) > 0) {
+			for(SymbolicTricluster t : this.plantedTrics) {
+	
+				//System.out.println("Planting missings on tric " + t.getId());
+				
+				int nrMissingsTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
+	
+				List<String> elems = this.getTriclusterElements(t.getId());
+				String e;
+				for(int k = t.getNumberOfMissings(); k < nrMissingsTric; k++) {
+					do {
+						e = elems.get(rand.nextInt(elems.size()));
+					} while (this.isMissing(e) || !respectsOverlapConstraint(e, "Missings", percTricluster));
+	
+					this.addMissingElement(e);
+	
+					for(Integer i : this.getTricsByElem(e))
+						this.getTriclusterById(i).addMissing();
+	
+					String[] coord = e.split(":");
+	
+					ctx = Integer.parseInt(coord[0]);
+					row = Integer.parseInt(coord[1]);
+					col = Integer.parseInt(coord[2]);
+	
+				}
 			}
 		}
 
@@ -362,25 +364,27 @@ public class SymbolicDataset extends Dataset {
 
 		//System.out.println("Total Noisy on back: " + this.getNumberOfNoisy() + "(" + (double)this.getNumberOfNoisy() / this.getBackgroundSize() +  "%)");
 		
-		for(SymbolicTricluster t : this.plantedTrics) {
-
-			//System.out.println("Planting noise on tric " + t.getId());
-			
-			int nrNoisyTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
-
-			List<String> elems = this.getTriclusterElements(t.getId());
-			String e;
-			for(int k = t.getNumberOfNoisy(); k < nrNoisyTric; k++) {
-				do {
-					e = elems.get(rand.nextInt(elems.size()));
-				} while (this.isMissing(e) || this.isNoisy(e) || !respectsOverlapConstraint(e, "Noisy", percTricluster));
-
-				this.addNoisyElement(e);
-
-				//System.out.println("Noisy on tric " + t.getId() + "on " + e);
+		if(Double.compare(percTricluster, 0.0) > 0) {
+			for(SymbolicTricluster t : this.plantedTrics) {
+	
+				//System.out.println("Planting noise on tric " + t.getId());
 				
-				for(Integer i : this.getTricsByElem(e))
-					this.getTriclusterById(i).addNoisy();
+				int nrNoisyTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
+	
+				List<String> elems = this.getTriclusterElements(t.getId());
+				String e;
+				for(int k = t.getNumberOfNoisy(); k < nrNoisyTric; k++) {
+					do {
+						e = elems.get(rand.nextInt(elems.size()));
+					} while (this.isMissing(e) || this.isNoisy(e) || !respectsOverlapConstraint(e, "Noisy", percTricluster));
+	
+					this.addNoisyElement(e);
+	
+					//System.out.println("Noisy on tric " + t.getId() + "on " + e);
+					
+					for(Integer i : this.getTricsByElem(e))
+						this.getTriclusterById(i).addNoisy();
+				}
 			}
 		}
 
@@ -464,50 +468,52 @@ public class SymbolicDataset extends Dataset {
 
 		//System.out.println("Total Errors on back: " + this.getNumberOfErrors() + "(" + (double)this.getNumberOfErrors() / this.getBackgroundSize() +  "%)");
 		
-		for(SymbolicTricluster t : this.plantedTrics) {
-
-			//System.out.println("Planting errors on tric " + t.getId());
-			
-			int nrErrorsTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
-
-			List<String> elems = this.getTriclusterElements(t.getId());
-			String e;
-			for(int k = t.getNumberOfErrors(); k < nrErrorsTric; k++) {
-				do {
-					e = elems.get(rand.nextInt(elems.size()));
-				} while (this.isMissing(e) || this.isNoisy(e) || this.isError(e) || !respectsOverlapConstraint(e, "Errors", percTricluster));
-
-				this.addErrorElement(e);
-
-				for(Integer i : this.getTricsByElem(e))
-					this.getTriclusterById(i).addError();
+		if(Double.compare(percTricluster, 0.0) > 0) {
+			for(SymbolicTricluster t : this.plantedTrics) {
+	
+				//System.out.println("Planting errors on tric " + t.getId());
 				
-				String[] coord = e.split(":");
-				ctx = Integer.parseInt(coord[0]);
-				row = Integer.parseInt(coord[1]);
-				col = Integer.parseInt(coord[2]);
-				
-				int symbolIndex = -1;
-				
-				if(this.existsMatrixItem(ctx, row, col))
-					symbolIndex = this.getSymbolIndex(this.getMatrixItem(ctx, row, col));
-				else {
-					String newSymbol = this.generateBackgroundValue();
-					this.setMatrixItem(ctx, row, col, newSymbol);
-					symbolIndex = this.getSymbolIndex(newSymbol);
+				int nrErrorsTric = (int) (t.getSize() * percTricluster * rand.nextDouble());
+	
+				List<String> elems = this.getTriclusterElements(t.getId());
+				String e;
+				for(int k = t.getNumberOfErrors(); k < nrErrorsTric; k++) {
+					do {
+						e = elems.get(rand.nextInt(elems.size()));
+					} while (this.isMissing(e) || this.isNoisy(e) || this.isError(e) || !respectsOverlapConstraint(e, "Errors", percTricluster));
+	
+					this.addErrorElement(e);
+	
+					for(Integer i : this.getTricsByElem(e))
+						this.getTriclusterById(i).addError();
+					
+					String[] coord = e.split(":");
+					ctx = Integer.parseInt(coord[0]);
+					row = Integer.parseInt(coord[1]);
+					col = Integer.parseInt(coord[2]);
+					
+					int symbolIndex = -1;
+					
+					if(this.existsMatrixItem(ctx, row, col))
+						symbolIndex = this.getSymbolIndex(this.getMatrixItem(ctx, row, col));
+					else {
+						String newSymbol = this.generateBackgroundValue();
+						this.setMatrixItem(ctx, row, col, newSymbol);
+						symbolIndex = this.getSymbolIndex(newSymbol);
+					}
+					
+					int newIndex;
+					
+					do {
+						newIndex = rand.nextInt(this.alphabet.length); 
+					}while(Math.abs(symbolIndex - newIndex) <= minDeviation);
+					
+					//System.out.println("(Error tric) OldValue: " + this.getMatrixItem(ctx, row, col) +" NewValue: " + this.alphabet[newIndex]);
+					
+					this.setMatrixItem(ctx, row, col, this.alphabet[newIndex]);
 				}
-				
-				int newIndex;
-				
-				do {
-					newIndex = rand.nextInt(this.alphabet.length); 
-				}while(Math.abs(symbolIndex - newIndex) <= minDeviation);
-				
-				//System.out.println("(Error tric) OldValue: " + this.getMatrixItem(ctx, row, col) +" NewValue: " + this.alphabet[newIndex]);
-				
-				this.setMatrixItem(ctx, row, col, this.alphabet[newIndex]);
 			}
-		}		
+		}
 	}
 
 	private boolean respectsOverlapConstraint(String elem, String type, double percTricluster) {

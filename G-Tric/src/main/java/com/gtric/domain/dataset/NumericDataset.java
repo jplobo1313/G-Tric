@@ -22,10 +22,11 @@ import com.gtric.domain.tricluster.Tricluster;
 import com.gtric.types.Background;
 import com.gtric.types.BackgroundType;
 import com.gtric.utils.IOUtils;
+import com.gtric.utils.RandomObject;
 
 public class NumericDataset<T extends Number> extends Dataset {
 
-	private Random r = new Random();
+	private Random r = RandomObject.getInstance();
 	//The map that stores the elements
 	private Map<String, T> realMatrixMap;
 	private T maxM;
@@ -257,7 +258,7 @@ public class NumericDataset<T extends Number> extends Dataset {
 	public void plantMissingElements(double percBackground, double percTricluster) {
 
 		int nrMissingsBackground = (int) (this.getBackgroundSize() * percBackground);
-		Random rand = new Random();
+		Random rand = RandomObject.getInstance();
 
 		int row = -1;
 		int col = -1;
@@ -319,7 +320,7 @@ public class NumericDataset<T extends Number> extends Dataset {
 	public void plantNoisyElements(double percBackground, double percTricluster, double maxDeviation) {
 
 		int nrNoiseBackground = (int) (this.getBackgroundSize() * percBackground);
-		Random rand = new Random();
+		Random rand = RandomObject.getInstance();
 
 		int row = -1;
 		int col = -1;
@@ -405,6 +406,7 @@ public class NumericDataset<T extends Number> extends Dataset {
 					newElem = (T) new Double(newItem);
 				}
 			else {
+				System.out.println(maxDeviation);
 				deviation = 1.0 + rand.nextInt((int)maxDeviation);
 				deviation = rand.nextBoolean() ? deviation : -deviation;
 				//System.out.println(symbolIndex);
@@ -432,7 +434,7 @@ public class NumericDataset<T extends Number> extends Dataset {
 	public void plantErrors(double percBackground, double percTricluster, double minDeviation) {
 
 		int nrErrorsBackground = (int) (this.getBackgroundSize() * percBackground);
-		Random rand = new Random();
+		Random rand = RandomObject.getInstance();
 
 		int row = -1;
 		int col = -1;

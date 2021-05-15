@@ -1,5 +1,6 @@
 package com.gtric.app.GTric.models;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -90,6 +91,9 @@ public class MenuPrincipalModel {
 	
 	private final StringProperty directoryChooserTF;
 	private final StringProperty fileNameTF;
+	
+	private final ObservableList<String> randomSeed;
+	private final StringProperty randomSeedEscolhida;
 	
 	private final ObservableList<String> triclusterID;
 	private SimpleStringProperty triclusterIDSelected;
@@ -239,6 +243,15 @@ public class MenuPrincipalModel {
 		
 		this.directoryChooserTF = new SimpleStringProperty();
 		this.fileNameTF = new SimpleStringProperty();
+		
+		this.randomSeed = FXCollections.observableArrayList();
+		this.randomSeedEscolhida = new SimpleStringProperty();
+		List<String> randomSeedOptions = new ArrayList<>();
+		randomSeedOptions.add("No");
+		randomSeedOptions.add("Yes");
+		randomSeedOptions.forEach(s->this.randomSeed.add(s));
+		this.randomSeedEscolhida.setValue(this.randomSeed.get(0));
+		
 		
 		this.triclusterID = FXCollections.observableArrayList();
 		this.triclusterIDSelected = new SimpleStringProperty();
@@ -752,6 +765,20 @@ public class MenuPrincipalModel {
 	public void setNumTrics(int numTrics2) {
 		this.numTrics.set(numTrics2);
 		
+	}
+	
+	public ObservableList<String> getRandomSeedOptions() {
+
+		return this.randomSeed;
+	}
+
+	public String getRandomSeedEscolhida() {
+		return this.randomSeedEscolhida.get();
+	}
+
+	public void setRandomSeedEscolhida(String value) {
+
+		this.randomSeedEscolhida.set(value);
 	}
 
 }

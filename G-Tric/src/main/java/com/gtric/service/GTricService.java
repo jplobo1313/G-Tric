@@ -40,6 +40,7 @@ import com.gtric.types.PlaidCoherency;
 import com.gtric.types.TimeProfile;
 import com.gtric.utils.IOUtils;
 import com.gtric.utils.QualitySettings;
+import com.gtric.utils.RandomObject;
 import com.gtric.utils.OverlappingSettings;
 import com.gtric.utils.TriclusterPattern;
 import com.gtric.utils.TriclusterStructure;
@@ -1074,5 +1075,11 @@ public class GTricService extends Observable implements Observer {
 		System.out.println("Max % of noise on trics: " + this.qualitySettings.getPercNoiseOnTrics());
 		System.out.println("% of errors on background: " + this.qualitySettings.getPercErrorsOnBackground());
 		System.out.println("Max % of errors on trics: " + this.qualitySettings.getPercErrorsOnTrics());
+	}
+
+	public void initializeRandom(int seed) {
+		
+		RandomObject.initialization(seed);
+		
 	}
 }

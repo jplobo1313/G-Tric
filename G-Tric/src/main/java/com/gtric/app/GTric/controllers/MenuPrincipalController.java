@@ -157,13 +157,15 @@ public class MenuPrincipalController{
 	@FXML private ProgressBar statusBar;
 	@FXML private Text statusT;
 	@FXML private Label statusLB;
-
+	
 	//Output
 	@FXML private RadioButton singleFileRB;
 	@FXML private RadioButton numericFileRB;
 	@FXML private TextField directoryChooserTF;
 	@FXML private Button directoryChooserB;
 	@FXML private TextField fileNameTF;
+	@FXML private ComboBox<String> randomSeedCB;
+	@FXML private TextField randomSeedTF;
 
 	//Visualization
 	@FXML private Text rowPatternVizTF;
@@ -326,6 +328,10 @@ public class MenuPrincipalController{
 		model.setFileName("example_dataset");
 
 		this.triclusterVizData = new HashMap<>();
+		
+		this.randomSeedTF.setVisible(false);
+		this.randomSeedCB.setItems(model.getRandomSeedOptions());
+		this.randomSeedCB.setValue(model.getRandomSeedEscolhida());
 	}
 
 	private void enableBiclusteringGeneration() {
@@ -470,6 +476,9 @@ public class MenuPrincipalController{
 
 		this.contextDistParam2TF.setTextFormatter(new TextFormatter<Double>(new DoubleStringConverter(),
 				0.0, doubleFilter));
+		
+		this.randomSeedTF.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(),
+				100, integerFilter));
 
 	}
 
@@ -488,6 +497,19 @@ public class MenuPrincipalController{
 		else
 			model.setDataTypeEscolhido(this.dataTypeCB.getValue());
 	}
+	
+	@FXML
+	void randomSeedSelecionada(ActionEvent event) {
+		
+		model.setRandomSeedEscolhida(this.randomSeedCB.getValue());
+		if(model.getRandomSeedEscolhida().equals("Yes")) {
+			this.randomSeedTF.setVisible(true);
+			this.randomSeedTF.setText("100");
+		}
+		else
+			this.randomSeedTF.setVisible(false);
+	}
+	
 
 	@FXML
 	void backgroundTypeSelecionado(ActionEvent event) {
@@ -729,6 +751,12 @@ public class MenuPrincipalController{
 
 
 		errors = validateInput();
+		
+		if(this.randomSeedCB.getValue().equals("Yes"))
+			gTricService.initializeRandom(Integer.parseInt(this.randomSeedTF.getText()));
+		else
+			gTricService.initializeRandom(-1);
+		
 
 		GenerateDatasetTask<Void> task = new GenerateDatasetTask<Void>(this.gTricService) {
 

@@ -32,13 +32,14 @@ import com.gtric.types.PlaidCoherency;
 import com.gtric.types.TimeProfile;
 import com.gtric.utils.BicMath;
 import com.gtric.utils.OverlappingSettings;
+import com.gtric.utils.RandomObject;
 import com.gtric.utils.TriclusterPattern;
 import com.gtric.utils.TriclusterStructure;
 
 public class NumericDatasetGenerator extends TriclusterDatasetGenerator {
 
 	private NumericDataset data;
-	private Random random = new Random();
+	private Random random = RandomObject.getInstance();
 	private boolean allowsOverlap = false;
 	private boolean realValued;
 	private int numTrics;

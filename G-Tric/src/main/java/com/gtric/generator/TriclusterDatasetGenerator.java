@@ -20,6 +20,7 @@ import com.gtric.domain.dataset.Dataset;
 import com.gtric.exceptions.OutputErrorException;
 import com.gtric.types.Distribution;
 import com.gtric.utils.OverlappingSettings;
+import com.gtric.utils.RandomObject;
 import com.gtric.utils.TriclusterPattern;
 import com.gtric.utils.TriclusterStructure;
 
@@ -30,7 +31,7 @@ public abstract class TriclusterDatasetGenerator extends Observable {
 	private String tricsInfoFileName;
 	private String statsFileName;
 	
-	Random random = new Random();
+	Random random = RandomObject.getInstance();
 	
 	/**
 	 * Generate a dataset with planted triclusters

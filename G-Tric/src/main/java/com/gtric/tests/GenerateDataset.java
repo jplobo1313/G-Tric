@@ -19,6 +19,7 @@ import com.gtric.types.TimeProfile;
 import com.gtric.utils.IOUtils;
 import com.gtric.utils.InputValidation;
 import com.gtric.utils.OverlappingSettings;
+import com.gtric.utils.RandomObject;
 import com.gtric.utils.TriclusterPattern;
 import com.gtric.utils.TriclusterStructure;
 public class GenerateDataset{
@@ -261,22 +262,24 @@ public class GenerateDataset{
 		long startTimeBics;
 		long stopTimeBics;
 
+		RandomObject.initialization(100);
+		
 		//num de linhas do dataset
-		int numRows = 500;
+		int numRows = 100;
 		//num de colunas do dataset
 		int numCols = 10;
 		int numCtxs = 5;
 		//num de bics a plantar
-		int numTrics = 0;
+		int numTrics = 5;
 
 		trics = numTrics;
 		
 		//TODO: limites dos valores do dataset (usar em caso de dataset real)
 		double min = 0;
-		double max = 50000;
+		double max = 100;
 
 		//use real valued or integer alphabet
-		boolean realValued = true;
+		boolean realValued = false;
 
 		Background background = null;
 		TriclusterDatasetGenerator generator = null;
@@ -314,7 +317,7 @@ public class GenerateDataset{
 		List<TriclusterPattern> patterns = new ArrayList<>();
 		//patterns.add(new TriclusterPattern(PatternType.ORDER_PRESERVING, PatternType.NONE, PatternType.NONE));
 		//patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.ORDER_PRESERVING, PatternType.NONE));
-		patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.NONE, PatternType.ORDER_PRESERVING, TimeProfile.RANDOM));
+		//patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.NONE, PatternType.ORDER_PRESERVING, TimeProfile.RANDOM));
 		
 		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.NONE, PatternType.NONE));
 		//patterns.add(new TriclusterPattern(PatternType.NONE, PatternType.CONSTANT, PatternType.NONE));
@@ -327,7 +330,7 @@ public class GenerateDataset{
 		//patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.CONSTANT, PatternType.CONSTANT));
 		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.ADDITIVE, PatternType.CONSTANT));
 		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.CONSTANT, PatternType.ADDITIVE));
-		//patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.ADDITIVE, PatternType.ADDITIVE));
+		patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.ADDITIVE, PatternType.ADDITIVE));
 		//patterns.add(new TriclusterPattern(PatternType.CONSTANT, PatternType.ADDITIVE, PatternType.ADDITIVE));
 		//patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.CONSTANT, PatternType.ADDITIVE));
 		//patterns.add(new TriclusterPattern(PatternType.ADDITIVE, PatternType.ADDITIVE, PatternType.CONSTANT));
@@ -349,9 +352,9 @@ public class GenerateDataset{
 		//Distribution used to calculate the number of rows/cols/ctxs for a tric (NORMAL or UNIFORM)
 		//Dist args: if dist=UNIFORM, then param1 and param2 represents the min and max, respectively
 		//			 if dist=NORMAL, then param1 and param2 represents the mean and stdDev, respectively
-		tricStructure.setRowsSettings(Distribution.UNIFORM, 3, 3);
+		tricStructure.setRowsSettings(Distribution.UNIFORM, 5, 5);
 		tricStructure.setColumnsSettings(Distribution.UNIFORM, 3, 3);
-		tricStructure.setContextsSettings(Distribution.UNIFORM, 3, 3);
+		tricStructure.setContextsSettings(Distribution.UNIFORM, 2, 2);
 		
 		//Contiguity can occour on COLUMNS or CONTEXTS. To avoid contiguity use NONE
 		tricStructure.setContiguity(Contiguity.NONE);

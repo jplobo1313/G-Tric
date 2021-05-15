@@ -22,10 +22,11 @@ import com.gtric.domain.tricluster.Tricluster;
 import com.gtric.types.Background;
 import com.gtric.types.BackgroundType;
 import com.gtric.utils.IOUtils;
+import com.gtric.utils.RandomObject;
 
 public class SymbolicDataset extends Dataset {
 
-	private Random r = new Random();
+	private Random r = RandomObject.getInstance();
 
 	private String[] alphabet;
 	//The map that stores the elements
@@ -265,7 +266,7 @@ public class SymbolicDataset extends Dataset {
 
 		int nrMissingsBackground = (int) (this.getBackgroundSize() * percBackground);
 		//System.out.println("Total expected missings: " + nrMissingsBackground);
-		Random rand = new Random();
+		Random rand = RandomObject.getInstance();
 
 		int row = -1;
 		int col = -1;
@@ -336,7 +337,7 @@ public class SymbolicDataset extends Dataset {
 
 		int nrNoiseBackground = (int) (this.getBackgroundSize() * percBackground);
 		//System.out.println("Total expected noisy: " + nrNoiseBackground);
-		Random rand = new Random();
+		Random rand = RandomObject.getInstance();
 
 		int row = -1;
 		int col = -1;
@@ -433,7 +434,7 @@ public class SymbolicDataset extends Dataset {
 
 		int nrErrorsBackground = (int) (this.getBackgroundSize() * percBackground);
 		//System.out.println("Total expected errors: " + nrErrorsBackground);
-		Random rand = new Random();
+		Random rand = RandomObject.getInstance();
 
 		int row = -1;
 		int col = -1;

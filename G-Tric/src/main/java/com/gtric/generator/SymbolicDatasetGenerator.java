@@ -446,7 +446,7 @@ public class SymbolicDatasetGenerator extends TriclusterDatasetGenerator {
 		Integer[] order = new Integer[size];
 		for(int i = 0; i < size; i++)
 			order[i] = i;
-		Collections.shuffle(Arrays.asList(order));
+		Collections.shuffle(Arrays.asList(order), RandomObject.getInstance());
 		return order;
 	}
 	
